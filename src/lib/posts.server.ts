@@ -81,7 +81,7 @@ export const getPostById = cache((id: string) => {
     // 只在需要时才读取完整内容
     const fullPath = path.join(postsDirectory, `${id}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const {data, content} = matter(fileContents)
+    const {content} = matter(fileContents)
 
     return {
         ...post,

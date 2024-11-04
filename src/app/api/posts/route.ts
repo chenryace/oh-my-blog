@@ -12,6 +12,7 @@ export async function GET() {
         const posts = getAllPosts()
         const stats = getCategoryStats(posts)
         return NextResponse.json({posts, categoryStats: stats})
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
         return NextResponse.json({error: 'Failed to load posts'}, {status: 500})
     }
@@ -39,7 +40,7 @@ function getAllPosts() {
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-function getCategoryStats(posts: any[]) {
+function getCategoryStats(posts: { category: string }[]) {
     return posts.reduce((acc, post) => {
         acc[post.category] = (acc[post.category] || 0) + 1
         return acc
