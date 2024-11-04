@@ -1,0 +1,142 @@
+/* src/app/about/about.module.css */
+.article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.content {
+    color: #444;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+.section h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin: 30px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.skills {
+    display: grid;
+    gap: 24px;
+}
+
+.skillGroup {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s ease;
+}
+
+.skillGroup:hover {
+    transform: translateY(-2px);
+}
+
+.skillGroup h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.skillGroup p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 15px;
+}
+
+.contact {
+    list-style: none;
+    padding: 0;
+}
+
+.contact li {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.contact span {
+    color: #666;
+    min-width: 80px;
+}
+
+.contact a {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.contact a:hover {
+    color: #004499;
+}
+
+/* 适配深色模式 */
+@media (prefers-color-scheme: dark) {
+    .article {
+        background: #1a1a1a;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .title, .section h2 {
+        color: #fff;
+    }
+
+    .section h2 {
+        border-bottom-color: #333;
+    }
+
+    .skillGroup {
+        background: #222;
+    }
+
+    .skillGroup h3 {
+        color: #fff;
+    }
+
+    .skillGroup p {
+        color: #999;
+    }
+
+    .contact span {
+        color: #999;
+    }
+
+    .contact a {
+        color: #66b3ff;
+    }
+
+    .contact a:hover {
+        color: #99ccff;
+    }
+}
+
+/* 响应式布局 */
+@media (min-width: 640px) {
+    .skills {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

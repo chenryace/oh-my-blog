@@ -1,0 +1,101 @@
+/* src/app/archive/archive.module.css */
+.article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.yearGroup {
+    margin-bottom: 40px;
+}
+
+.yearGroup:last-child {
+    margin-bottom: 0;
+}
+
+.year {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.count {
+    font-size: 16px;
+    color: #666;
+    font-weight: normal;
+}
+
+.posts {
+    list-style: none;
+    padding: 0;
+}
+
+.post {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 12px 0;
+}
+
+.postTitle {
+    flex: 1;
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: color 0.2s;
+}
+
+.postTitle:hover {
+    color: #0066cc;
+}
+
+.date {
+    color: #666;
+    font-size: 14px;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* 适配深色模式 */
+@media (prefers-color-scheme: dark) {
+    .article {
+        background: #1a1a1a;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .title, .year {
+        color: #fff;
+    }
+
+    .count, .date {
+        color: #999;
+    }
+
+    .year {
+        border-bottom-color: #333;
+    }
+
+    .postTitle {
+        color: #ccc;
+    }
+
+    .postTitle:hover {
+        color: #66b3ff;
+    }
+}

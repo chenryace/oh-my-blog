@@ -1,0 +1,106 @@
+.article {
+    margin: 0 auto;
+    padding: 16px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.content {
+    color: #444;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+/* Markdown 内容样式 */
+.content h2 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+    margin: 40px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.content h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin: 30px 0 15px;
+}
+
+.content p {
+    margin-bottom: 16px;
+}
+
+.content a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.content a:hover {
+    text-decoration: underline;
+}
+
+.content ul,
+.content ol {
+    padding-left: 20px;
+    margin-bottom: 16px;
+}
+
+.content li {
+    margin-bottom: 8px;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+.content pre {
+    background: #f6f8fa;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.content code {
+    background: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.content blockquote {
+    border-left: 4px solid #ddd;
+    margin: 20px 0;
+    padding-left: 16px;
+    color: #666;
+    font-style: italic;
+}
+
+.content hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
+}
+
+/* 代码高亮主题相关样式可以根据需要添加 */
