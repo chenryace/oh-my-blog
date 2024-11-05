@@ -23,10 +23,10 @@ export const siteConfig = {
 
     // 分类
     categories: [
-        {slug: 'life', name: '生活随笔', count: 2},
-        {slug: 'tech', name: '技术分享', count: 3},
-        {slug: 'reading', name: '读书笔记', count: 1},
-        {slug: 'travel', name: '旅行见闻', count: 2}
+        {slug: 'life', name: '生活随笔'},
+        {slug: 'tech', name: '技术分享'},
+        {slug: 'reading', name: '读书笔记'},
+        {slug: 'travel', name: '旅行见闻'}
     ],
 
     // 友情链接
