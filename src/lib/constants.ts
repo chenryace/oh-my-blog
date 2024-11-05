@@ -7,9 +7,9 @@ export const categoryNames: Record<string, string> = {
 
 // src/lib/constants.ts
 export const siteConfig = {
-    title: `qfdk's Blog`,
+    title: `我是一个博客`,
     author: 'qfdk',
-    description: '全干工程师, 可以说 🇨🇳 🇫🇷 🇬🇧, love hiking and hacking',
+    description: '非主流黑科技自留地...',
     footer: '© 2024 qfdk | 保留所有权利',
 
     // 导航菜单
