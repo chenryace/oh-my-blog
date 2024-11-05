@@ -1,6 +1,6 @@
 // src/app/category/[slug]/page.tsx
 import styles from './category.module.css'
-import {getAllPosts} from '@/lib/posts'
+import {getAllPosts} from '@/lib/posts.server'
 import {notFound} from 'next/navigation'
 import type {Metadata} from 'next'
 import {categoryNames} from '@/lib/constants'

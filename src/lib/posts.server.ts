@@ -4,6 +4,13 @@ import path from 'path'
 import matter from 'gray-matter'
 import {format} from 'date-fns'
 import {cache} from 'react'
+import MarkdownIt from 'markdown-it'
+
+const md = new MarkdownIt({
+    html: true,
+    breaks: true,
+    linkify: true
+})
 
 const POSTS_PER_PAGE = 4 // 每页显示文章数量
 
@@ -104,3 +111,23 @@ export const getPaginatedPosts = cache((page: number = 1): PaginatedPosts => {
         }
     }
 })
+
+// 获取单篇文章的优化函数
+export function getPostById(id: string): Post | null {
+    try {
+        const fullPath = path.join(postsDirectory, `${id}.md`)
+        const fileContents = fs.readFileSync(fullPath, 'utf8')
+        const {data, content} = matter(fileContents)
+
+        return {
+            id,
+            title: data.title,
+            date: format(new Date(data.date), 'yyyy年MM月dd日'),
+            category: data.category,
+            content: md.render(content),
+            excerpt: ''
+        }
+    } catch {
+        return null
+    }
+}

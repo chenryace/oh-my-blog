@@ -1,6 +1,6 @@
 // src/app/posts/[id]/page.tsx
 import styles from './post.module.css'
-import {getAllPosts, getPostById} from '@/lib/posts'
+import {getAllPosts, getPostById} from '@/lib/posts.server'
 import {notFound} from 'next/navigation'
 import {categoryNames} from "@/lib/constants";
 
