@@ -5,6 +5,8 @@ import matter from 'gray-matter'
 import {format} from 'date-fns'
 import {cache} from 'react'
 
+const POSTS_PER_PAGE = 4 // 每页显示文章数量
+
 const postsDirectory = path.join(process.cwd(), 'posts')
 
 // 内存缓存
@@ -69,22 +71,36 @@ export const getCategoryStats = cache(() => {
     return stats
 })
 
-// 获取单篇文章的优化函数
-export const getPostById = cache((id: string) => {
-    const posts = getAllPosts()
-    const post = posts.find(p => p.id === id)
 
-    if (!post) {
-        return null
+export interface PaginatedPosts {
+    posts: Post[]
+    pagination: {
+        currentPage: number
+        totalPages: number
+        totalPosts: number
     }
+}
 
-    // 只在需要时才读取完整内容
-    const fullPath = path.join(postsDirectory, `${id}.md`)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const {content} = matter(fileContents)
+// 获取分页的文章列表
+export const getPaginatedPosts = cache((page: number = 1): PaginatedPosts => {
+    const allPosts = getAllPosts()
+    const totalPosts = allPosts.length
+    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
+
+    // 确保页码在有效范围内
+    const validPage = Math.max(1, Math.min(page, totalPages))
+
+    // 计算当前页的文章
+    const startIndex = (validPage - 1) * POSTS_PER_PAGE
+    const endIndex = startIndex + POSTS_PER_PAGE
+    const posts = allPosts.slice(startIndex, endIndex)
 
     return {
-        ...post,
-        content
+        posts,
+        pagination: {
+            currentPage: validPage,
+            totalPages,
+            totalPosts
+        }
     }
 })

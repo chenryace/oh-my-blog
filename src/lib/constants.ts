@@ -1,10 +1,3 @@
-export const categoryNames: Record<string, string> = {
-    'life': '生活随笔',
-    'tech': '技术分享',
-    'reading': '读书笔记',
-    'travel': '旅行见闻',
-}
-
 // src/lib/constants.ts
 export const siteConfig = {
     title: `我是一个博客`,
@@ -44,3 +37,5 @@ export const siteConfig = {
         }
     ]
 }
+
+export const categoryNames: Record<string, string> = Object.fromEntries(siteConfig.categories.map(category => [category.slug, category.name]))

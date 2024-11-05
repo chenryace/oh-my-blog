@@ -1,0 +1,41 @@
+.container {
+    padding: 20px 0;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.leftSide, .rightSide {
+    flex: 1;
+}
+
+.rightSide {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button {
+    padding: 8px 16px;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: white;  /* 添加白色背景 */
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* 添加轻微阴影增加立体感 */
+}
+
+.button:hover {
+    background-color: #f8f9fa; /* 更柔和的hover效果 */
+    border-color: #d1d5db;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* hover时增加阴影 */
+}
+
+.placeholder {
+    width: 0;
+}
