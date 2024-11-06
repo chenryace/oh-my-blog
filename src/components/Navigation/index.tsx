@@ -5,7 +5,8 @@ import {Archive, Home, Link as LinkIcon, Tag, User} from "lucide-react";
 import {siteConfig} from "@/lib/constants";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {motion} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
+import {useHasMounted} from "@/hooks/useHasMounted"; // 我们需要创建这个 hook
 
 const IconMap = {
     Home,
@@ -19,11 +20,45 @@ type IconName = keyof typeof IconMap;
 
 export default function Navigation() {
     const pathname = usePathname();
+    const hasMounted = useHasMounted();
+
+    // 如果还没有挂载，返回静态HTML版本
+    if (!hasMounted) {
+        return (
+            <nav className={styles.nav}>
+                {siteConfig.nav.map(item => {
+                    const Icon = IconMap[item.icon as IconName];
+                    const isActive = pathname === item.href;
+
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            scroll={false}
+                            className={`${styles.navItem} ${isActive ? styles.active : ""}`}
+                        >
+                            <div className={styles.iconWrapper}>
+                                <Icon
+                                    size={18}
+                                    className={styles.icon}
+                                />
+                                <span className={styles.label}>
+                                    {item.label}
+                                </span>
+                                {isActive && (
+                                    <div className={styles.activeIndicator}/>
+                                )}
+                            </div>
+                        </Link>
+                    );
+                })}
+            </nav>
+        );
+    }
 
     return (
         <motion.nav
             className={styles.nav}
-            initial={{y: -20, opacity: 0}}
             animate={{y: 0, opacity: 1}}
             transition={{type: "spring", stiffness: 300, damping: 30}}
         >
@@ -52,13 +87,19 @@ export default function Navigation() {
                                 {item.label}
                             </span>
 
-                            {isActive && (
-                                <motion.div
-                                    className={styles.activeIndicator}
-                                    layoutId="activeIndicator"
-                                    transition={{duration: 0.3}}
-                                />
-                            )}
+                            <AnimatePresence mode="wait">
+                                {isActive && (
+                                    <motion.div
+                                        className={styles.activeIndicator}
+                                        layoutId="activeIndicator"
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 300,
+                                            damping: 30
+                                        }}
+                                    />
+                                )}
+                            </AnimatePresence>
                         </motion.div>
                     </Link>
                 );
