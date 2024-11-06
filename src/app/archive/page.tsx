@@ -1,7 +1,13 @@
 // src/app/archive/page.tsx
-import {AwaitedReactNode, Key, ReactElement, ReactNode, ReactPortal} from 'react';
-import styles from './archive.module.css'
-import {getAllPosts} from '@/lib/posts.server'
+import {AwaitedReactNode, Key, ReactElement, ReactNode, ReactPortal} from "react";
+import styles from "./archive.module.css";
+import {getAllPosts} from "@/lib/posts.server";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: "归档",
+    description: "历史文章列表"
+};
 
 // 按年份和月份组织文章
 interface Post {
@@ -33,21 +39,21 @@ export default function ArchivePage() {
             if (matches) {
                 [, year, month, day] = matches.map(Number);  // 直接用 map 转换成数字
             } else {
-                throw new Error('Invalid date format');
+                throw new Error("Invalid date format");
             }
         } catch (e) {
             const now = new Date();
             year = now.getFullYear();
             month = now.getMonth() + 1;
             day = now.getDate();
-            console.log('Date parsing error:', e);
+            console.log("Date parsing error:", e);
         }
 
         if (!acc[year]) {
             acc[year] = {};
         }
 
-        const monthKey = month.toString().padStart(2, '0');
+        const monthKey = month.toString().padStart(2, "0");
         if (!acc[year][monthKey]) {
             acc[year][monthKey] = [];
         }
@@ -62,8 +68,8 @@ export default function ArchivePage() {
         .sort((a, b) => b - a);
 
     // 月份名称映射
-    const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月',
-        '七月', '八月', '九月', '十月', '十一月', '十二月'];
+    const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月",
+        "七月", "八月", "九月", "十月", "十一月", "十二月"];
 
     return (
         <article className={styles.article}>
@@ -99,7 +105,7 @@ export default function ArchivePage() {
                                                 <li key={post.id} className={styles.post}>
                                                     <a href={`/posts/${post.id}`} className={styles.postTitle}>
                                                         <span
-                                                            className={styles.date}>{post.day.toString().padStart(2, '0')}日</span>
+                                                            className={styles.date}>{post.day.toString().padStart(2, "0")}日</span>
                                                         {post.title}
                                                     </a>
                                                 </li>

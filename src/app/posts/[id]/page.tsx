@@ -1,25 +1,25 @@
 // src/app/posts/[id]/page.tsx
-import styles from './post.module.css'
-import {getAllPosts, getPostById} from '@/lib/posts.server'
-import {notFound} from 'next/navigation'
+import styles from "./post.module.css";
+import {getAllPosts, getPostById} from "@/lib/posts.server";
+import {notFound} from "next/navigation";
 import {categoryNames} from "@/lib/constants";
 
 interface Props {
-    params: { id: string }
+    params: { id: string };
 }
 
 export async function generateStaticParams() {
-    const posts = getAllPosts()
+    const posts = getAllPosts();
     return posts.map((post) => ({
-        id: post.id,
-    }))
+        id: post.id
+    }));
 }
 
 export default async function Post({params}: Props) {
-    const post = getPostById((await params).id)
+    const post = getPostById((await params).id);
 
     if (!post) {
-        notFound()
+        notFound();
     }
 
     return (
@@ -33,5 +33,5 @@ export default async function Post({params}: Props) {
                 dangerouslySetInnerHTML={{__html: post.content}}
             />
         </article>
-    )
+    );
 }

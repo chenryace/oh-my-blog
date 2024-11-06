@@ -1,6 +1,12 @@
 // src/app/friends/page.tsx
-import styles from './friends.module.css'
-import {siteConfig} from '@/lib/constants'
+import styles from "./friends.module.css";
+import {siteConfig} from "@/lib/constants";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: "友情链接",
+    description: "有趣的灵魂总是相互吸引"
+};
 
 export default function FriendsPage() {
     return (
@@ -41,5 +47,5 @@ export default function FriendsPage() {
             {/*    </ul>*/}
             {/*</section>*/}
         </article>
-    )
+    );
 }
