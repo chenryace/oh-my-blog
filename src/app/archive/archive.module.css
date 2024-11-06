@@ -71,31 +71,3 @@
     min-width: 80px;
     text-align: right;
 }
-
-/* 适配深色模式 */
-@media (prefers-color-scheme: dark) {
-    .article {
-        background: #1a1a1a;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .title, .year {
-        color: #fff;
-    }
-
-    .count, .date {
-        color: #999;
-    }
-
-    .year {
-        border-bottom-color: #333;
-    }
-
-    .postTitle {
-        color: #ccc;
-    }
-
-    .postTitle:hover {
-        color: #66b3ff;
-    }
-}

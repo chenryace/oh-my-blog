@@ -55,32 +55,3 @@
     font-size: 14px;
     white-space: nowrap;
 }
-
-/* 适配深色模式 */
-@media (prefers-color-scheme: dark) {
-    .article {
-        background: #1a1a1a;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .title {
-        color: #fff;
-        border-bottom-color: #333;
-    }
-
-    .count {
-        color: #999;
-    }
-
-    .link {
-        color: #ccc;
-    }
-
-    .link:hover {
-        color: #66b3ff;
-    }
-
-    .date {
-        color: #888;
-    }
-}
