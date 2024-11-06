@@ -7,7 +7,6 @@
     display: flex;
     justify-content: space-around;
     z-index: 50;
-    will-change: transform;
 }
 
 /* 导航项 */
@@ -53,39 +52,40 @@
 /* 响应式样式 */
 @media (max-width: 768px) {
     .nav {
-        position: fixed;
-        bottom: 0;
+        position: sticky;
+        top: 0;
         left: 0;
         right: 0;
         margin: 0;
         padding: 8px 16px;
         border-radius: 0;
-        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(10px);
-        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .navItem {
-        flex-direction: column;
-        align-items: center;
         font-size: 12px;
         padding: 4px 0;
     }
 
-    .iconWrapper {
-        flex-direction: column;
-        align-items: center;
-    }
-
     .icon {
-        margin-bottom: 4px;
+        margin-right: 4px;
     }
 
     .label {
         font-size: 12px;
     }
 
+    .iconWrapper {
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
+
     .activeIndicator {
+        height: 2px;
         bottom: -8px;
     }
 }
@@ -95,6 +95,7 @@
     .nav {
         padding: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        margin: 20px auto;
     }
 
     .navItem {
@@ -107,21 +108,5 @@
 
     .iconWrapper {
         gap: 8px;
-    }
-}
-
-/* 添加页面切换动画类 */
-.pageTransition {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }

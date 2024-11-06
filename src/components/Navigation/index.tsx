@@ -1,11 +1,11 @@
-"use client"
-import React from 'react';
-import styles from './navigation.module.css';
-import { Archive, Home, Link as LinkIcon, Tag, User } from 'lucide-react';
-import { siteConfig } from '@/lib/constants';
+"use client";
+import React from "react";
+import styles from "./navigation.module.css";
+import {Archive, Home, Link as LinkIcon, Tag, User} from "lucide-react";
+import {siteConfig} from "@/lib/constants";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
+import {usePathname} from "next/navigation";
+import {motion} from "framer-motion";
 
 const IconMap = {
     Home,
@@ -23,9 +23,9 @@ export default function Navigation() {
     return (
         <motion.nav
             className={styles.nav}
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            initial={{y: -20, opacity: 0}}
+            animate={{y: 0, opacity: 1}}
+            transition={{type: "spring", stiffness: 300, damping: 30}}
         >
             {siteConfig.nav.map(item => {
                 const Icon = IconMap[item.icon as IconName];
@@ -35,13 +35,14 @@ export default function Navigation() {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+                        scroll={false}
+                        className={`${styles.navItem} ${isActive ? styles.active : ""}`}
                     >
                         <motion.div
                             className={styles.iconWrapper}
-                            whileTap={{ scale: 0.9 }}
-                            whileHover={{ scale: 1.1 }}
-                            transition={{ duration: 0.2 }}
+                            whileTap={{scale: 0.9}}
+                            whileHover={{scale: 1.1}}
+                            transition={{duration: 0.2}}
                         >
                             <Icon
                                 size={18}
@@ -55,7 +56,7 @@ export default function Navigation() {
                                 <motion.div
                                     className={styles.activeIndicator}
                                     layoutId="activeIndicator"
-                                    transition={{ duration: 0.3 }}
+                                    transition={{duration: 0.3}}
                                 />
                             )}
                         </motion.div>

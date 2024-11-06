@@ -1,9 +1,9 @@
 // src/app/layout.tsx
-import {Suspense} from 'react'
-import './globals.css'
-import {siteConfig} from '@/lib/constants'
-import Navigation from '@/components/Navigation'
-import {getCategoryStats} from '@/lib/posts.server'
+import {Suspense} from "react";
+import "./globals.css";
+import {siteConfig} from "@/lib/constants";
+import Navigation from "@/components/Navigation";
+import {getCategoryStats} from "@/lib/posts.server";
 import Link from "next/link";
 import {Metadata} from "next";
 
@@ -12,12 +12,12 @@ export const metadata: Metadata = {
         default: siteConfig.title,
         template: `%s | ${siteConfig.title}`
     },
-    description: siteConfig.description,
-}
+    description: siteConfig.description
+};
 
 // 异步获取分类数据的组件
 async function CategorySidebar() {
-    const [categoryStats] = await Promise.all([getCategoryStats()])
+    const [categoryStats] = await Promise.all([getCategoryStats()]);
 
     return (
         <aside className="sidebar">
@@ -44,12 +44,12 @@ async function CategorySidebar() {
                 </ul>
             </div>
         </aside>
-    )
+    );
 }
 
 // 使用 loading.tsx 来优化加载体验
 export default async function RootLayout({
-                                             children,
+                                             children
                                          }: {
     children: React.ReactNode
 }) {
@@ -78,5 +78,5 @@ export default async function RootLayout({
         </div>
         </body>
         </html>
-    )
+    );
 }

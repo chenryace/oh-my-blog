@@ -1,12 +1,12 @@
 // components/Pagination/index.tsx
-'use client'
+"use client";
 
-import Link from 'next/link'
-import styles from './pagination.module.css'
+import Link from "next/link";
+import styles from "./pagination.module.css";
 
 interface PaginationProps {
-    currentPage: number
-    totalPages: number
+    currentPage: number;
+    totalPages: number;
 }
 
 export default function Pagination({currentPage, totalPages}: PaginationProps) {
@@ -32,5 +32,5 @@ export default function Pagination({currentPage, totalPages}: PaginationProps) {
                 )}
             </div>
         </div>
-    )
+    );
 }
