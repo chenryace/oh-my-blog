@@ -17,7 +17,8 @@
     "markdown-it": "^14.0.0",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/markdown-it": "^13.0.7",

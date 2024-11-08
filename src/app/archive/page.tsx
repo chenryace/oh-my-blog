@@ -28,8 +28,8 @@ interface PostsByYear {
     [year: number]: PostsByMonth;
 }
 
-export default function ArchivePage() {
-    const posts = getAllPosts();
+export default async function ArchivePage() {
+    const posts = await getAllPosts();
     const postsByYear = posts.reduce<PostsByYear>((acc, post) => {
         // 解析中文格式的日期
         let year: number, month: number, day: number;

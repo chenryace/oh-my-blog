@@ -9,14 +9,16 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-    const posts = getAllPosts();
+    const posts = await getAllPosts();
     return posts.map((post) => ({
         id: post.id
     }));
 }
 
 export default async function Post({params}: Props) {
-    const post = getPostById((await params).id);
+    // 删除 await params，直接使用 params.id
+    // 添加 await 到 getPostById
+    const post = await getPostById((await params).id);
 
     if (!post) {
         notFound();

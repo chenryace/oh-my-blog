@@ -1,9 +1,9 @@
 // src/app/category/[slug]/page.tsx
-import styles from './category.module.css'
-import {getAllPosts} from '@/lib/posts.server'
-import {notFound} from 'next/navigation'
-import type {Metadata} from 'next'
-import {categoryNames} from '@/lib/constants'
+import styles from "./category.module.css";
+import {getAllPosts} from "@/lib/posts.server";
+import {notFound} from "next/navigation";
+import type {Metadata} from "next";
+import {categoryNames} from "@/lib/constants";
 
 type MetadataProps = {
     params: { slug: string }
@@ -15,8 +15,8 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     return {
         title: `${categoryNames[(await params).slug]} - 分类`,
-        description: `查看 ${categoryNames[(await params).slug]} 分类下的所有文章`,
-    }
+        description: `查看 ${categoryNames[(await params).slug]} 分类下的所有文章`
+    };
 }
 
 // 页面组件使用基础类型
@@ -25,11 +25,11 @@ async function Page({
                     }: {
     params: { slug: string }
 }) {
-    const slug = (await params).slug
-    const posts = getAllPosts().filter(post => post.category === slug)
+    const slug = (await params).slug;
+    const posts = (await getAllPosts()).filter(post => post.category === slug);
 
     if (posts.length === 0) {
-        notFound()
+        notFound();
     }
 
     return (
@@ -55,7 +55,7 @@ async function Page({
                 }
             </div>
         </article>
-    )
+    );
 }
 
-export default Page
+export default Page;
