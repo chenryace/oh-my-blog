@@ -7,10 +7,32 @@
     --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* src/app/globals.css */
+/* 添加到你现有的全局样式中 */
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 优化移动端性能 */
+@media (prefers-reduced-motion: reduce) {
+    .pageWrapper {
+        animation: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* 确保动画流畅 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 body {

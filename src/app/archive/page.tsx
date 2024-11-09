@@ -3,6 +3,7 @@ import {AwaitedReactNode, Key, ReactElement, ReactNode, ReactPortal} from "react
 import styles from "./archive.module.css";
 import {getAllPosts} from "@/lib/posts.server";
 import type {Metadata} from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "归档",
@@ -85,7 +86,7 @@ export default async function ArchivePage() {
                             </span>
                         </h2>
                         {Object.keys(postsByYear[year])
-                            .sort((a, b) => b.localeCompare(a)) // 月份降序排序
+                            .sort((a, b) => b.localeCompare(a))
                             .map(month => (
                                 <div key={`${year}-${month}`} className={styles.monthGroup}>
                                     <h3 className={styles.month}>
@@ -96,18 +97,18 @@ export default async function ArchivePage() {
                                     </h3>
                                     <ul className={styles.posts}>
                                         {postsByYear[year][month]
-                                            .sort((a: { day: number; }, b: { day: number; }) => b.day - a.day)
-                                            .map((post: {
-                                                id: Key | null | undefined;
-                                                day: { toString: () => string; };
-                                                title: string | number | bigint | boolean | ReactElement | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined;
-                                            }) => (
+                                            .sort((a, b) => b.day - a.day)
+                                            .map(post => (
                                                 <li key={post.id} className={styles.post}>
-                                                    <a href={`/posts/${post.id}`} className={styles.postTitle}>
-                                                        <span
-                                                            className={styles.date}>{post.day.toString().padStart(2, "0")}日</span>
+                                                    <Link
+                                                        href={`/posts/${post.id}`}
+                                                        className={styles.postTitle}
+                                                    >
+                                                        <span className={styles.date}>
+                                                            {post.day.toString().padStart(2, "0")}日
+                                                        </span>
                                                         {post.title}
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                             ))}
                                     </ul>

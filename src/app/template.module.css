@@ -1,0 +1,109 @@
+/* src/app/template.module.css */
+.pageWrapper {
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-out;
+}
+
+/* 从下往上渐入 */
+.fadeUp {
+    animation-name: fadeUp;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 从上往下渐入 */
+.fadeDown {
+    animation-name: fadeDown;
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 从右往左渐入 */
+.fadeLeft {
+    animation-name: fadeLeft;
+}
+
+@keyframes fadeLeft {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 从左往右渐入 */
+.fadeRight {
+    animation-name: fadeRight;
+}
+
+@keyframes fadeRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 缩放渐入 */
+.zoomIn {
+    animation-name: zoomIn;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 旋转渐入 */
+.rotateIn {
+    animation-name: rotateIn;
+}
+
+@keyframes rotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(-3deg) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+/* 优化移动端性能 */
+@media (prefers-reduced-motion: reduce) {
+    .pageWrapper {
+        animation: none;
+    }
+}
