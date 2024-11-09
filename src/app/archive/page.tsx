@@ -1,5 +1,4 @@
 // src/app/archive/page.tsx
-import {AwaitedReactNode, Key, ReactElement, ReactNode, ReactPortal} from "react";
 import styles from "./archive.module.css";
 import {getAllPosts} from "@/lib/posts.server";
 import type {Metadata} from "next";
