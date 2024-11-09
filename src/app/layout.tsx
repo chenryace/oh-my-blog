@@ -35,9 +35,10 @@ export default async function RootLayout({
             <Navigation/>
             <div className="layout with-sidebar pt-[header-height]">
                 <main className="main-content">
-                    <Suspense fallback={<Loading/>}>
-                        {children}
-                    </Suspense>
+                    <Loading/>
+                    {/*<Suspense fallback={<Loading/>}>*/}
+                    {/*    {children}*/}
+                    {/*</Suspense>*/}
                 </main>
                 <Suspense fallback={
                     <div className="sidebar-skeleton animate-pulse">
