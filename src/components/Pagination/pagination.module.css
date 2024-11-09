@@ -1,41 +1,88 @@
+/* components/Pagination/pagination.module.css */
 .container {
-    padding: 20px 0;
+    width: 100%;
+    padding: 2rem 0;
 }
 
 .nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-}
-
-.leftSide, .rightSide {
-    flex: 1;
-}
-
-.rightSide {
-    display: flex;
-    justify-content: flex-end;
+    gap: 2rem;
 }
 
 .button {
-    padding: 8px 16px;
     color: #666;
     text-decoration: none;
-    font-size: 14px;
-    background-color: white;  /* 添加白色背景 */
-    border: 1px solid #e5e7eb;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #eee;
     border-radius: 4px;
     transition: all 0.2s;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* 添加轻微阴影增加立体感 */
 }
 
 .button:hover {
-    background-color: #f8f9fa; /* 更柔和的hover效果 */
-    border-color: #d1d5db;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* hover时增加阴影 */
+    color: #333;
+    border-color: #ddd;
+    background: #fafafa;
 }
 
-.placeholder {
-    width: 0;
+.button:active {
+    transform: translateY(1px);
+}
+
+.pageContainer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.pageBtn {
+    color: #666;
+    text-decoration: none;
+    min-width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.pageBtn:hover {
+    color: #333;
+    border-color: #ddd;
+    background: #fafafa;
+}
+
+.pageBtn:active {
+    transform: translateY(1px);
+}
+
+.active {
+    color: #fff;
+    background: #333;
+    border-color: #333;
+}
+
+.active:hover {
+    color: #fff;
+    background: #444;
+    border-color: #444;
+}
+
+.dots {
+    color: #999;
+    padding: 0 0.2rem;
+}
+
+@media (max-width: 640px) {
+    .nav {
+        gap: 1rem;
+    }
+
+    .pageContainer {
+        display: none;
+    }
 }
