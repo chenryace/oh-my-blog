@@ -25,7 +25,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
         const maxVisiblePages = 7; // 最多显示7个页码
 
         let startPage = Math.max(1, currentPage - 3);
-        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
         // 调整startPage以确保显示正确数量的页码
         if (endPage - startPage + 1 < maxVisiblePages) {
