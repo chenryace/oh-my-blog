@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import {getCategoryStats} from "@/lib/posts.server";
 import {Metadata} from "next";
 import CategorySidebar from "@/components/CategorySidebar";
+import Loading from "@/components/Loading";
 
 export const metadata: Metadata = {
     title: {
@@ -31,15 +32,10 @@ export default async function RootLayout({
                 <h1>{siteConfig.title}</h1>
                 <p>{siteConfig.description}</p>
             </header>
-            <Navigation />
+            <Navigation/>
             <div className="layout with-sidebar pt-[header-height]">
                 <main className="main-content">
-                    <Suspense fallback={
-                        <div className="loading-skeleton animate-pulse">
-                            <div className="h-32 bg-gray-200 rounded-md mb-4"/>
-                            <div className="h-32 bg-gray-200 rounded-md"/>
-                        </div>
-                    }>
+                    <Suspense fallback={<Loading/>}>
                         {children}
                     </Suspense>
                 </main>
@@ -49,7 +45,7 @@ export default async function RootLayout({
                         <div className="h-32 bg-gray-200 rounded-md"/>
                     </div>
                 }>
-                    <CategorySidebar categoryStats={categoryStats} />
+                    <CategorySidebar categoryStats={categoryStats}/>
                 </Suspense>
             </div>
             <footer>

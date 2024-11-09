@@ -1,24 +1,41 @@
-// app/page.tsx
-import Pagination from "@/components/Pagination";
-import ArticleCard from "@/components/ArticleCard";
+// src/app/page.tsx
+import {Suspense} from "react";
 import {getPaginatedPosts} from "@/lib/posts.server";
+import ArticleCard from "@/components/ArticleCard";
+import Pagination from "@/components/Pagination";
+import Loading from "@/components/Loading";
 
-import {Suspense} from 'react';
+interface HomeProps {
+    params: { page?: string };
+    searchParams: { page?: string };
+}
 
-export default async function Home({searchParams}: {
-    searchParams: { [key: string]: string | string[] | undefined }
-}) {
-    const page = Number((await searchParams).page) || 1;
+const PostsList = async ({page}: { page: number }) => {
+    // 测试延迟
+    // await new Promise(resolve => setTimeout(resolve, 10000));
     const {posts, pagination} = await getPaginatedPosts(page);
 
     return (
-        <div>
-            <Suspense fallback={<div>Loading...</div>}>
+        <>
+            <div className="space-y-4">
                 {posts.map(post => (
                     <ArticleCard key={post.id} {...post} />
                 ))}
-                <Pagination {...pagination} />
-            </Suspense>
-        </div>
+            </div>
+            <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+            />
+        </>
+    );
+}
+
+export default async function Home({searchParams}: HomeProps) {
+    const page = Number((await searchParams).page) || 1;
+
+    return (
+        <Suspense key={page} fallback={<Loading/>}>
+            <PostsList page={page}/>
+        </Suspense>
     );
 }
