@@ -12,18 +12,20 @@
 }
 
 .button {
-    color: #666;
+    color: #595959;  /* 深灰色文字 */
     text-decoration: none;
     font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid #eee;
+    padding: 0.5rem 1.2rem;  /* 稍微加大内边距 */
+    border: 1px solid #d9d9d9;  /* 浅灰色边框 */
     border-radius: 4px;
     transition: all 0.2s;
+    background: #ffffff;
+    font-weight: 500;
 }
 
 .button:hover {
-    color: #333;
-    border-color: #ddd;
+    color: #262626;  /* hover时文字更深 */
+    border-color: #8c8c8c;  /* hover时边框更深 */
     background: #fafafa;
 }
 
@@ -38,21 +40,22 @@
 }
 
 .pageBtn {
-    color: #666;
+    color: #595959;
     text-decoration: none;
     min-width: 2rem;
     height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #eee;
+    border: 1px solid #d9d9d9;
     border-radius: 4px;
     transition: all 0.2s;
+    background: #ffffff;
 }
 
 .pageBtn:hover {
-    color: #333;
-    border-color: #ddd;
+    color: #262626;
+    border-color: #8c8c8c;
     background: #fafafa;
 }
 
@@ -61,19 +64,20 @@
 }
 
 .active {
-    color: #fff;
-    background: #333;
-    border-color: #333;
+    color: #262626;
+    background: #f0f0f0;  /* 使用浅灰色背景代替之前的深色 */
+    border-color: #d9d9d9;
+    font-weight: 500;
 }
 
 .active:hover {
-    color: #fff;
-    background: #444;
-    border-color: #444;
+    color: #262626;
+    background: #f0f0f0;
+    border-color: #8c8c8c;
 }
 
 .dots {
-    color: #999;
+    color: #8c8c8c;
     padding: 0 0.2rem;
 }
 
