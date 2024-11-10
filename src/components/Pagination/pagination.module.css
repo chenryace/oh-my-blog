@@ -12,21 +12,33 @@
 }
 
 .button {
-    color: #595959;  /* 深灰色文字 */
+    color: #595959;
     text-decoration: none;
     font-size: 0.9rem;
-    padding: 0.5rem 1.2rem;  /* 稍微加大内边距 */
-    border: 1px solid #d9d9d9;  /* 浅灰色边框 */
+    padding: 0.5rem 1.2rem;
+    border: 1px solid #d9d9d9;
     border-radius: 4px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     background: #ffffff;
     font-weight: 500;
 }
 
+:global(.dark) .button {
+    color: #9ca3af;
+    border-color: #374151;
+    background: #1f2937;
+}
+
 .button:hover {
-    color: #262626;  /* hover时文字更深 */
-    border-color: #8c8c8c;  /* hover时边框更深 */
+    color: #262626;
+    border-color: #8c8c8c;
     background: #fafafa;
+}
+
+:global(.dark) .button:hover {
+    color: #e5e7eb;
+    border-color: #4b5563;
+    background: #374151;
 }
 
 .button:active {
@@ -49,8 +61,14 @@
     justify-content: center;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     background: #ffffff;
+}
+
+:global(.dark) .pageBtn {
+    color: #9ca3af;
+    border-color: #374151;
+    background: #1f2937;
 }
 
 .pageBtn:hover {
@@ -59,15 +77,27 @@
     background: #fafafa;
 }
 
+:global(.dark) .pageBtn:hover {
+    color: #e5e7eb;
+    border-color: #4b5563;
+    background: #374151;
+}
+
 .pageBtn:active {
     transform: translateY(1px);
 }
 
 .active {
     color: #262626;
-    background: #f0f0f0;  /* 使用浅灰色背景代替之前的深色 */
+    background: #f0f0f0;
     border-color: #d9d9d9;
     font-weight: 500;
+}
+
+:global(.dark) .active {
+    color: #e5e7eb;
+    background: #374151;
+    border-color: #4b5563;
 }
 
 .active:hover {
@@ -76,9 +106,19 @@
     border-color: #8c8c8c;
 }
 
+:global(.dark) .active:hover {
+    color: #e5e7eb;
+    background: #374151;
+    border-color: #4b5563;
+}
+
 .dots {
     color: #8c8c8c;
     padding: 0 0.2rem;
+}
+
+:global(.dark) .dots {
+    color: #9ca3af;
 }
 
 @media (max-width: 640px) {

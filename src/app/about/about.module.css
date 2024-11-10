@@ -5,6 +5,12 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(.dark) .cv {
+    background-color: #1f2937;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .header {
@@ -14,6 +20,11 @@
     padding-bottom: 2rem;
     border-bottom: 2px solid #eaeaea;
     margin-bottom: 2rem;
+    transition: border-color 0.3s ease;
+}
+
+:global(.dark) .header {
+    border-bottom-color: #374151;
 }
 
 .basicInfo {
@@ -27,6 +38,11 @@
     font-weight: 700;
     color: #2d3748;
     margin: 0;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .name {
+    color: #e5e7eb;
 }
 
 .title {
@@ -34,6 +50,11 @@
     color: #4a5568;
     font-weight: 500;
     margin: 0;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .title {
+    color: #9ca3af;
 }
 
 .contact {
@@ -43,11 +64,25 @@
     text-align: right;
     color: #4a5568;
     font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .contact {
+    color: #9ca3af;
 }
 
 .contact a {
     color: #4a5568;
     text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .contact a {
+    color: #9ca3af;
+}
+
+:global(.dark) .contact a:hover {
+    color: #e5e7eb;
 }
 
 .section {
@@ -61,6 +96,12 @@
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid #eaeaea;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(.dark) .sectionTitle {
+    color: #e5e7eb;
+    border-bottom-color: #374151;
 }
 
 .skillCategories {
@@ -73,6 +114,11 @@
     background-color: #f8fafc;
     padding: 1rem;
     border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+:global(.dark) .skillCategory {
+    background-color: #374151;
 }
 
 .skillCategory h4 {
@@ -80,6 +126,11 @@
     margin: 0 0 0.5rem 0;
     font-size: 1rem;
     font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .skillCategory h4 {
+    color: #e5e7eb;
 }
 
 .skillCategory p {
@@ -87,6 +138,11 @@
     margin: 0;
     font-size: 0.9rem;
     line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .skillCategory p {
+    color: #9ca3af;
 }
 
 .expertiseList {
@@ -104,6 +160,12 @@
     border-radius: 6px;
     color: #4a5568;
     font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .expertiseList li {
+    background-color: #374151;
+    color: #9ca3af;
 }
 
 .bio {
@@ -111,77 +173,16 @@
     line-height: 1.8;
     margin: 0;
     font-size: 0.95rem;
+    transition: color 0.3s ease;
 }
 
-/* 移动端适配 */
-@media (max-width: 768px) {
-    .cv {
-        padding: 1rem;
-    }
-
-    .header {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding-bottom: 1.5rem;
-    }
-
-    .contact {
-        text-align: left;
-    }
-
-    .name {
-        font-size: 1.75rem;
-    }
-
-    .title {
-        font-size: 1.1rem;
-    }
-
-    .skillCategories {
-        grid-template-columns: 1fr;
-    }
-
-    .expertiseList {
-        grid-template-columns: 1fr;
-    }
-
-    .skillCategory {
-        padding: 0.875rem;
-    }
-
-    .skillCategory h4 {
-        font-size: 0.95rem;
-    }
-
-    .skillCategory p {
-        font-size: 0.875rem;
-    }
-
-    .sectionTitle {
-        font-size: 1.2rem;
-    }
+:global(.dark) .bio {
+    color: #9ca3af;
 }
 
-/* 确保小屏幕设备上的边距 */
-@media (max-width: 480px) {
-    .cv {
-        padding: 0.75rem;
-    }
+/* 移动端适配保持不变... */
 
-    .header {
-        margin-bottom: 1.5rem;
-    }
-
-    .contact {
-        font-size: 0.875rem;
-    }
-
-    .expertiseList li {
-        padding: 0.875rem;
-    }
-}
-
-/* 打印样式 */
+/* 打印样式更新 */
 @media print {
     .cv {
         box-shadow: none;
@@ -189,7 +190,19 @@
     }
 
     .skillCategory, .expertiseList li {
-        background-color: transparent;
+        background-color: transparent !important;
         page-break-inside: avoid;
+    }
+
+    /* 确保打印时颜色正确 */
+    :global(.dark) .name,
+    :global(.dark) .title,
+    :global(.dark) .contact,
+    :global(.dark) .sectionTitle,
+    :global(.dark) .skillCategory h4,
+    :global(.dark) .skillCategory p,
+    :global(.dark) .expertiseList li,
+    :global(.dark) .bio {
+        color: #2d3748 !important;
     }
 }

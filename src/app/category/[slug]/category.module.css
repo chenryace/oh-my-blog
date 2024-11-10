@@ -6,6 +6,12 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(.dark) .article {
+    background: #1f2937;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .title {
@@ -18,12 +24,23 @@
     display: flex;
     align-items: baseline;
     gap: 8px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(.dark) .title {
+    color: #e5e7eb;
+    border-bottom-color: #374151;
 }
 
 .count {
     color: #666;
     font-size: 16px;
     font-weight: normal;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .count {
+    color: #9ca3af;
 }
 
 .list {
@@ -42,16 +59,29 @@
     color: #333;
     text-decoration: none;
     font-size: 16px;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
     margin-right: 16px;
+}
+
+:global(.dark) .link {
+    color: #e5e7eb;
 }
 
 .link:hover {
     color: #0066cc;
 }
 
+:global(.dark) .link:hover {
+    color: #60a5fa;
+}
+
 .date {
     color: #666;
     font-size: 14px;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .date {
+    color: #9ca3af;
 }

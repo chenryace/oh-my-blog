@@ -16,11 +16,16 @@
 
 .ball {
     position: absolute;
-    width: 14px;     /* 只改小球尺寸到14px */
-    height: 14px;    /* 只改小球尺寸到14px */
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background-color: #333;
     transform-origin: 35px 35px;
+    transition: background-color 0.3s ease;
+}
+
+:global(.dark) .ball {
+    background-color: #e5e7eb;
 }
 
 .ball:nth-child(1) {

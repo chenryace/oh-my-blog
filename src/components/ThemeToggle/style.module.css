@@ -1,0 +1,58 @@
+/* components/ThemeToggle/style.module.css */
+.switch {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    width: 48px;
+    height: 24px;
+    background-color: #e5e7eb;
+    border-radius: 24px;
+    padding: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.switch.dark {
+    background-color: #374151;
+}
+
+.slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translateX(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .slider {
+    transform: translateX(24px);
+}
+
+.icon {
+    color: #eab308;  /* 太阳图标的黄色 */
+    transition: all 0.3s ease;
+}
+
+.dark .icon {
+    color: #94a3b8;  /* 月亮图标保持原来的颜色 */
+}
+
+/* 悬浮效果 */
+.switch:hover {
+    background-color: #d1d5db;
+}
+
+.switch.dark:hover {
+    background-color: #4b5563;
+}
+
+/* 点击效果 */
+.switch:active .slider {
+    transform: scale(0.95);
+}

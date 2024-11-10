@@ -6,6 +6,12 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+:global(.dark) .article {
+    background: #1f2937;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .title {
@@ -13,6 +19,11 @@
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .title {
+    color: #e5e7eb;
 }
 
 .intro {
@@ -20,6 +31,11 @@
     color: #666;
     margin-bottom: 40px;
     line-height: 1.6;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .intro {
+    color: #9ca3af;
 }
 
 .grid {
@@ -37,9 +53,17 @@
     transition: all 0.3s ease;
 }
 
+:global(.dark) .card {
+    background: #374151;
+}
+
 .card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .content {
@@ -56,29 +80,54 @@
     font-weight: 500;
     color: #333;
     margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .name {
+    color: #e5e7eb;
 }
 
 .description {
     font-size: 14px;
     color: #666;
     line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .description {
+    color: #9ca3af;
 }
 
 .exchange {
     margin-top: 40px;
     padding-top: 20px;
     border-top: 1px solid #eee;
+    transition: border-color 0.3s ease;
+}
+
+:global(.dark) .exchange {
+    border-top-color: #374151;
 }
 
 .exchange h2 {
     font-size: 20px;
     color: #333;
     margin-bottom: 16px;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .exchange h2 {
+    color: #e5e7eb;
 }
 
 .exchange p {
     color: #666;
     margin-bottom: 12px;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .exchange p {
+    color: #9ca3af;
 }
 
 .exchange ul {
@@ -91,6 +140,11 @@
     margin-bottom: 8px;
     padding-left: 20px;
     position: relative;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .exchange li {
+    color: #9ca3af;
 }
 
 .exchange li::before {
@@ -98,4 +152,9 @@
     color: #0066cc;
     position: absolute;
     left: 0;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .exchange li::before {
+    color: #60a5fa;
 }

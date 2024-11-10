@@ -4,6 +4,12 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:global(.dark) .article {
+    background: #1f2937;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .title {
@@ -12,18 +18,33 @@
     color: #333;
     margin-bottom: 16px;
     line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .title {
+    color: #e5e7eb;
 }
 
 .meta {
     font-size: 14px;
     color: #666;
     margin-bottom: 30px;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .meta {
+    color: #9ca3af;
 }
 
 .content {
     color: #444;
     line-height: 1.8;
     font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .content {
+    color: #d1d5db;
 }
 
 /* Markdown 内容样式 */
@@ -34,6 +55,12 @@
     margin: 40px 0 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+:global(.dark) .content h2 {
+    color: #e5e7eb;
+    border-bottom-color: #374151;
 }
 
 .content h3 {
@@ -41,15 +68,21 @@
     font-weight: 500;
     color: #333;
     margin: 30px 0 15px;
+    transition: color 0.3s ease;
 }
 
-.content p {
-    margin-bottom: 16px;
+:global(.dark) .content h3 {
+    color: #e5e7eb;
 }
 
 .content a {
     color: #0066cc;
     text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+:global(.dark) .content a {
+    color: #60a5fa;
 }
 
 .content a:hover {
@@ -79,6 +112,11 @@
     border-radius: 6px;
     overflow-x: auto;
     margin: 20px 0;
+    transition: background-color 0.3s ease;
+}
+
+:global(.dark) .content pre {
+    background: #374151;
 }
 
 .content code {
@@ -87,6 +125,12 @@
     border-radius: 4px;
     font-size: 14px;
     color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .content code {
+    background: #374151;
+    color: #e5e7eb;
 }
 
 .content blockquote {
@@ -95,12 +139,21 @@
     padding-left: 16px;
     color: #666;
     font-style: italic;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .content blockquote {
+    border-left-color: #4b5563;
+    color: #9ca3af;
 }
 
 .content hr {
     border: none;
     border-top: 1px solid #eee;
     margin: 30px 0;
+    transition: border-color 0.3s ease;
 }
 
-/* 代码高亮主题相关样式可以根据需要添加 */
+:global(.dark) .content hr {
+    border-top-color: #374151;
+}

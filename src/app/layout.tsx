@@ -7,6 +7,8 @@ import {getCategoryStats} from "@/lib/posts.server";
 import {Metadata} from "next";
 import CategorySidebar from "@/components/CategorySidebar";
 import Loading from "@/components/Loading";
+import {Providers} from "@/components/Providers";
+import {ThemeToggle} from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
     title: {
@@ -21,37 +23,47 @@ export default async function RootLayout({
                                          }: {
     children: React.ReactNode
 }) {
-    // 预先获取分类数据
     const categoryStats = await getCategoryStats();
 
     return (
-        <html lang="zh-CN">
-        <body>
-        <div className="container">
-            <header className="fixed top-0 w-full bg-white z-10 shadow-sm">
-                <h1>{siteConfig.title}</h1>
-                <p>{siteConfig.description}</p>
-            </header>
-            <Navigation/>
-            <div className="layout with-sidebar pt-[header-height]">
-                <main className="main-content">
-                    <Suspense fallback={<Loading/>}>
-                        {children}
-                    </Suspense>
-                </main>
-                <Suspense fallback={
-                    <div className="sidebar-skeleton animate-pulse">
-                        <div className="h-48 bg-gray-200 rounded-md mb-4"/>
-                        <div className="h-32 bg-gray-200 rounded-md"/>
+        <html lang="zh-CN" suppressHydrationWarning>
+        <body className="min-h-screen antialiased">
+        <Providers>
+            <div className="container transition-colors duration-300">
+                <header className="py-8 text-center bg-white dark:bg-gray-900 relative border-b dark:border-gray-800">
+                    <div className="max-w-4xl mx-auto px-4">
+                        <h1 className="text-3xl font-bold dark:text-white mb-2">
+                            {siteConfig.title}
+                        </h1>
+                        <p className="text-gray-600 dark:text-gray-400">
+                            {siteConfig.description}
+                        </p>
                     </div>
-                }>
-                    <CategorySidebar categoryStats={categoryStats}/>
-                </Suspense>
+                    <div className="absolute right-4 top-4">
+                        <ThemeToggle/>
+                    </div>
+                </header>
+                <Navigation/>
+                <div className="layout with-sidebar">
+                    <main className="main-content bg-gray-50 dark:bg-gray-900">
+                        <Suspense fallback={<Loading/>}>
+                            {children}
+                        </Suspense>
+                    </main>
+                    <Suspense fallback={
+                        <div className="sidebar-skeleton animate-pulse">
+                            <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-md mb-4"/>
+                            <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-md"/>
+                        </div>
+                    }>
+                        <CategorySidebar categoryStats={categoryStats}/>
+                    </Suspense>
+                </div>
+                <footer className="py-8 text-center border-t dark:border-gray-800 bg-white dark:bg-gray-900">
+                    <p className="text-gray-600 dark:text-gray-400">{siteConfig.footer}</p>
+                </footer>
             </div>
-            <footer>
-                <p>{siteConfig.footer}</p>
-            </footer>
-        </div>
+        </Providers>
         </body>
         </html>
     );
