@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# oh-my-blog
 
-## Getting Started
+在寻找个人博客解决方案的过程中,我一直在使用 firekylin (https://github.com/firekylin/firekylin) 作为博客系统。
 
-First, run the development server:
+然而,由于项目长期未更新维护,逐渐出现了一些问题。
+
+例如某次后台登录突然失效,需要通过修改源码来解决,这种情况让我感到困扰。
+
+于是我决定利用空闲时间,基于 Next.js 框架开发了一个简洁的博客系统 - oh-my-blog。
+
+这个项目源于一个即兴的想法,旨在打造一个稳定可靠、便于维护的个人博客。
+
+## 项目结构
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+.
+├── README.md                 # 项目说明文档
+├── next-env.d.ts            # Next.js 环境类型声明
+├── next.config.ts           # Next.js 配置文件
+├── package.json             # 项目配置和依赖管理
+├── pnpm-lock.yaml           # pnpm 依赖版本锁定文件
+├── postcss.config.mjs       # PostCSS 配置文件
+├── posts/                   # 博客文章存放目录
+│   ├── hello-world.md      # 示例文章
+│   └── ...                 # 其他文章
+├── src/                     # 源代码目录
+│   ├── app/                # 应用主目录
+│   ├── components/         # 可复用组件
+│   ├── hooks/             # 自定义 React Hooks
+│   └── lib/               # 工具函数和通用库
+├── test/                   # 测试相关文件
+│   └── generator.js       # 测试数据生成器
+└── tsconfig.json          # TypeScript 配置文件
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 快速开始
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. 安装依赖
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+```
 
-## Learn More
+### 2. 本地开发
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. 生产环境构建
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm build
+```
+**注意: 初次使用时可以删除 posts 目录下的示例文章,替换为自己的内容。**
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 待实现列表
+- [ ] 暗黑主题模式
+- [ ] 加密某些指定文章
