@@ -11,9 +11,11 @@ interface HomeProps {
 }
 
 const PostsList = async ({page}: { page: number }) => {
-    // 测试延迟
-    // await new Promise(resolve => setTimeout(resolve, 10000));
     const {posts, pagination} = await getPaginatedPosts(page);
+
+    if (!posts.length) {
+        return <div>没有找到文章</div>;
+    }
 
     return (
         <>
@@ -28,14 +30,16 @@ const PostsList = async ({page}: { page: number }) => {
             />
         </>
     );
-}
+};
 
 export default async function Home({searchParams}: HomeProps) {
     const page = Number((await searchParams).page) || 1;
 
     return (
-        <Suspense key={page} fallback={<Loading/>}>
-            <PostsList page={page}/>
-        </Suspense>
+        <>
+            <Suspense key={page} fallback={<Loading/>}>
+                <PostsList page={page}/>
+            </Suspense>
+        </>
     );
 }

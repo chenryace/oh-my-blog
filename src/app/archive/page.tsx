@@ -9,7 +9,6 @@ export const metadata: Metadata = {
     description: "历史文章列表"
 };
 
-// 按年份和月份组织文章
 interface Post {
     id: string;
     title: string;
@@ -31,23 +30,10 @@ interface PostsByYear {
 export default async function ArchivePage() {
     const posts = await getAllPosts();
     const postsByYear = posts.reduce<PostsByYear>((acc, post) => {
-        // 解析中文格式的日期
-        let year: number, month: number, day: number;
-        try {
-            // 从 "2024年11月04日" 格式解析日期
-            const matches = post.date.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-            if (matches) {
-                [, year, month, day] = matches.map(Number);  // 直接用 map 转换成数字
-            } else {
-                throw new Error("Invalid date format");
-            }
-        } catch (e) {
-            const now = new Date();
-            year = now.getFullYear();
-            month = now.getMonth() + 1;
-            day = now.getDate();
-            console.log("Date parsing error:", e);
-        }
+        const date = new Date(post.date);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
 
         if (!acc[year]) {
             acc[year] = {};
@@ -62,14 +48,14 @@ export default async function ArchivePage() {
         return acc;
     }, {});
 
-    // 获取年份并降序排序
     const years = Object.keys(postsByYear)
         .map(Number)
         .sort((a, b) => b - a);
 
-    // 月份名称映射
-    const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月",
-        "七月", "八月", "九月", "十月", "十一月", "十二月"];
+    const monthNames = [
+        "一月", "二月", "三月", "四月", "五月", "六月",
+        "七月", "八月", "九月", "十月", "十一月", "十二月"
+    ];
 
     return (
         <article className={styles.article}>

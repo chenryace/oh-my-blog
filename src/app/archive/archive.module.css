@@ -26,8 +26,29 @@
     color: #e5e7eb;
 }
 
+.timeline {
+    position: relative;
+    padding-left: 2.5rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px; /* 调整中轴线位置 */
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: #eee;
+    transition: background-color 0.3s ease;
+}
+
+:global(.dark) .timeline::before {
+    background-color: #374151;
+}
+
 .yearGroup {
-    margin-bottom: 40px;
+    position: relative;
+    margin-bottom: 2rem;
 }
 
 .yearGroup:last-child {
@@ -35,16 +56,29 @@
 }
 
 .year {
+    position: relative;
     font-size: 24px;
     font-weight: 500;
     color: #333;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
     border-bottom: 1px solid #eee;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 12px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.year::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 3px solid #666;
+    border-radius: 50%;
+    background: #fff;
+    left: -39px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 :global(.dark) .year {
@@ -52,11 +86,54 @@
     border-bottom-color: #374151;
 }
 
+:global(.dark) .year::before {
+    background: #1f2937;
+    border-color: #9ca3af;
+}
+
+.monthGroup {
+    margin-bottom: 1.5rem;
+}
+
+.monthGroup:last-child {
+    margin-bottom: 0;
+}
+
+.month {
+    position: relative;
+    font-size: 18px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.month::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #666;
+    border-radius: 50%;
+    left: -33px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+:global(.dark) .month {
+    color: #d1d5db;
+}
+
+:global(.dark) .month::before {
+    background: #9ca3af;
+}
+
 .count {
-    font-size: 16px;
+    font-size: 14px;
     color: #666;
     font-weight: normal;
-    transition: color 0.3s ease;
 }
 
 :global(.dark) .count {
@@ -66,21 +143,40 @@
 .posts {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .post {
+    position: relative;
+    padding: 0.5rem 0 0.5rem 1rem;
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 12px 0;
+    align-items: center;
+}
+
+.post::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #ccc;
+    border-radius: 50%;
+    left: -31px; /* 修改这里，让小圆点对齐时间轴 */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+:global(.dark) .post::before {
+    background: #4b5563;
 }
 
 .postTitle {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     color: #333;
     text-decoration: none;
-    margin-right: 20px;
     transition: color 0.2s;
+    line-height: 1.5; /* 添加行高确保文字垂直居中 */
 }
 
 :global(.dark) .postTitle {
@@ -88,19 +184,17 @@
 }
 
 .postTitle:hover {
-    color: #0066cc;
+    color: #666;
 }
 
 :global(.dark) .postTitle:hover {
-    color: #60a5fa;
+    color: #fff;
 }
 
 .date {
     color: #666;
     font-size: 14px;
-    min-width: 80px;
-    text-align: right;
-    transition: color 0.3s ease;
+    min-width: 48px;
 }
 
 :global(.dark) .date {

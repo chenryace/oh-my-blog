@@ -50,7 +50,6 @@
 
 .item {
     display: flex;
-    justify-content: space-between;
     align-items: baseline;
     padding: 8px 0;
 }
@@ -60,7 +59,10 @@
     text-decoration: none;
     font-size: 16px;
     transition: color 0.2s ease;
-    margin-right: 16px;
+    flex: 1;  /* 让标题占据剩余空间 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 :global(.dark) .link {
@@ -80,6 +82,8 @@
     font-size: 14px;
     white-space: nowrap;
     transition: color 0.3s ease;
+    width: 80px; /* 给日期固定宽度 */
+    flex-shrink: 0; /* 防止日期宽度被压缩 */
 }
 
 :global(.dark) .date {

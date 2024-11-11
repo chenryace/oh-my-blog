@@ -1,47 +1,76 @@
-// src/lib/posts.server.ts
-import { unstable_cache } from 'next/cache';
-import fs from "fs";
+import {unstable_cache} from "next/cache";
+import fs from "fs/promises"; // 改用 promises API
 import path from "path";
 import matter from "gray-matter";
-import {format} from "date-fns";
-import MarkdownIt from "markdown-it";
+import type MarkdownIt from "markdown-it";
 
-const md = new MarkdownIt({
-    html: true,
-    breaks: true,
-    linkify: true
-});
+let md: MarkdownIt | null = null;
+
+const formatDate = (date: Date) => {
+    return date.toLocaleDateString("zh-CN", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric"
+    });
+};
+
+const getMarkdownParser = async () => {
+    if (!md) {
+        const {default: MarkdownIt} = await import("markdown-it");
+        md = new MarkdownIt({
+            html: true,
+            breaks: true,
+            linkify: true
+        });
+    }
+    return md;
+};
 
 const POSTS_PER_PAGE = 4;
 const postsDirectory = path.join(process.cwd(), "posts");
 
-// 基础文章获取函数
-const fetchAllPosts = () => {
-    const fileNames = fs.readdirSync(postsDirectory);
-    return fileNames
-        .filter(fileName => fileName.endsWith(".md"))
-        .map(fileName => {
-            const id = fileName.replace(/\.md$/, "");
-            const fullPath = path.join(postsDirectory, fileName);
-            const fileContents = fs.readFileSync(fullPath, "utf8");
-            const {data, content} = matter(fileContents);
+// 基础文章获取函数 - 添加缓存
+const fetchAllPosts = unstable_cache(
+    async () => {
+        const fileNames = await fs.readdir(postsDirectory);
+        const posts = await Promise.all(
+            fileNames
+                .filter(fileName => fileName.endsWith(".md"))
+                .map(async fileName => {
+                    const id = fileName.replace(/\.md$/, "");
+                    const fullPath = path.join(postsDirectory, fileName);
+                    const fileContents = await fs.readFile(fullPath, "utf8");
+                    const {data, content} = matter(fileContents);
 
-            return {
-                id,
-                title: data.title,
-                date: format(new Date(data.date), "yyyy年MM月dd日"),
-                category: data.category,
-                excerpt: content.split("\n").slice(0, 3).join("\n")
-            };
-        })
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-};
+                    return {
+                        id,
+                        title: data.title,
+                        date: formatDate(new Date(data.date)),
+                        category: data.category,
+                        excerpt: content.split("\n").slice(0, 3).join("\n")
+                    };
+                })
+        );
 
-// 使用 unstable_cache 包装获取所有文章
+        return posts.sort((a, b) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+    },
+    ["raw-posts"],
+    {
+        revalidate: 3600,  // 1小时缓存
+        tags: ["posts"]    // 添加标签便于手动清除
+    }
+);
+
+// 获取所有文章
 export const getAllPosts = unstable_cache(
     async () => fetchAllPosts(),
-    ['all-posts'],
-    { revalidate: 300 } // 5分钟缓存
+    ["all-posts"],
+    {
+        revalidate: 300,   // 5分钟缓存
+        tags: ["posts"]
+    }
 );
 
 // 获取分类统计
@@ -53,8 +82,11 @@ export const getCategoryStats = unstable_cache(
             return acc;
         }, {} as Record<string, number>);
     },
-    ['category-stats'],
-    { revalidate: 300 }
+    ["category-stats"],
+    {
+        revalidate: 300,
+        tags: ["categories"]
+    }
 );
 
 // 分页获取文章
@@ -63,12 +95,16 @@ export const getPaginatedPosts = unstable_cache(
         const allPosts = await getAllPosts();
         const totalPosts = allPosts.length;
         const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+        // 确保页码在有效范围内
         const validPage = Math.max(1, Math.min(page, totalPages));
         const startIndex = (validPage - 1) * POSTS_PER_PAGE;
         const endIndex = startIndex + POSTS_PER_PAGE;
 
+        const paginatedPosts = allPosts.slice(startIndex, endIndex);
+
         return {
-            posts: allPosts.slice(startIndex, endIndex),
+            posts: paginatedPosts,
             pagination: {
                 currentPage: validPage,
                 totalPages,
@@ -76,8 +112,11 @@ export const getPaginatedPosts = unstable_cache(
             }
         };
     },
-    ['paginated-posts'],
-    { revalidate: 300 }
+    ["paginated-posts"],
+    {
+        revalidate: 300,
+        tags: ["posts"]
+    }
 );
 
 // 获取单篇文章
@@ -85,13 +124,14 @@ export const getPostById = unstable_cache(
     async (id: string) => {
         try {
             const fullPath = path.join(postsDirectory, `${id}.md`);
-            const fileContents = fs.readFileSync(fullPath, "utf8");
+            const fileContents = await fs.readFile(fullPath, "utf8");
             const {data, content} = matter(fileContents);
+            const md = await getMarkdownParser();
 
             return {
                 id,
                 title: data.title,
-                date: format(new Date(data.date), "yyyy年MM月dd日"),
+                date: formatDate(new Date(data.date)),
                 category: data.category,
                 content: md.render(content),
                 excerpt: ""
@@ -100,8 +140,21 @@ export const getPostById = unstable_cache(
             return null;
         }
     },
-    ['post-by-id'],
-    { revalidate: 300 }
+    ["post"],
+    {revalidate: 300}
+);
+
+// 通过分类获取文章
+export const getPostsByCategory = unstable_cache(
+    async (category: string) => {
+        const allPosts = await getAllPosts();
+        return allPosts.filter(post => post.category === category);
+    },
+    ["posts-by-category"],
+    {
+        revalidate: 300,
+        tags: ["posts", "categories"]
+    }
 );
 
 // 添加预获取函数用于静态生成
@@ -109,13 +162,12 @@ export async function generateStaticParams() {
     const posts = await getAllPosts();
     const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
 
+    // 只预生成前3页和最新10篇文章
     return {
-        // 预生成首页和分页
-        pages: Array.from({ length: totalPages }, (_, i) => ({
+        pages: Array.from({length: Math.min(3, totalPages)}, (_, i) => ({
             page: (i + 1).toString()
         })),
-        // 预生成所有文章页
-        posts: posts.map(post => ({
+        posts: posts.slice(0, 10).map(post => ({
             id: post.id
         }))
     };

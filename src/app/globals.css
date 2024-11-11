@@ -320,7 +320,6 @@ blockquote {
     animation: shimmer 1.5s infinite;
     border-radius: 4px;
     min-height: 400px;
-    margin: 20px;
 }
 
 /* 深色模式下的骨架屏 */

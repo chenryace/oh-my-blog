@@ -18,13 +18,15 @@ export const metadata: Metadata = {
     description: siteConfig.description
 };
 
-export default async function RootLayout({
-                                             children
-                                         }: {
+// 分离侧边栏获取数据的逻辑
+const SidebarWrapper = async () => {
+    const categoryStats = await getCategoryStats();
+    return <CategorySidebar categoryStats={categoryStats}/>;
+};
+
+export default function RootLayout({children}: {
     children: React.ReactNode
 }) {
-    const categoryStats = await getCategoryStats();
-
     return (
         <html lang="zh-CN" suppressHydrationWarning>
         <body className="min-h-screen antialiased">
@@ -45,20 +47,18 @@ export default async function RootLayout({
                 </header>
                 <Navigation/>
                 <div className="layout with-sidebar">
-                    <main className="main-content bg-gray-50 dark:bg-gray-900">
-                        <Suspense fallback={<Loading/>}>
-                            {children}
-                        </Suspense>
-                    </main>
+                    <Suspense fallback={<Loading/>}>
+                        {children}
+                    </Suspense>
                     <Suspense fallback={
                         <div className="sidebar-skeleton animate-pulse">
                             <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-md mb-4"/>
                             <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-md"/>
-                        </div>
-                    }>
-                        <CategorySidebar categoryStats={categoryStats}/>
+                        </div>}>
+                        <SidebarWrapper/>
                     </Suspense>
                 </div>
+
                 <footer className="py-8 text-center border-t dark:border-gray-800 bg-white dark:bg-gray-900">
                     <p className="text-gray-600 dark:text-gray-400">{siteConfig.footer}</p>
                 </footer>
