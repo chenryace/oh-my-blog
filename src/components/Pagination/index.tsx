@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import {usePathname, useSearchParams} from "next/navigation";
+import {useCallback} from "react";
 import styles from "./pagination.module.css";
 
 interface PaginationProps {
@@ -10,13 +10,13 @@ interface PaginationProps {
     totalPages: number;
 }
 
-export default function Pagination({ currentPage, totalPages }: PaginationProps) {
+export default function Pagination({currentPage, totalPages}: PaginationProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
     const createPageUrl = useCallback((pageNumber: number) => {
         const params = new URLSearchParams(searchParams);
-        params.set('page', pageNumber.toString());
+        params.set("page", pageNumber.toString());
         return `${pathname}?${params.toString()}`;
     }, [pathname, searchParams]);
 
@@ -58,7 +58,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                 <Link
                     key={i}
                     href={createPageUrl(i)}
-                    className={`${styles.pageBtn} ${currentPage === i ? styles.active : ''}`}
+                    className={`${styles.pageBtn} ${currentPage === i ? styles.active : ""}`}
                 >
                     {i}
                 </Link>
@@ -78,7 +78,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                 <Link
                     key={totalPages}
                     href={createPageUrl(totalPages)}
-                    className={`${styles.pageBtn} ${currentPage === totalPages ? styles.active : ''}`}
+                    className={`${styles.pageBtn} ${currentPage === totalPages ? styles.active : ""}`}
                 >
                     {totalPages}
                 </Link>

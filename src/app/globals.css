@@ -15,9 +15,10 @@
     --bg-color: #1a1a1a;
     --meta-color: #9ca3af;
     --shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    --article-bg: #1e293b;  /* 更改为更深的蓝灰色 */
+    --article-bg: #1e293b; /* 更改为更深的蓝灰色 */
     --nav-bg: #1e293b;
 }
+
 /* 深色模式下的骨架屏 */
 :root[class~="dark"] .loading-skeleton,
 :root[class~="dark"] .sidebar-skeleton {

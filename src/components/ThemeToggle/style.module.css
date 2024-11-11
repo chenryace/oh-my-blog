@@ -35,12 +35,12 @@
 }
 
 .icon {
-    color: #eab308;  /* 太阳图标的黄色 */
+    color: #eab308; /* 太阳图标的黄色 */
     transition: all 0.3s ease;
 }
 
 .dark .icon {
-    color: #94a3b8;  /* 月亮图标保持原来的颜色 */
+    color: #94a3b8; /* 月亮图标保持原来的颜色 */
 }
 
 /* 悬浮效果 */

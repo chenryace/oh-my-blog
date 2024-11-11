@@ -2,11 +2,11 @@ import Link from "next/link";
 import {categoryNames} from "@/lib/constants";
 
 interface ArticleProps {
-    id: string
-    title: string
-    date: string
-    category: string
-    excerpt: string
+    id: string;
+    title: string;
+    date: string;
+    category: string;
+    excerpt: string;
 }
 
 export default function ArticleCard({id, title, date, category, excerpt}: ArticleProps) {
@@ -21,5 +21,5 @@ export default function ArticleCard({id, title, date, category, excerpt}: Articl
                 <Link href={`/posts/${id}`}>继续阅读</Link>
             </div>
         </article>
-    )
+    );
 }

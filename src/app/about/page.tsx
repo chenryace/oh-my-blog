@@ -1,13 +1,13 @@
 // src/app/about/page.tsx
-import styles from './about.module.css'
-import type {Metadata} from 'next'
+import styles from "./about.module.css";
+import type {Metadata} from "next";
 
 export const metadata: Metadata = {
-    title: '关于',
-    description: '了解更多关于我的信息',
-}
+    title: "关于",
+    description: "了解更多关于我的信息"
+};
 
-export default function About() {
+export default function AboutPage() {
     return (
         <div className={styles.cv}>
             {/* 头部信息 */}
@@ -99,5 +99,5 @@ export default function About() {
                 </div>
             </main>
         </div>
-    )
+    );
 }
