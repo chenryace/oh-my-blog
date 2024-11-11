@@ -13,6 +13,7 @@ interface Post {
     id: string;
     title: string;
     date: string;
+    rawDate: Date;
 }
 
 interface PostWithDay extends Post {
@@ -30,7 +31,7 @@ interface PostsByYear {
 export default async function ArchivePage() {
     const posts = await getAllPosts();
     const postsByYear = posts.reduce<PostsByYear>((acc, post) => {
-        const date = new Date(post.date);
+        const date = new Date(post.rawDate);
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();

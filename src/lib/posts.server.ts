@@ -7,11 +7,10 @@ import type MarkdownIt from "markdown-it";
 let md: MarkdownIt | null = null;
 
 const formatDate = (date: Date) => {
-    return date.toLocaleDateString("zh-CN", {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric"
-    });
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}年${month}月${day}日`;
 };
 
 const getMarkdownParser = async () => {
@@ -41,19 +40,18 @@ const fetchAllPosts = unstable_cache(
                     const fullPath = path.join(postsDirectory, fileName);
                     const fileContents = await fs.readFile(fullPath, "utf8");
                     const {data, content} = matter(fileContents);
-
                     return {
                         id,
                         title: data.title,
                         date: formatDate(new Date(data.date)),
                         category: data.category,
-                        excerpt: content.split("\n").slice(0, 3).join("\n")
+                        excerpt: content.split("\n").slice(0, 3).join("\n"),
+                        rawDate: data.date
                     };
                 })
         );
-
         return posts.sort((a, b) =>
-            new Date(b.date).getTime() - new Date(a.date).getTime()
+            new Date(b.rawDate).getTime() - new Date(a.rawDate).getTime()
         );
     },
     ["raw-posts"],

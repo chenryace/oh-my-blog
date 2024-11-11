@@ -6,7 +6,7 @@ import {siteConfig} from "@/lib/constants";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {AnimatePresence, motion} from "framer-motion";
-import {useHasMounted} from "@/hooks/useHasMounted"; // 我们需要创建这个 hook
+import {useHasMounted} from "@/hooks/useHasMounted";
 
 const IconMap = {
     Home,

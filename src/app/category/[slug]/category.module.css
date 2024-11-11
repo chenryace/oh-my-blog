@@ -82,7 +82,7 @@
     font-size: 14px;
     white-space: nowrap;
     transition: color 0.3s ease;
-    width: 80px; /* 给日期固定宽度 */
+    width: 100px; /* 给日期固定宽度 */
     flex-shrink: 0; /* 防止日期宽度被压缩 */
 }
 
