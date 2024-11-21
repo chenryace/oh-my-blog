@@ -3,9 +3,22 @@ import styles from "./post.module.css";
 import {getAllPosts, getPostById} from "@/lib/posts.server";
 import {notFound} from "next/navigation";
 import {categoryNames} from "@/lib/constants";
+import {Metadata} from "next";
 
-interface Props {
-    params: { id: string };
+// 修复 generateMetadata
+export async function generateMetadata({params}: { params: { id: string } }): Promise<Metadata> {
+    const post = await getPostById((await params).id);
+
+    if (!post) {
+        return {
+            title: "Post Not Found"
+        };
+    }
+
+    return {
+        title: post.title,
+        description: post.excerpt || post.title
+    };
 }
 
 export async function generateStaticParams() {
@@ -15,9 +28,7 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function Post({params}: Props) {
-    // 删除 await params，直接使用 params.id
-    // 添加 await 到 getPostById
+export default async function Post({params}: { params: { id: string } }) {
     const post = await getPostById((await params).id);
 
     if (!post) {
@@ -25,15 +36,26 @@ export default async function Post({params}: Props) {
     }
 
     return (
-        <article className={styles.article}>
-            <h1 className={styles.title}>{post.title}</h1>
-            <div className={styles.meta}>
-                发布于 {post.date} | 分类：{categoryNames[post.category]}
-            </div>
-            <div
-                className={styles.content}
-                dangerouslySetInnerHTML={{__html: post.content}}
-            />
-        </article>
+        <div className="max-w-3xl mx-auto px-4">
+            <article className={styles.article}>
+                <header>
+                    <h1 className={styles.title}>{post.title}</h1>
+                    <div className={styles.meta}>
+                        <time dateTime={post.date}>发布于 {post.date}</time>
+                        {post.category && (
+                            <>
+                                <span className="mx-2">|</span>
+                                <span>分类：{categoryNames[post.category]}</span>
+                            </>
+                        )}
+                    </div>
+                </header>
+
+                <div
+                    className={styles.content}
+                    dangerouslySetInnerHTML={{__html: post.content}}
+                />
+            </article>
+        </div>
     );
 }
