@@ -112,12 +112,27 @@
     display: block;
 }
 
+/*.content pre {*/
+/*    background: #f6f8fa;*/
+/*    padding: 8px;*/
+/*    border-radius: 6px;*/
+/*    overflow-x: auto;*/
+/*    margin: 14px 0;*/
+/*    max-width: 100%;*/
+/*    white-space: pre-wrap;*/
+/*    word-wrap: break-word;*/
+/*    -ms-word-break: break-all;*/
+/*    word-break: break-word;*/
+/*}*/
+
+
 .content pre {
     background: #f6f8fa;
-    padding: 1rem;
-    border-radius: 6px;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 14px 0;
+
     overflow-x: auto;
-    margin: 1.5rem 0;
     max-width: 100%;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -126,22 +141,19 @@
 }
 
 :global(.dark) .content pre {
-    background: #1e293b;
+    background: #171717;
 }
 
-.content code {
-    background: #f6f8fa;
+/* 行内代码样式 */
+.content :not(pre) > code {
+    background: rgba(40, 44, 52, 0.05);
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
-    font-size: 0.875rem;
-    color: #333;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    font-size: 0.875em;
 }
 
-:global(.dark) .content code {
-    background: #1e293b;
-    color: #e5e7eb;
+:global(.dark) .content :not(pre) > code {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .content blockquote {

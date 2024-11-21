@@ -10,7 +10,8 @@ const nextConfig: NextConfig = {
     compress: true,
     typescript: {
         ignoreBuildErrors: true
-    }
+    },
+    transpilePackages: ["markdown-it"]
 };
 
 export default nextConfig;

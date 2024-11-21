@@ -3,6 +3,7 @@ import fs from "fs/promises"; // 改用 promises API
 import path from "path";
 import matter from "gray-matter";
 import type MarkdownIt from "markdown-it";
+import {createMarkdownParser} from "@/lib/markdown-utils";
 
 let md: MarkdownIt | null = null;
 
@@ -15,12 +16,7 @@ const formatDate = (date: Date) => {
 
 const getMarkdownParser = async () => {
     if (!md) {
-        const {default: MarkdownIt} = await import("markdown-it");
-        md = new MarkdownIt({
-            html: true,
-            breaks: true,
-            linkify: true
-        });
+        md = await createMarkdownParser();
     }
     return md;
 };
@@ -125,7 +121,6 @@ export const getPostById = unstable_cache(
             const fileContents = await fs.readFile(fullPath, "utf8");
             const {data, content} = matter(fileContents);
             const md = await getMarkdownParser();
-
             return {
                 id,
                 title: data.title,

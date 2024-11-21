@@ -4,6 +4,7 @@ import {getAllPosts, getPostById} from "@/lib/posts.server";
 import {notFound} from "next/navigation";
 import {categoryNames} from "@/lib/constants";
 import {Metadata} from "next";
+import 'highlight.js/styles/atom-one-dark-reasonable.css';
 
 // 修复 generateMetadata
 export async function generateMetadata({params}: { params: { id: string } }): Promise<Metadata> {
