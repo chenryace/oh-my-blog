@@ -45,6 +45,9 @@ export default function RootLayout({children}: {
                         <ThemeToggle/>
                     </div>
                 </header>
+                <div class="hero-banner">
+                    <img src="你的图片链接" alt="海报图片">
+                        </div>
                 <Navigation/>
                 <div className="layout with-sidebar">
                     <Suspense fallback={<Loading/>}>
