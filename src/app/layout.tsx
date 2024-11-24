@@ -24,6 +24,25 @@ const SidebarWrapper = async () => {
     return <CategorySidebar categoryStats={categoryStats}/>;
 };
 
+const Layout = ({ children }) => {
+    return (
+        <>
+            {/* 全屏大海报 */}
+            <div className="hero-banner">
+                <img src="你的图片链接" alt="海报图片" />
+            </div>
+
+            {/* 顶栏 */}
+            <header>
+                <h1>网站标题</h1>
+            </header>
+
+            {/* 主体内容 */}
+            <main>{children}</main>
+        </>
+    );
+};
+
 export default function RootLayout({children}: {
     children: React.ReactNode
 }) {
