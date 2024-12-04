@@ -15,11 +15,19 @@ const formatDate = (date: Date) => {
 };
 
 const getMarkdownParser = async () => {
-    if (!md) {
-        md = await createMarkdownParser();
+    try {
+        if (!md) {
+            console.log('Creating new markdown parser instance...');
+            md = await createMarkdownParser();
+            console.log('Markdown parser created successfully');
+        }
+        return md;
+    } catch (error) {
+        console.error('Error in getMarkdownParser:', error);
+        throw error;
     }
-    return md;
 };
+
 
 const POSTS_PER_PAGE = 4;
 const postsDirectory = path.join(process.cwd(), "posts");
@@ -117,25 +125,35 @@ export const getPaginatedPosts = unstable_cache(
 export const getPostById = unstable_cache(
     async (id: string) => {
         try {
+            console.log(`Getting post by id: ${id}`);
             const fullPath = path.join(postsDirectory, `${id}.md`);
             const fileContents = await fs.readFile(fullPath, "utf8");
             const {data, content} = matter(fileContents);
-            const md = await getMarkdownParser();
+
+            console.log('Getting markdown parser...');
+            const parser = await getMarkdownParser();
+
+            console.log('Rendering content...');
+            const renderedContent = parser.render(content);
+            console.log('Content rendered successfully');
+
             return {
                 id,
                 title: data.title,
                 date: formatDate(new Date(data.date)),
                 category: data.category,
-                content: md.render(content),
+                content: renderedContent,
                 excerpt: ""
             };
-        } catch {
+        } catch (error) {
+            console.error('Error in getPostById:', error);
             return null;
         }
     },
     ["post"],
     {revalidate: 300}
 );
+
 
 // 通过分类获取文章
 export const getPostsByCategory = unstable_cache(

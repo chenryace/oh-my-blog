@@ -1,8 +1,8 @@
 // src/lib/constants.ts
 export const siteConfig = {
-    title: `我是一个博客`,
+    title: `qfdk's Blog`,
     author: "qfdk",
-    description: "非主流黑科技自留地...",
+    description: "黑科技自留地...",
     footer: "© 2024 qfdk | 保留所有权利",
 
     // 导航菜单
@@ -17,6 +17,7 @@ export const siteConfig = {
     categories: [
         {slug: "life", name: "生活随笔"},
         {slug: "tech", name: "技术分享"},
+        {slug: "hack", name: "奇技淫巧"},
         {slug: "reading", name: "读书笔记"},
         {slug: "travel", name: "旅行见闻"}
     ],

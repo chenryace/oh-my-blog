@@ -20,11 +20,8 @@ export async function generateMetadata(
 }
 
 // 页面组件使用基础类型
-async function Page({
-                        params
-                    }: {
-    params: { slug: string }
-}) {
+async function Page({params}: { params: { slug: string } }) {
+
     const slug = (await params).slug;
     const posts = (await getAllPosts()).filter(post => post.category === slug);
 
