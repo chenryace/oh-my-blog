@@ -29,15 +29,15 @@ export default function RootLayout({children}: {
 }) {
     return (
         <html lang="zh-CN" suppressHydrationWarning>
-        <body className="min-h-screen antialiased">
+        <body className="min-h-screen antialiased" suppressHydrationWarning>
         <Providers>
             <div className="container transition-colors duration-300">
-                <header className="py-8 text-center bg-white dark:bg-gray-900 relative border-b dark:border-gray-800">
+                <header className="py-8 text-center relative border-b dark:border-gray-800 bg-background">
                     <div className="max-w-4xl mx-auto px-4">
-                        <h1 className="text-3xl font-bold dark:text-white mb-2">
+                        <h1 className="text-3xl font-bold mb-2">
                             {siteConfig.title}
                         </h1>
-                        <p className="text-gray-600 dark:text-gray-400">
+                        <p className="text-muted-foreground">
                             {siteConfig.description}
                         </p>
                     </div>
@@ -52,15 +52,15 @@ export default function RootLayout({children}: {
                     </Suspense>
                     <Suspense fallback={
                         <div className="sidebar-skeleton animate-pulse">
-                            <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-md mb-4"/>
-                            <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-md"/>
+                            <div className="h-48 bg-muted rounded-md mb-4"/>
+                            <div className="h-32 bg-muted rounded-md"/>
                         </div>}>
                         <SidebarWrapper/>
                     </Suspense>
                 </div>
 
-                <footer className="py-8 text-center border-t dark:border-gray-800 bg-white dark:bg-gray-900">
-                    <p className="text-gray-600 dark:text-gray-400">{siteConfig.footer}</p>
+                <footer className="py-8 text-center border-t dark:border-gray-800 bg-background">
+                    <p className="text-muted-foreground">{siteConfig.footer}</p>
                 </footer>
             </div>
         </Providers>
