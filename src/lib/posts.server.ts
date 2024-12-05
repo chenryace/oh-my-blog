@@ -17,13 +17,13 @@ const formatDate = (date: Date) => {
 const getMarkdownParser = async () => {
     try {
         if (!md) {
-            console.log('Creating new markdown parser instance...');
+            console.log("Creating new markdown parser instance...");
             md = await createMarkdownParser();
-            console.log('Markdown parser created successfully');
+            console.log("Markdown parser created successfully");
         }
         return md;
     } catch (error) {
-        console.error('Error in getMarkdownParser:', error);
+        console.error("Error in getMarkdownParser:", error);
         throw error;
     }
 };
@@ -130,12 +130,12 @@ export const getPostById = unstable_cache(
             const fileContents = await fs.readFile(fullPath, "utf8");
             const {data, content} = matter(fileContents);
 
-            console.log('Getting markdown parser...');
+            console.log("Getting markdown parser...");
             const parser = await getMarkdownParser();
 
-            console.log('Rendering content...');
+            console.log("Rendering content...");
             const renderedContent = parser.render(content);
-            console.log('Content rendered successfully');
+            console.log("Content rendered successfully");
 
             return {
                 id,
@@ -146,26 +146,12 @@ export const getPostById = unstable_cache(
                 excerpt: ""
             };
         } catch (error) {
-            console.error('Error in getPostById:', error);
+            console.error("Error in getPostById:", error);
             return null;
         }
     },
     ["post"],
     {revalidate: 300}
-);
-
-
-// 通过分类获取文章
-export const getPostsByCategory = unstable_cache(
-    async (category: string) => {
-        const allPosts = await getAllPosts();
-        return allPosts.filter(post => post.category === category);
-    },
-    ["posts-by-category"],
-    {
-        revalidate: 300,
-        tags: ["posts", "categories"]
-    }
 );
 
 // 添加预获取函数用于静态生成

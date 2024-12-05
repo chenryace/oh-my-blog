@@ -9,7 +9,7 @@ import "highlight.js/lib/languages/shell";
 export const createMarkdownParser = async (): Promise<MarkdownIt> => {
     const MarkdownIt = (await import("markdown-it")).default;
 
-    const parser = new MarkdownIt({
+    return new MarkdownIt({
         html: true,
         breaks: true,
         linkify: true,
@@ -27,6 +27,4 @@ export const createMarkdownParser = async (): Promise<MarkdownIt> => {
             return ""; // 使用默认的转义
         }
     });
-
-    return parser;
 };

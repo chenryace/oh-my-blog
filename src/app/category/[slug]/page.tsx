@@ -24,7 +24,6 @@ async function Page({params}: { params: { slug: string } }) {
 
     const slug = (await params).slug;
     const posts = (await getAllPosts()).filter(post => post.category === slug);
-
     if (posts.length === 0) {
         notFound();
     }
