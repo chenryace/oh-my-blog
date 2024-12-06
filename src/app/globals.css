@@ -285,9 +285,8 @@ blockquote {
     }
 
     .layout.with-sidebar {
-        grid-template-columns: 1fr;
+        display: block;
     }
-
     .sidebar {
         display: none;
     }
