@@ -1,11 +1,9 @@
-// src/app/template.tsx
 "use client";
 
-import {useEffect, useState} from "react";
-import {usePathname} from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./template.module.css";
 
-// 定义动画类型
 const animations = [
     "fadeUp",
     "fadeDown",
@@ -15,15 +13,18 @@ const animations = [
     "rotateIn"
 ] as const;
 
-export default function Template({children}: { children: React.ReactNode }) {
+export default function Template({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const [animation, setAnimation] = useState<string>("fadeUp");
 
-    useEffect(() => {
-        // 随机选择一个动画
-        const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
-        setAnimation(randomAnimation);
-    }, [pathname]);
+    // 将随机动画的逻辑移到组件外部
+    const getRandomAnimation = () => {
+        // 首页使用 zoomIn，其他页面随机选择动画
+        return pathname === "/" ? "zoomIn" :
+            animations[Math.floor(Math.random() * animations.length)];
+    };
+
+    // 使用 useState 的初始化函数，确保动画只在组件挂载时计算一次
+    const [animation] = useState(getRandomAnimation);
 
     return (
         <div className={`${styles.pageWrapper} ${styles[animation]}`}>

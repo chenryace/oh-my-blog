@@ -44,12 +44,36 @@ const fetchAllPosts = unstable_cache(
                     const fullPath = path.join(postsDirectory, fileName);
                     const fileContents = await fs.readFile(fullPath, "utf8");
                     const {data, content} = matter(fileContents);
+
+                    // 新的 excerpt 提取逻辑
+                    const getExcerpt = (content: string) => {
+                        // 按行分割内容
+                        const lines = content.split("\n");
+
+                        // 找到第一个不是空行且不是标题的段落
+                        const firstParagraph = lines.find(line => {
+                            const trimmedLine = line.trim();
+                            return trimmedLine.length > 0 && !trimmedLine.startsWith("#");
+                        });
+
+                        // 如果找到段落，截取适当长度（例如150个字符）
+                        if (firstParagraph) {
+                            const cleaned = firstParagraph.trim();
+                            return cleaned.length > 150
+                                ? cleaned.substring(0, 150) + "..."
+                                : cleaned;
+                        }
+
+                        // 如果没找到合适的段落，返回空字符串
+                        return "";
+                    };
+
                     return {
                         id,
                         title: data.title,
                         date: formatDate(new Date(data.date)),
                         category: data.category,
-                        excerpt: content.split("\n").slice(0, 3).join("\n"),
+                        excerpt: getExcerpt(content),
                         rawDate: data.date
                     };
                 })
@@ -60,8 +84,8 @@ const fetchAllPosts = unstable_cache(
     },
     ["raw-posts"],
     {
-        revalidate: 3600,  // 1小时缓存
-        tags: ["posts"]    // 添加标签便于手动清除
+        revalidate: 3600,
+        tags: ["posts"]
     }
 );
 
