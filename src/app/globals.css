@@ -11,7 +11,7 @@
 
 @media screen and (min-width: 1513px) {
     :root {
-        --max-width: 1200px; /* 大屏幕宽度 */
+        --max-width: 960px; /* 大屏幕宽度 */
     }
 }
 
@@ -287,6 +287,7 @@ blockquote {
     .layout.with-sidebar {
         display: block;
     }
+
     .sidebar {
         display: none;
     }
