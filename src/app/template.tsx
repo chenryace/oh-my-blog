@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import {useState} from "react";
+import {usePathname} from "next/navigation";
 import styles from "./template.module.css";
 
 const animations = [
@@ -13,21 +13,29 @@ const animations = [
     "rotateIn"
 ] as const;
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function Template({children}: { children: React.ReactNode }) {
     const pathname = usePathname();
 
-    // 将随机动画的逻辑移到组件外部
-    const getRandomAnimation = () => {
-        // 首页使用 zoomIn，其他页面随机选择动画
-        return pathname === "/" ? "zoomIn" :
-            animations[Math.floor(Math.random() * animations.length)];
+    // 使用确定性的方式选择动画
+    const getAnimation = () => {
+        if (pathname === "/") return "";
+
+        // 使用 pathname 来确定使用哪个动画
+        // 对于相同的 pathname 会始终返回相同的动画
+        const index = pathname.split("").reduce((acc, char) => {
+            return (acc + char.charCodeAt(0)) % animations.length;
+        }, 0);
+
+        return animations[index];
     };
 
-    // 使用 useState 的初始化函数，确保动画只在组件挂载时计算一次
-    const [animation] = useState(getRandomAnimation);
+    const [animation] = useState(getAnimation);
 
     return (
-        <div className={`${styles.pageWrapper} ${styles[animation]}`}>
+        <div
+            className={`${styles.pageWrapper} ${animation ? styles[animation] : ""}`}
+            suppressHydrationWarning
+        >
             {children}
         </div>
     );

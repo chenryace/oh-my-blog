@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding: 20px;
     background: #fff;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
@@ -46,7 +46,7 @@
 
 .card {
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 20px;
     text-decoration: none;
     transition: all 0.3s ease;

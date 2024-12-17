@@ -2,7 +2,7 @@
     margin: 0 auto;
     padding: 2rem;
     background: #fff;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     word-wrap: break-word;
@@ -128,7 +128,7 @@
 
 .content pre {
     background: #f6f8fa;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 8px;
     margin: 14px 0;
 
