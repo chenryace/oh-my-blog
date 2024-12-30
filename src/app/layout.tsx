@@ -24,6 +24,46 @@ const SidebarWrapper = async () => {
     return <CategorySidebar categoryStats={categoryStats}/>;
 };
 
+const SidebarSkeleton = () => {
+    return (
+        <aside className="w-64 p-6 space-y-8 border-r border-gray-200 dark:border-gray-800 min-h-screen">
+            {/* 分类标题骨架 */}
+            <div className="mb-4">
+                <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded w-16 animate-pulse"/>
+            </div>
+
+            {/* 分类列表骨架 */}
+            <div className="space-y-3">
+                {[1, 2, 3, 4, 5].map((item) => (
+                    <div key={item} className="flex items-center justify-between">
+                        <div
+                            className="h-4 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"
+                            style={{width: `${Math.random() * 30 + 60}%`}}
+                        />
+                        <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-6 animate-pulse"/>
+                    </div>
+                ))}
+            </div>
+
+            {/* 友情链接标题骨架 */}
+            <div className="mt-8 mb-4">
+                <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded w-20 animate-pulse"/>
+            </div>
+
+            {/* 友情链接列表骨架 */}
+            <div className="space-y-3">
+                {[1, 2, 3].map((item) => (
+                    <div
+                        key={item}
+                        className="h-4 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"
+                        style={{width: `${Math.random() * 20 + 70}%`}}
+                    />
+                ))}
+            </div>
+        </aside>
+    );
+};
+
 export default function RootLayout({children}: {
     children: React.ReactNode
 }) {
@@ -32,7 +72,7 @@ export default function RootLayout({children}: {
         <body className="min-h-screen antialiased" suppressHydrationWarning>
         <Providers>
             <div className="container transition-colors duration-300">
-                <header className="py-8 text-center relative border-b dark:border-gray-800 bg-background">
+                <header className="py-8 text-center relative dark:border-gray-800 bg-background">
                     <div className="max-w-4xl mx-auto px-4">
                         <h1 className="text-3xl font-bold mb-2">
                             {siteConfig.title}
@@ -46,15 +86,12 @@ export default function RootLayout({children}: {
                     </div>
                 </header>
                 <Navigation/>
+
                 <div className="layout with-sidebar">
                     <Suspense fallback={<Loading/>}>
                         {children}
                     </Suspense>
-                    <Suspense fallback={
-                        <div className="sidebar-skeleton animate-pulse">
-                            <div className="h-48 bg-muted rounded-md mb-4"/>
-                            <div className="h-32 bg-muted rounded-md"/>
-                        </div>}>
+                    <Suspense fallback={<SidebarSkeleton/>}>
                         <SidebarWrapper/>
                     </Suspense>
                 </div>

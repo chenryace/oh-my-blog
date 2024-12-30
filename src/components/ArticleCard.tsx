@@ -12,7 +12,7 @@ interface ArticleProps {
 export default function ArticleCard({id, title, date, category, excerpt}: ArticleProps) {
     return (
         <article className="article">
-            <h2>
+            <h2 style={{fontSize:"x-large",fontWeight:"bold"}}>
                 <Link href={`/posts/${id}`}>{title}</Link>
             </h2>
             <div className="meta">发布于 {date} | 分类：{categoryNames[category]}</div>

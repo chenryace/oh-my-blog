@@ -37,7 +37,7 @@ export default async function Post({params}: { params: { id: string } }) {
     }
 
     return (
-        <div className="max-w-3xl mx-auto px-4">
+        <div className="max-w-3xl mx-auto">
             <article className={styles.article}>
                 <header>
                     <h1 className={styles.title}>{post.title}</h1>
