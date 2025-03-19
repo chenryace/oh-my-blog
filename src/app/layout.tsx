@@ -10,6 +10,13 @@ import Loading from "@/components/Loading";
 import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 
+import {Inter} from "next/font/google";
+
+const inter = Inter({
+    subsets: ["latin"],
+    display: "swap"
+});
+
 export const metadata: Metadata = {
     title: {
         default: siteConfig.title,
@@ -68,7 +75,7 @@ export default function RootLayout({children}: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="zh-CN" suppressHydrationWarning>
+        <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
         <body className="min-h-screen antialiased" suppressHydrationWarning>
         <Providers>
             <div className="container transition-colors duration-300">

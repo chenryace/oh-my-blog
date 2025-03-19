@@ -94,7 +94,7 @@ export const getAllPosts = unstable_cache(
     async () => fetchAllPosts(),
     ["all-posts"],
     {
-        revalidate: 300,   // 5分钟缓存
+        revalidate: 3600, // Increase to 1 hour if content rarely changes
         tags: ["posts"]
     }
 );
