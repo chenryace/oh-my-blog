@@ -1,9 +1,9 @@
 import type MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
-// 预加载你需要的语言
-import "highlight.js/lib/languages/java";
+// 预加载常用语言
 import "highlight.js/lib/languages/javascript";
 import "highlight.js/lib/languages/bash";
+import "highlight.js/lib/languages/typescript";
 import "highlight.js/lib/languages/shell";
 
 export const createMarkdownParser = async (): Promise<MarkdownIt> => {
@@ -21,7 +21,7 @@ export const createMarkdownParser = async (): Promise<MarkdownIt> => {
                         ignoreIllegals: true
                     }).value;
                 } catch (e) {
-                    console.log(e);
+                    console.warn(`Highlight error: ${e}`);
                 }
             }
             return ""; // 使用默认的转义

@@ -89,12 +89,12 @@ const fetchAllPosts = unstable_cache(
     }
 );
 
-// 获取所有文章
+// 获取所有文章 - 增加缓存时间到24小时
 export const getAllPosts = unstable_cache(
     async () => fetchAllPosts(),
     ["all-posts"],
     {
-        revalidate: 3600, // Increase to 1 hour if content rarely changes
+        revalidate: 86400, // 24小时缓存，因为博客内容更新频率较低
         tags: ["posts"]
     }
 );
@@ -115,7 +115,7 @@ export const getCategoryStats = unstable_cache(
     }
 );
 
-// 分页获取文章
+// 分页获取文章 - 优化缓存策略
 export const getPaginatedPosts = unstable_cache(
     async (page: number = 1) => {
         const allPosts = await getAllPosts();
@@ -138,28 +138,41 @@ export const getPaginatedPosts = unstable_cache(
             }
         };
     },
-    ["paginated-posts"],
+    // 使用页码作为缓存键的一部分
+    (page) => [`paginated-posts-${page}`],
     {
-        revalidate: 300,
+        revalidate: 3600, // 提高到1小时
         tags: ["posts"]
     }
 );
 
-// 获取单篇文章
+// 获取单篇文章 - 移除调试日志，优化缓存
 export const getPostById = unstable_cache(
     async (id: string) => {
         try {
-            console.log(`Getting post by id: ${id}`);
             const fullPath = path.join(postsDirectory, `${id}.md`);
             const fileContents = await fs.readFile(fullPath, "utf8");
             const {data, content} = matter(fileContents);
 
-            console.log("Getting markdown parser...");
             const parser = await getMarkdownParser();
-
-            console.log("Rendering content...");
             const renderedContent = parser.render(content);
-            console.log("Content rendered successfully");
+
+            // 提取摘要
+            const getExcerpt = (content: string) => {
+                const lines = content.split("\n");
+                const firstParagraph = lines.find(line => {
+                    const trimmedLine = line.trim();
+                    return trimmedLine.length > 0 && !trimmedLine.startsWith("#");
+                });
+                
+                if (firstParagraph) {
+                    const cleaned = firstParagraph.trim();
+                    return cleaned.length > 150
+                        ? cleaned.substring(0, 150) + "..."
+                        : cleaned;
+                }
+                return "";
+            };
 
             return {
                 id,
@@ -167,15 +180,16 @@ export const getPostById = unstable_cache(
                 date: formatDate(new Date(data.date)),
                 category: data.category,
                 content: renderedContent,
-                excerpt: ""
+                excerpt: getExcerpt(content)
             };
         } catch (error) {
             console.error("Error in getPostById:", error);
             return null;
         }
     },
-    ["post"],
-    {revalidate: 300}
+    // 使用文章ID作为缓存键的一部分
+    (id) => [`post-${id}`],
+    {revalidate: 86400} // 提高到24小时
 );
 
 // 添加预获取函数用于静态生成

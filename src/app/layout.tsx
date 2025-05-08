@@ -12,9 +12,13 @@ import {ThemeToggle} from "@/components/ThemeToggle";
 
 import {Inter} from "next/font/google";
 
+// 优化字体加载，只加载必要的字重
 const inter = Inter({
     subsets: ["latin"],
-    display: "swap"
+    display: "swap",
+    weight: ["400", "700"],
+    preload: true,
+    fallback: ["system-ui", "sans-serif"]
 });
 
 export const metadata: Metadata = {
@@ -23,6 +27,16 @@ export const metadata: Metadata = {
         template: `%s | ${siteConfig.title}`
     },
     description: siteConfig.description
+};
+
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1, 
+    maximumScale: 5,
+    themeColor: [
+        { media: '(prefers-color-scheme: light)', color: 'white' },
+        { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+    ]
 };
 
 // 分离侧边栏获取数据的逻辑
