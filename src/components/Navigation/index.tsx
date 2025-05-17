@@ -5,7 +5,8 @@ import {Archive, Home, Link as LinkIcon, Tag, User} from "lucide-react";
 import {siteConfig} from "@/lib/constants";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {AnimatePresence, motion} from "framer-motion";
+// 从framer-motion导入所需的组件
+import { motion } from "framer-motion";
 import {useHasMounted} from "@/hooks/useHasMounted";
 
 const IconMap = {
@@ -86,20 +87,10 @@ export default function Navigation() {
                             <span className={styles.label}>
                                 {item.label}
                             </span>
-
-                            <AnimatePresence mode="wait">
-                                {isActive && (
-                                    <motion.div
-                                        className={styles.activeIndicator}
-                                        layoutId="activeIndicator"
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 300,
-                                            damping: 30
-                                        }}
-                                    />
-                                )}
-                            </AnimatePresence>
+                            
+                            {isActive && (
+                                <div className={styles.activeIndicator} />
+                            )}
                         </motion.div>
                     </Link>
                 );
