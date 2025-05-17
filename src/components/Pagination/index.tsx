@@ -3,7 +3,6 @@
 import Link from "next/link";
 import {usePathname, useSearchParams} from "next/navigation";
 import {useCallback} from "react";
-import styles from "./pagination.module.css";
 
 interface PaginationProps {
     currentPage: number;
@@ -38,14 +37,14 @@ export default function Pagination({currentPage, totalPages}: PaginationProps) {
                 <Link
                     key={1}
                     href={createPageUrl(1)}
-                    className={styles.pageBtn}
+                    className="text-[#595959] dark:text-[#9ca3af] no-underline min-w-8 h-8 flex items-center justify-center border border-[#d9d9d9] dark:border-[#374151] rounded transition-all duration-200 bg-white dark:bg-[#1f2937] hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:border-[#8c8c8c] dark:hover:border-[#4b5563] hover:bg-[#fafafa] dark:hover:bg-[#374151] active:translate-y-[1px]"
                 >
                     1
                 </Link>
             );
             if (startPage > 2) {
                 pages.push(
-                    <span key="dotsStart" className={styles.dots}>
+                    <span key="dotsStart" className="text-[#8c8c8c] dark:text-[#9ca3af] px-[0.2rem]">
                         ...
                     </span>
                 );
@@ -58,7 +57,7 @@ export default function Pagination({currentPage, totalPages}: PaginationProps) {
                 <Link
                     key={i}
                     href={createPageUrl(i)}
-                    className={`${styles.pageBtn} ${currentPage === i ? styles.active : ""}`}
+                    className={`text-[#595959] dark:text-[#9ca3af] no-underline min-w-8 h-8 flex items-center justify-center border border-[#d9d9d9] dark:border-[#374151] rounded transition-all duration-200 bg-white dark:bg-[#1f2937] hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:border-[#8c8c8c] dark:hover:border-[#4b5563] hover:bg-[#fafafa] dark:hover:bg-[#374151] active:translate-y-[1px] ${currentPage === i ? 'text-[#262626] dark:text-[#e5e7eb] bg-[#f0f0f0] dark:bg-[#374151] border-[#d9d9d9] dark:border-[#4b5563] font-medium hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:bg-[#f0f0f0] dark:hover:bg-[#374151] hover:border-[#8c8c8c] dark:hover:border-[#4b5563]' : ''}`}
                 >
                     {i}
                 </Link>
@@ -69,7 +68,7 @@ export default function Pagination({currentPage, totalPages}: PaginationProps) {
         if (endPage < totalPages) {
             if (endPage < totalPages - 1) {
                 pages.push(
-                    <span key="dotsEnd" className={styles.dots}>
+                    <span key="dotsEnd" className="text-[#8c8c8c] dark:text-[#9ca3af] px-[0.2rem]">
                         ...
                     </span>
                 );
@@ -78,7 +77,7 @@ export default function Pagination({currentPage, totalPages}: PaginationProps) {
                 <Link
                     key={totalPages}
                     href={createPageUrl(totalPages)}
-                    className={`${styles.pageBtn} ${currentPage === totalPages ? styles.active : ""}`}
+                    className={`text-[#595959] dark:text-[#9ca3af] no-underline min-w-8 h-8 flex items-center justify-center border border-[#d9d9d9] dark:border-[#374151] rounded transition-all duration-200 bg-white dark:bg-[#1f2937] hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:border-[#8c8c8c] dark:hover:border-[#4b5563] hover:bg-[#fafafa] dark:hover:bg-[#374151] active:translate-y-[1px] ${currentPage === totalPages ? 'text-[#262626] dark:text-[#e5e7eb] bg-[#f0f0f0] dark:bg-[#374151] border-[#d9d9d9] dark:border-[#4b5563] font-medium hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:bg-[#f0f0f0] dark:hover:bg-[#374151] hover:border-[#8c8c8c] dark:hover:border-[#4b5563]' : ''}`}
                 >
                     {totalPages}
                 </Link>
@@ -91,25 +90,25 @@ export default function Pagination({currentPage, totalPages}: PaginationProps) {
     if (totalPages <= 1) return null;
 
     return (
-        <div className={styles.container}>
-            <div className={styles.nav}>
+        <div className="w-full py-8">
+            <div className="flex justify-center items-center gap-8 md:gap-8 sm:gap-4">
                 {currentPage > 1 && (
                     <Link
                         href={createPageUrl(currentPage - 1)}
-                        className={styles.button}
+                        className="text-[#595959] dark:text-[#9ca3af] no-underline text-sm py-2 px-[1.2rem] border border-[#d9d9d9] dark:border-[#374151] rounded transition-all duration-200 bg-white dark:bg-[#1f2937] font-medium hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:border-[#8c8c8c] dark:hover:border-[#4b5563] hover:bg-[#fafafa] dark:hover:bg-[#374151] active:translate-y-[1px]"
                     >
                         上一页
                     </Link>
                 )}
 
-                <div className={styles.pageContainer}>
+                <div className="flex gap-2 items-center md:flex sm:hidden">
                     {renderPageNumbers()}
                 </div>
 
                 {currentPage < totalPages && (
                     <Link
                         href={createPageUrl(currentPage + 1)}
-                        className={styles.button}
+                        className="text-[#595959] dark:text-[#9ca3af] no-underline text-sm py-2 px-[1.2rem] border border-[#d9d9d9] dark:border-[#374151] rounded transition-all duration-200 bg-white dark:bg-[#1f2937] font-medium hover:text-[#262626] dark:hover:text-[#e5e7eb] hover:border-[#8c8c8c] dark:hover:border-[#4b5563] hover:bg-[#fafafa] dark:hover:bg-[#374151] active:translate-y-[1px]"
                     >
                         下一页
                     </Link>

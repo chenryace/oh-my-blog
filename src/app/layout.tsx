@@ -99,7 +99,6 @@ export default function RootLayout({children}: {
     return (
         <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
         <head>
-            <title>{siteConfig.title}</title>
             {/* 添加关键CSS内联样式 */}
             <style dangerouslySetInnerHTML={{ __html: `
                 :root{--max-width:960px;--primary-color:#333;--primary-hover:#000;--bg-color:#f5f5f5;--meta-color:#666;--shadow:0 2px 5px rgba(0,0,0,0.1);--article-bg:white;--nav-bg:white}
@@ -107,8 +106,7 @@ export default function RootLayout({children}: {
                 :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#fff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--shadow:0 2px 5px rgba(0,0,0,0.2);--article-bg:#1e293b;--nav-bg:#1e293b}
                 body{min-height:100vh;background-color:var(--bg-color)}
                 .container{max-width:var(--max-width);margin:0 auto}
-                .layout{display:grid;grid-template-columns:1fr auto;gap:2rem}                
-                .pagination_container__BObAG{width:100%;padding:2rem 0}.pagination_nav__PIgD6{display:flex;justify-content:center;align-items:center;gap:2rem}.pagination_button__by_hm{color:#595959;text-decoration:none;font-size:.9rem;padding:.5rem 1.2rem;border:1px solid #d9d9d9;border-radius:4px;transition:all .2s ease;background:#fff;font-weight:500}.dark .pagination_button__by_hm{color:#9ca3af;border-color:#374151;background:#1f2937}.pagination_button__by_hm:hover{color:#262626;border-color:#8c8c8c;background:#fafafa}.dark .pagination_button__by_hm:hover{color:#e5e7eb;border-color:#4b5563;background:#374151}.pagination_button__by_hm:active{transform:translateY(1px)}.pagination_pageContainer__TQhPy{display:flex;gap:.5rem;align-items:center}.pagination_pageBtn__1iR7V{color:#595959;text-decoration:none;min-width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;border:1px solid #d9d9d9;border-radius:4px;transition:all .2s ease;background:#fff}.dark .pagination_pageBtn__1iR7V{color:#9ca3af;border-color:#374151;background:#1f2937}.pagination_pageBtn__1iR7V:hover{color:#262626;border-color:#8c8c8c;background:#fafafa}.dark .pagination_pageBtn__1iR7V:hover{color:#e5e7eb;border-color:#4b5563;background:#374151}.pagination_pageBtn__1iR7V:active{transform:translateY(1px)}.pagination_active__lJ95m{color:#262626;background:#f0f0f0;border-color:#d9d9d9;font-weight:500}.dark .pagination_active__lJ95m{color:#e5e7eb;background:#374151;border-color:#4b5563}.pagination_active__lJ95m:hover{color:#262626;background:#f0f0f0;border-color:#8c8c8c}.dark .pagination_active__lJ95m:hover{color:#e5e7eb;background:#374151;border-color:#4b5563}.pagination_dots__JdFRG{color:#8c8c8c;padding:0 .2rem}.dark .pagination_dots__JdFRG{color:#9ca3af}@media (max-width:640px){.pagination_nav__PIgD6{gap:1rem}.pagination_pageContainer__TQhPy{display:none}}
+                .layout{display:grid;grid-template-columns:1fr auto;gap:2rem}
             `}} />
         </head>
         <body className="min-h-screen antialiased" suppressHydrationWarning>
