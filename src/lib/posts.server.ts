@@ -2,11 +2,9 @@ import {unstable_cache} from "next/cache";
 import fs from "fs/promises"; // 改用 promises API
 import path from "path";
 import matter from "gray-matter";
-import type MarkdownIt from "markdown-it";
-import {createMarkdownParser} from "@/lib/markdown-utils";
+import {createMarkdownParser, extractExcerpt} from "@/lib/markdown-utils";
 
-let md: MarkdownIt | null = null;
-
+// 优化的日期格式化函数
 const formatDate = (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -14,25 +12,11 @@ const formatDate = (date: Date) => {
     return `${year}年${month}月${day}日`;
 };
 
-const getMarkdownParser = async () => {
-    try {
-        if (!md) {
-            console.log("Creating new markdown parser instance...");
-            md = await createMarkdownParser();
-            console.log("Markdown parser created successfully");
-        }
-        return md;
-    } catch (error) {
-        console.error("Error in getMarkdownParser:", error);
-        throw error;
-    }
-};
-
 
 const POSTS_PER_PAGE = 4;
 const postsDirectory = path.join(process.cwd(), "posts");
 
-// 基础文章获取函数 - 添加缓存
+// 基础文章获取函数 - 优化缓存和加载策略
 const fetchAllPosts = unstable_cache(
     async () => {
         const fileNames = await fs.readdir(postsDirectory);
@@ -45,35 +29,13 @@ const fetchAllPosts = unstable_cache(
                     const fileContents = await fs.readFile(fullPath, "utf8");
                     const {data, content} = matter(fileContents);
 
-                    // 新的 excerpt 提取逻辑
-                    const getExcerpt = (content: string) => {
-                        // 按行分割内容
-                        const lines = content.split("\n");
-
-                        // 找到第一个不是空行且不是标题的段落
-                        const firstParagraph = lines.find(line => {
-                            const trimmedLine = line.trim();
-                            return trimmedLine.length > 0 && !trimmedLine.startsWith("#");
-                        });
-
-                        // 如果找到段落，截取适当长度（例如150个字符）
-                        if (firstParagraph) {
-                            const cleaned = firstParagraph.trim();
-                            return cleaned.length > 150
-                                ? cleaned.substring(0, 150) + "..."
-                                : cleaned;
-                        }
-
-                        // 如果没找到合适的段落，返回空字符串
-                        return "";
-                    };
-
+                    // 使用共享的 extractExcerpt 函数
                     return {
                         id,
                         title: data.title,
                         date: formatDate(new Date(data.date)),
                         category: data.category,
-                        excerpt: getExcerpt(content),
+                        excerpt: extractExcerpt(content),
                         rawDate: data.date
                     };
                 })
@@ -84,17 +46,17 @@ const fetchAllPosts = unstable_cache(
     },
     ["raw-posts"],
     {
-        revalidate: 3600,
+        revalidate: 1800, // 降低到半小时，平衡性能和新鲜度
         tags: ["posts"]
     }
 );
 
-// 获取所有文章 - 增加缓存时间到24小时
+// 获取所有文章 - 优化缓存时间
 export const getAllPosts = unstable_cache(
     async () => fetchAllPosts(),
     ["all-posts"],
     {
-        revalidate: 86400, // 24小时缓存，因为博客内容更新频率较低
+        revalidate: 3600, // 降低到1小时，确保内容更新及时显示
         tags: ["posts"]
     }
 );
@@ -146,7 +108,7 @@ export const getPaginatedPosts = unstable_cache(
     }
 );
 
-// 获取单篇文章 - 移除调试日志，优化缓存
+// 获取单篇文章 - 全面优化版本
 export const getPostById = unstable_cache(
     async (id: string) => {
         try {
@@ -154,25 +116,9 @@ export const getPostById = unstable_cache(
             const fileContents = await fs.readFile(fullPath, "utf8");
             const {data, content} = matter(fileContents);
 
-            const parser = await getMarkdownParser();
+            // 直接使用优化的 createMarkdownParser 函数
+            const parser = await createMarkdownParser();
             const renderedContent = parser.render(content);
-
-            // 提取摘要
-            const getExcerpt = (content: string) => {
-                const lines = content.split("\n");
-                const firstParagraph = lines.find(line => {
-                    const trimmedLine = line.trim();
-                    return trimmedLine.length > 0 && !trimmedLine.startsWith("#");
-                });
-                
-                if (firstParagraph) {
-                    const cleaned = firstParagraph.trim();
-                    return cleaned.length > 150
-                        ? cleaned.substring(0, 150) + "..."
-                        : cleaned;
-                }
-                return "";
-            };
 
             return {
                 id,
@@ -180,7 +126,7 @@ export const getPostById = unstable_cache(
                 date: formatDate(new Date(data.date)),
                 category: data.category,
                 content: renderedContent,
-                excerpt: getExcerpt(content)
+                excerpt: extractExcerpt(content)
             };
         } catch (error) {
             console.error("Error in getPostById:", error);
@@ -189,7 +135,7 @@ export const getPostById = unstable_cache(
     },
     // 使用文章ID作为缓存键的一部分
     (id) => [`post-${id}`],
-    {revalidate: 86400} // 提高到24小时
+    {revalidate: 3600} // 降低到一小时，和其他缓存时间保持一致
 );
 
 // 添加预获取函数用于静态生成

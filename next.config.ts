@@ -19,13 +19,9 @@ const nextConfig: NextConfig = {
         deviceSizes: [640, 750, 828, 1080, 1200, 1920],
         minimumCacheTTL: 60 * 60 * 24 * 7, // 7天缓存
     },
-    // 优化JS代码
-    swcMinify: true,
-    // 优化字体加载
-    optimizeFonts: true,
-    // 启用HTTP2 Push预加载
+    // 禁用 Powered by 头部
     poweredByHeader: false,
-    // Vercel特定优化
+    // 启用严格模式
     reactStrictMode: true
 };
 

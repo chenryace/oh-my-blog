@@ -39,10 +39,11 @@ export const viewport = {
     ]
 };
 
-// 分离侧边栏获取数据的逻辑
+// 分离侧边栏获取数据的逻辑，使用React.cache优化数据获取
 const SidebarWrapper = async () => {
     const categoryStats = await getCategoryStats();
-    return <CategorySidebar categoryStats={categoryStats}/>;
+    // 使用key属性帮助React识别这个组件实例，避免不必要的重新渲染
+    return <CategorySidebar key="sidebar" categoryStats={categoryStats}/>;
 };
 
 const SidebarSkeleton = () => {

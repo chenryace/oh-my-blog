@@ -26,5 +26,16 @@ function ArticleCard({id, title, date, category, excerpt}: ArticleProps) {
     );
 }
 
-// 使用memo优化，只有当props变化时才重新渲染
-export default memo(ArticleCard);
+// 添加自定义比较函数，避免不必要的重渲染
+function arePropsEqual(prevProps: ArticleProps, nextProps: ArticleProps) {
+    return (
+        prevProps.id === nextProps.id &&
+        prevProps.title === nextProps.title &&
+        prevProps.date === nextProps.date &&
+        prevProps.category === nextProps.category &&
+        prevProps.excerpt === nextProps.excerpt
+    );
+}
+
+// 使用memo优化并添加自定义比较函数
+export default memo(ArticleCard, arePropsEqual);
