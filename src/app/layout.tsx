@@ -110,7 +110,10 @@ export default function RootLayout({children}: {
             <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
             
             {/* 预加载关键资源 */}
-            <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
+            <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+            <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+            <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
+            <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
             
             {/* PWA相关配置 - 异步加载不影响首屏 */}
             <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
