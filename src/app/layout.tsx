@@ -12,15 +12,11 @@ import CategorySidebar from "@/components/CategorySidebar";
 
 import {Inter} from "next/font/google";
 
-// 优化字体加载，减少FOUT和布局偏移
+// 简化字体加载
 const inter = Inter({
     subsets: ["latin"],
-    display: "swap", // 使用swap确保文本立即可见
-    weight: ["400", "700"],
-    preload: true,
-    fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Helvetica", "Arial", "sans-serif"],
-    variable: '--font-inter',
-    adjustFontFallback: true // 启用字体fallback调整以减少布局偏移
+    display: "swap",
+    weight: ["400", "700"]
 });
 
 export const metadata: Metadata = {
@@ -101,21 +97,9 @@ export default function RootLayout({children}: {
     return (
         <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
         <head>
-            {/* 资源优先级提示 - 关键资源高优先级 */}
+            {/* 预连接到关键域名 */}
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            
-            {/* DNS预解析 */}
-            <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-            <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-            
-            {/* 预加载关键字体文件 */}
-            <link 
-                rel="preload" 
-                href="/_next/static/css/fonts.css" 
-                as="style" 
-                type="text/css" 
-            />
             
             {/* 预加载关键资源 */}
             <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -149,8 +133,7 @@ export default function RootLayout({children}: {
                     /* 关键首屏样式 */
                     *{margin:0;padding:0;box-sizing:border-box;}
                     html{scroll-behavior:smooth;}
-                    /* 字体fallback优化，减少FOUT */
-                    body{font-family:${inter.style.fontFamily},"system-ui","-apple-system","BlinkMacSystemFont","Segoe UI","Helvetica","Arial",sans-serif;line-height:1.6;background:var(--bg-color,#f5f5f5);color:var(--primary-color,#333);transition:background-color 0.2s,color 0.2s;font-feature-settings:"kern" 1,"liga" 1,"calt" 1;}
+                    body{font-family:${inter.style.fontFamily},-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;background:var(--bg-color,#f5f5f5);color:var(--primary-color,#333);transition:background-color 0.2s,color 0.2s;}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
                     header{text-align:center;padding:1rem 0;}
                     h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;}
@@ -159,8 +142,6 @@ export default function RootLayout({children}: {
                     /* 骨架屏样式 */
                     .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;min-height:200px;}
                     @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
-                    /* 字体加载优化 */
-                    @font-face{font-family:'Inter-fallback';src:local('system-ui'),local('-apple-system'),local('BlinkMacSystemFont');font-display:swap;}
                 `
             }} />
             

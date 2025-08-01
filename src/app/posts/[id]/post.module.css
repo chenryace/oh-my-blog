@@ -9,6 +9,11 @@
     overflow-wrap: break-word;
 }
 
+.article header {
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
 :global(.dark) .article {
     background: #1f2937;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
