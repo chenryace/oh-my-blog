@@ -114,8 +114,6 @@ export default function RootLayout({children}: {
                     .layout{margin:20px 0;}
                     .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
                     .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin-bottom:20px;}
-                    /* 修复特殊页面article容器的margin */
-                    [class*="archive_article"],[class*="friends_article"]{margin:0!important;}
                     .article h2 a{color:var(--primary-color);text-decoration:none;}
                     .article .meta{color:var(--meta-color);font-size:0.9em;margin:10px 0 15px;}
                     .read-more{text-align:right;margin-top:15px;}
