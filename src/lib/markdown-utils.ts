@@ -8,14 +8,33 @@ import bash from "highlight.js/lib/languages/bash";
 import shell from "highlight.js/lib/languages/shell";
 import css from "highlight.js/lib/languages/css";
 import markdown from "highlight.js/lib/languages/markdown";
+import json from "highlight.js/lib/languages/json";
+import python from "highlight.js/lib/languages/python";
+import java from "highlight.js/lib/languages/java";
+import sql from "highlight.js/lib/languages/sql";
+import xml from "highlight.js/lib/languages/xml";
+import yaml from "highlight.js/lib/languages/yaml";
 
 // 注册语言
 hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('js', javascript);
 hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('ts', typescript);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('shell', shell);
+hljs.registerLanguage('sh', shell);
 hljs.registerLanguage('css', css);
 hljs.registerLanguage('markdown', markdown);
+hljs.registerLanguage('md', markdown);
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('py', python);
+hljs.registerLanguage('java', java);
+hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('html', xml);
+hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('yml', yaml);
 
 // 单例模式，确保只创建一个parser实例
 let markdownParserInstance: MarkdownIt | null = null;
