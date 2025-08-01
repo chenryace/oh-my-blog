@@ -112,6 +112,22 @@ export default function RootLayout({children}: {
             {/* 预加载关键资源 */}
             <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
             
+            {/* PWA相关配置 - 异步加载不影响首屏 */}
+            <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
+            
+            {/* Apple Touch Icon */}
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+            
+            {/* iOS PWA配置 */}
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+            <meta name="apple-mobile-web-app-title" content="qfdk's Blog" />
+            
+            {/* Android PWA配置 */}
+            <meta name="mobile-web-app-capable" content="yes" />
+            <meta name="application-name" content="qfdk's Blog" />
+            
             {/* 资源优先级提示 */}
             <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,viewport-fit=cover" />
             <meta httpEquiv="x-ua-compatible" content="ie=edge" />

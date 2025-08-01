@@ -1,0 +1,47 @@
+{
+  "name": "qfdk's Blog",
+  "short_name": "qfdk Blog",
+  "description": "黑科技自留地...",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#333333",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180", 
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "归档",
+      "short_name": "归档",
+      "description": "查看所有文章归档",
+      "url": "/archive",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "关于",
+      "short_name": "关于", 
+      "description": "关于页面",
+      "url": "/about",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+图标设置指南
+============
+
+请将您的PNG图标按以下方式处理：
+
+1. 使用在线工具调整尺寸（推荐：https://www.iloveimg.com/resize-image）
+   - 创建 180x180 像素版本 → 保存为 apple-touch-icon.png
+   - 创建 192x192 像素版本 → 保存为 icon-192x192.png  
+   - 创建 512x512 像素版本 → 保存为 icon-512x512.png
+
+2. 将这三个文件放入 /public 目录
+
+3. 可选：创建 favicon.ico
+   - 使用 https://favicon.io/favicon-converter/
+   - 上传PNG图标，下载favicon.ico
+   - 替换 public/favicon.ico
+
+完成后运行 pnpm dev 测试！
