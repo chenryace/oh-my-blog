@@ -10,9 +10,10 @@ const bundleAnalyzer = withBundleAnalyzer({
 const nextConfig: NextConfig = {
     // 优化生产构建
     experimental: {
-        optimizePackageImports: ["@/components"], // 优化组件导入
+        optimizePackageImports: ["@/components", "lucide-react"], // 优化组件导入
         scrollRestoration: true, // 启用滚动恢复
     },
+    
     // 添加webpack配置优化
     webpack: (config, { dev, isServer }) => {
         // 仅在生产构建和客户端时应用优化

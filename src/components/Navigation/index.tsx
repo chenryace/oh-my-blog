@@ -1,7 +1,12 @@
 "use client";
 import React, {useCallback} from "react";
 import styles from "./navigation.module.css";
-import {Archive, Home, Link as LinkIcon, Tag, User} from "lucide-react";
+// 按需导入图标以减少bundle大小
+import Archive from "lucide-react/dist/esm/icons/archive";
+import Home from "lucide-react/dist/esm/icons/home";
+import LinkIcon from "lucide-react/dist/esm/icons/link";
+import Tag from "lucide-react/dist/esm/icons/tag";
+import User from "lucide-react/dist/esm/icons/user";
 import {siteConfig} from "@/lib/constants";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
@@ -22,13 +27,15 @@ export default function Navigation() {
     const pathname = usePathname();
     const hasMounted = useHasMounted();
     
-    // 链接预取函数
+    // 简化的预取函数 - 只在空闲时预取
     const prefetchLink = useCallback((href: string) => {
-        if (pathname !== href) {
-            const link = document.createElement('link');
-            link.rel = 'prefetch';
-            link.href = href;
-            document.head.appendChild(link);
+        if (pathname !== href && 'requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = href;
+                document.head.appendChild(link);
+            });
         }
     }, [pathname]);
 

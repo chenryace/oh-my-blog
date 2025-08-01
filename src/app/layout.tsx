@@ -12,11 +12,13 @@ import CategorySidebar from "@/components/CategorySidebar";
 
 import {Inter} from "next/font/google";
 
-// 简化字体加载
+// 优化字体加载性能
 const inter = Inter({
     subsets: ["latin"],
-    display: "swap",
-    weight: ["400", "700"]
+    display: "swap", // 防止字体阻塞渲染
+    weight: ["400", "700"],
+    preload: true, // 预加载字体
+    fallback: ["system-ui", "-apple-system", "sans-serif"] // 快速fallback
 });
 
 export const metadata: Metadata = {
@@ -102,8 +104,7 @@ export default function RootLayout({children}: {
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
             
             {/* 预加载关键资源 */}
-            <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-            <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+            <link rel="icon" href="/favicon.ico" sizes="48x48" />
             <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
             <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
             
@@ -130,32 +131,34 @@ export default function RootLayout({children}: {
                 `
             }} />
             
-            {/* 性能监控脚本 - 异步加载，不阻塞首屏 */}
-            <script async dangerouslySetInnerHTML={{
+            {/* 性能监控脚本 - 极度延迟加载 */}
+            <script dangerouslySetInnerHTML={{
                 __html: `
-                    // 延迟执行，确保不阻塞首屏渲染
-                    requestIdleCallback ? requestIdleCallback(initVitals) : setTimeout(initVitals, 0);
+                    // 在页面完全加载后才执行性能监控
+                    window.addEventListener('load', function() {
+                        setTimeout(function() {
+                            if ('requestIdleCallback' in window) {
+                                requestIdleCallback(initVitals, {timeout: 5000});
+                            } else {
+                                setTimeout(initVitals, 2000);
+                            }
+                        }, 1000);
+                    });
                     
                     function initVitals() {
                         if (typeof window === 'undefined') return;
                         
+                        // 简化的性能收集
                         function vitals(metric) {
-                            const body = JSON.stringify(metric);
-                            const url = '/api/vitals';
                             if (navigator.sendBeacon) {
-                                navigator.sendBeacon(url, body);
-                            } else {
-                                fetch(url, {method: 'POST', body, keepalive: true}).catch(() => {});
+                                navigator.sendBeacon('/api/vitals', JSON.stringify(metric));
                             }
                         }
                         
-                        // 动态导入web-vitals，避免阻塞
-                        import('web-vitals').then(({onCLS, onFID, onFCP, onLCP, onTTFB}) => {
-                            onCLS(vitals);
-                            onFID(vitals);
-                            onFCP(vitals);
+                        // 仅在空闲时导入
+                        import('web-vitals').then(({onLCP, onFCP}) => {
                             onLCP(vitals);
-                            onTTFB(vitals);
+                            onFCP(vitals);
                         }).catch(() => {});
                     }
                 `
