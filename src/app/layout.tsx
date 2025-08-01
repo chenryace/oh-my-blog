@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import {Suspense} from "react";
-import "./globals.css";
+// 移除globals.css，完全使用内联CSS避免阻塞渲染
 import {siteConfig} from "@/lib/constants";
 import Navigation from "@/components/Navigation";
 import {getCategoryStats} from "@/lib/posts.server";
@@ -99,33 +99,57 @@ export default function RootLayout({children}: {
         <head>
             <meta name="viewport" content="width=device-width,initial-scale=1" />
             
-            {/* 极简首屏CSS */}
+            {/* 内联所有关键CSS避免阻塞 */}
             <style dangerouslySetInnerHTML={{
                 __html: `
+                    :root{--primary-color:#333;--primary-hover:#000;--bg-color:#f5f5f5;--meta-color:#666;--article-bg:white;--nav-bg:white;}
+                    :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#ffffff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--article-bg:#1e293b;--nav-bg:#1e293b;}
                     *{margin:0;padding:0;box-sizing:border-box;}
-                    body{font-family:${inter.style.fontFamily},-apple-system,sans-serif;line-height:1.6;background:#f5f5f5;color:#333;}
+                    html{scroll-behavior:smooth;}
+                    body{font-family:${inter.style.fontFamily},-apple-system,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
                     header{text-align:center;padding:1rem 0;}
-                    h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;}
-                    .layout{display:grid;grid-template-columns:1fr 250px;gap:20px;margin:20px 0;}
-                    @media(max-width:768px){.layout{display:block;}.container{padding:10px;}}
+                    header h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;}
+                    .layout{margin:20px 0;}
+                    .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
+                    .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,0.1);margin-bottom:20px;}
+                    .article h2 a{color:var(--primary-color);text-decoration:none;}
+                    .article .meta{color:var(--meta-color);font-size:0.9em;margin:10px 0 15px;}
+                    .read-more{text-align:right;margin-top:15px;}
+                    .read-more a{color:var(--primary-color);text-decoration:none;font-weight:500;display:inline-flex;align-items:center;}
+                    .read-more a::after{content:' →';transition:transform 0.2s;}
+                    .read-more a:hover::after{transform:translateX(3px);}
+                    .widget{background:var(--article-bg);padding:20px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,0.1);margin-bottom:20px;}
+                    .widget h3{color:var(--primary-color);font-size:1em;margin-bottom:15px;}
+                    .widget ul{list-style:none;}
+                    .widget li{margin-bottom:10px;}
+                    .widget a{color:var(--meta-color);text-decoration:none;transition:color 0.2s;}
+                    .widget a:hover{color:var(--primary-hover);}
+                    footer{text-align:center;padding:20px 0;color:var(--meta-color);font-size:0.9em;}
+                    @media(max-width:768px){.container{padding:10px;}header{padding:20px 0;}header h1{font-size:2em;}.layout.with-sidebar{display:block;}}
+                `
+            }} />
+            
+            {/* 延迟加载非关键CSS */}
+            <script dangerouslySetInnerHTML={{
+                __html: `
+                    window.addEventListener('load', function() {
+                        const link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = '/globals.css';
+                        document.head.appendChild(link);
+                    });
                 `
             }} />
             
         </head>
-        <body className="min-h-screen antialiased" suppressHydrationWarning>
+        <body suppressHydrationWarning>
         <Providers>
-            <div className="container transition-colors duration-300">
-                <header className="py-4 text-center relative dark:border-gray-800 bg-background">
-                    <div className="max-w-4xl mx-auto px-4">
-                        <h1 className="text-3xl font-bold mb-2">
-                            {siteConfig.title}
-                        </h1>
-                        <p className="text-muted-foreground">
-                            {siteConfig.description}
-                        </p>
-                    </div>
-                    <div className="absolute right-4 top-4">
+            <div className="container">
+                <header>
+                    <h1>{siteConfig.title}</h1>
+                    <p>{siteConfig.description}</p>
+                    <div style={{position:'absolute',right:'1rem',top:'1rem'}}>
                         <ThemeToggle/>
                     </div>
                 </header>
@@ -140,8 +164,8 @@ export default function RootLayout({children}: {
                     </Suspense>
                 </div>
 
-                <footer className="py-8 text-center border-t dark:border-gray-800 bg-background">
-                    <p className="text-muted-foreground">{siteConfig.footer}</p>
+                <footer>
+                    <p>{siteConfig.footer}</p>
                 </footer>
             </div>
         </Providers>
