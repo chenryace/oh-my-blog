@@ -30,12 +30,7 @@ const nextConfig: NextConfig = {
                         name: 'framework',
                         priority: 40,
                     },
-                    // 拆分framer-motion
-                    framerMotion: {
-                        test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
-                        name: 'framer-motion',
-                        priority: 30,
-                    },
+
                     // 拆分highlight.js
                     highlight: {
                         test: /[\\/]node_modules[\\/]highlight\.js[\\/]/,

@@ -5,8 +5,7 @@ import {Archive, Home, Link as LinkIcon, Tag, User} from "lucide-react";
 import {siteConfig} from "@/lib/constants";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-// 从framer-motion导入所需的组件
-import { motion } from "framer-motion";
+
 import {useHasMounted} from "@/hooks/useHasMounted";
 
 const IconMap = {
@@ -58,11 +57,7 @@ export default function Navigation() {
     }
 
     return (
-        <motion.nav
-            className={styles.nav}
-            animate={{y: 0, opacity: 1}}
-            transition={{type: "spring", stiffness: 300, damping: 30}}
-        >
+        <nav className={styles.nav}>
             {siteConfig.nav.map(item => {
                 const Icon = IconMap[item.icon as IconName];
                 const isActive = pathname === item.href;
@@ -74,12 +69,7 @@ export default function Navigation() {
                         scroll={false}
                         className={`${styles.navItem} ${isActive ? styles.active : ""}`}
                     >
-                        <motion.div
-                            className={styles.iconWrapper}
-                            whileTap={{scale: 0.9}}
-                            whileHover={{scale: 1.1}}
-                            transition={{duration: 0.2}}
-                        >
+                        <div className={styles.iconWrapper}>
                             <Icon
                                 size={18}
                                 className={styles.icon}
@@ -91,10 +81,10 @@ export default function Navigation() {
                             {isActive && (
                                 <div className={styles.activeIndicator} />
                             )}
-                        </motion.div>
+                        </div>
                     </Link>
                 );
             })}
-        </motion.nav>
+        </nav>
     );
 }

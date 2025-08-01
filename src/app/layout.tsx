@@ -99,15 +99,36 @@ export default function RootLayout({children}: {
     return (
         <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
         <head>
-            {/* 添加关键CSS内联样式 */}
-            <style dangerouslySetInnerHTML={{ __html: `
-                :root{--max-width:960px;--primary-color:#333;--primary-hover:#000;--bg-color:#f5f5f5;--meta-color:#666;--shadow:0 2px 5px rgba(0,0,0,0.1);--article-bg:white;--nav-bg:white}
-                @media screen and (min-width:1513px){:root{--max-width:960px}}
-                :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#fff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--shadow:0 2px 5px rgba(0,0,0,0.2);--article-bg:#1e293b;--nav-bg:#1e293b}
-                body{min-height:100vh;background-color:var(--bg-color)}
-                .container{max-width:var(--max-width);margin:0 auto}
-                .layout{display:grid;grid-template-columns:1fr auto;gap:2rem}
-            `}} />
+            {/* 性能监控脚本 */}
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        if (typeof window !== 'undefined') {
+                            // 监控核心Web Vitals
+                            function vitals(metric) {
+                                const body = JSON.stringify(metric);
+                                const url = '/api/vitals';
+                                if (navigator.sendBeacon) {
+                                    navigator.sendBeacon(url, body);
+                                } else {
+                                    fetch(url, {method: 'POST', body, keepalive: true});
+                                }
+                            }
+                            
+                            // 延迟加载性能监控库
+                            import('web-vitals').then(({onCLS, onFID, onFCP, onLCP, onTTFB}) => {
+                                onCLS(vitals);
+                                onFID(vitals);
+                                onFCP(vitals);
+                                onLCP(vitals);
+                                onTTFB(vitals);
+                            }).catch(() => {
+                                // 静默处理错误，不影响用户体验  
+                            });
+                        }
+                    `
+                }}
+            />
         </head>
         <body className="min-h-screen antialiased" suppressHydrationWarning>
         <Providers>

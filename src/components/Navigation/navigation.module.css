@@ -47,6 +47,15 @@
     position: relative;
     padding: 8px;
     border-radius: 4px;
+    transition: transform 0.2s ease;
+}
+
+.iconWrapper:hover {
+    transform: scale(1.05);
+}
+
+.iconWrapper:active {
+    transform: scale(0.95);
 }
 
 .active {
