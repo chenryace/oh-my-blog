@@ -1,19 +1,13 @@
 // components/Loading/index.tsx
-import styles from "./loading.module.css";
 
 export default function Loading() {
     return (
-        <div className={styles.container}>
-            <div className={styles.spinner}>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-                <div className={styles.ball}></div>
-            </div>
+        <div className="loading-skeleton" style={{
+            minHeight: '200px',
+            borderRadius: '4px',
+            margin: '20px 0'
+        }}>
+            {/* 使用内联样式避免额外CSS文件加载 */}
         </div>
     );
 }

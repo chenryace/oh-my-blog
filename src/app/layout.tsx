@@ -15,10 +15,12 @@ import {Inter} from "next/font/google";
 // 优化字体加载，只加载必要的字重
 const inter = Inter({
     subsets: ["latin"],
-    display: "swap",
+    display: "swap", // 保持font-display: swap
     weight: ["400", "700"],
     preload: true,
-    fallback: ["system-ui", "sans-serif"]
+    fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+    variable: '--font-inter', // 添加CSS变量
+    adjustFontFallback: false // 禁用Next.js的字体fallback调整，避免布局偏移
 });
 
 export const metadata: Metadata = {
@@ -99,36 +101,69 @@ export default function RootLayout({children}: {
     return (
         <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
         <head>
-            {/* 性能监控脚本 */}
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                        if (typeof window !== 'undefined') {
-                            // 监控核心Web Vitals
-                            function vitals(metric) {
-                                const body = JSON.stringify(metric);
-                                const url = '/api/vitals';
-                                if (navigator.sendBeacon) {
-                                    navigator.sendBeacon(url, body);
-                                } else {
-                                    fetch(url, {method: 'POST', body, keepalive: true});
-                                }
+            {/* 预连接到关键域名 */}
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            
+            {/* DNS预解析 */}
+            <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+            <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+            
+            {/* 预加载关键资源 */}
+            <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon" />
+            
+            {/* 资源优先级提示 */}
+            <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,viewport-fit=cover" />
+            <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+            
+            {/* 关键CSS内联 - 首屏渲染优化 */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                    /* 关键首屏样式 */
+                    *{margin:0;padding:0;box-sizing:border-box;}
+                    html{scroll-behavior:smooth;}
+                    body{font-family:${inter.style.fontFamily},-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;background:var(--bg-color,#f5f5f5);color:var(--primary-color,#333);transition:background-color 0.2s,color 0.2s;}
+                    .container{max-width:960px;margin:0 auto;padding:20px;}
+                    header{text-align:center;padding:2rem 0;}
+                    h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;}
+                    .layout{display:grid;grid-template-columns:1fr 250px;gap:20px;margin:20px 0;}
+                    @media(max-width:768px){.layout{display:block;}.container{padding:10px;}}
+                    /* 骨架屏样式 */
+                    .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;min-height:200px;}
+                    @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+                `
+            }} />
+            
+            {/* 性能监控脚本 - 异步加载，不阻塞首屏 */}
+            <script async dangerouslySetInnerHTML={{
+                __html: `
+                    // 延迟执行，确保不阻塞首屏渲染
+                    requestIdleCallback ? requestIdleCallback(initVitals) : setTimeout(initVitals, 0);
+                    
+                    function initVitals() {
+                        if (typeof window === 'undefined') return;
+                        
+                        function vitals(metric) {
+                            const body = JSON.stringify(metric);
+                            const url = '/api/vitals';
+                            if (navigator.sendBeacon) {
+                                navigator.sendBeacon(url, body);
+                            } else {
+                                fetch(url, {method: 'POST', body, keepalive: true}).catch(() => {});
                             }
-                            
-                            // 延迟加载性能监控库
-                            import('web-vitals').then(({onCLS, onFID, onFCP, onLCP, onTTFB}) => {
-                                onCLS(vitals);
-                                onFID(vitals);
-                                onFCP(vitals);
-                                onLCP(vitals);
-                                onTTFB(vitals);
-                            }).catch(() => {
-                                // 静默处理错误，不影响用户体验  
-                            });
                         }
-                    `
-                }}
-            />
+                        
+                        // 动态导入web-vitals，避免阻塞
+                        import('web-vitals').then(({onCLS, onFID, onFCP, onLCP, onTTFB}) => {
+                            onCLS(vitals);
+                            onFID(vitals);
+                            onFCP(vitals);
+                            onLCP(vitals);
+                            onTTFB(vitals);
+                        }).catch(() => {});
+                    }
+                `
+            }} />
         </head>
         <body className="min-h-screen antialiased" suppressHydrationWarning>
         <Providers>

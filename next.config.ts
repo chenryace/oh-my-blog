@@ -44,8 +44,32 @@ const nextConfig: NextConfig = {
     },
     // 外部依赖包
     serverExternalPackages: ["highlight.js", "markdown-it"],
-    // 启用压缩
+    // 启用压缩和优化
     compress: true,
+    
+    // 静态文件缓存优化
+    async headers() {
+        return [
+            {
+                source: '/_next/static/(.*)',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, max-age=31536000, immutable',
+                    },
+                ],
+            },
+            {
+                source: '/favicon.ico',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, max-age=86400',
+                    },
+                ],
+            },
+        ];
+    },
     // TypeScript配置
     typescript: {
         ignoreBuildErrors: true,
