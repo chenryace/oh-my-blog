@@ -12,13 +12,11 @@ import CategorySidebar from "@/components/CategorySidebar";
 
 import {Inter} from "next/font/google";
 
-// 优化字体加载性能
+// 最简字体配置
 const inter = Inter({
     subsets: ["latin"],
-    display: "swap", // 防止字体阻塞渲染
-    weight: ["400", "700"],
-    preload: true, // 预加载字体
-    fallback: ["system-ui", "-apple-system", "sans-serif"] // 快速fallback
+    display: "swap",
+    weight: ["400", "700"]
 });
 
 export const metadata: Metadata = {
@@ -99,70 +97,21 @@ export default function RootLayout({children}: {
     return (
         <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
         <head>
-            {/* 预连接到关键域名 */}
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <meta name="viewport" content="width=device-width,initial-scale=1" />
             
-            {/* 预加载关键资源 */}
-            <link rel="icon" href="/favicon.ico" sizes="48x48" />
-            <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
-            <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
-            
-            
-            {/* 资源优先级提示 */}
-            <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,viewport-fit=cover" />
-            <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-            
-            {/* 关键CSS内联 - 首屏渲染优化 */}
+            {/* 极简首屏CSS */}
             <style dangerouslySetInnerHTML={{
                 __html: `
-                    /* 关键首屏样式 */
                     *{margin:0;padding:0;box-sizing:border-box;}
-                    html{scroll-behavior:smooth;}
-                    body{font-family:${inter.style.fontFamily},-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;background:var(--bg-color,#f5f5f5);color:var(--primary-color,#333);transition:background-color 0.2s,color 0.2s;}
+                    body{font-family:${inter.style.fontFamily},-apple-system,sans-serif;line-height:1.6;background:#f5f5f5;color:#333;}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
                     header{text-align:center;padding:1rem 0;}
                     h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;}
                     .layout{display:grid;grid-template-columns:1fr 250px;gap:20px;margin:20px 0;}
                     @media(max-width:768px){.layout{display:block;}.container{padding:10px;}}
-                    /* 骨架屏样式 */
-                    .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;min-height:200px;}
-                    @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
                 `
             }} />
             
-            {/* 性能监控脚本 - 极度延迟加载 */}
-            <script dangerouslySetInnerHTML={{
-                __html: `
-                    // 在页面完全加载后才执行性能监控
-                    window.addEventListener('load', function() {
-                        setTimeout(function() {
-                            if ('requestIdleCallback' in window) {
-                                requestIdleCallback(initVitals, {timeout: 5000});
-                            } else {
-                                setTimeout(initVitals, 2000);
-                            }
-                        }, 1000);
-                    });
-                    
-                    function initVitals() {
-                        if (typeof window === 'undefined') return;
-                        
-                        // 简化的性能收集
-                        function vitals(metric) {
-                            if (navigator.sendBeacon) {
-                                navigator.sendBeacon('/api/vitals', JSON.stringify(metric));
-                            }
-                        }
-                        
-                        // 仅在空闲时导入
-                        import('web-vitals').then(({onLCP, onFCP}) => {
-                            onLCP(vitals);
-                            onFCP(vitals);
-                        }).catch(() => {});
-                    }
-                `
-            }} />
         </head>
         <body className="min-h-screen antialiased" suppressHydrationWarning>
         <Providers>
