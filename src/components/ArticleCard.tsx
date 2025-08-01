@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {categoryNames} from "@/lib/constants";
-import {memo} from "react";
+import {memo, useEffect, useRef} from "react";
 
 interface ArticleProps {
     id: string;
@@ -12,8 +12,39 @@ interface ArticleProps {
 
 // 使用备忘录模式优化组件，避免不必要的重渲染
 function ArticleCard({id, title, date, category, excerpt}: ArticleProps) {
+    const articleRef = useRef<HTMLElement>(null);
+    
+    useEffect(() => {
+        // 智能预取：当文章卡片进入视口时预取内容
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // 预取文章页面
+                        const link = document.createElement('link');
+                        link.rel = 'prefetch';
+                        link.href = `/posts/${id}`;
+                        document.head.appendChild(link);
+                        
+                        // 停止观察这个元素
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                rootMargin: '100px' // 提前100px开始预取
+            }
+        );
+
+        if (articleRef.current) {
+            observer.observe(articleRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [id]);
+    
     return (
-        <article className="article">
+        <article ref={articleRef} className="article">
             <h2 style={{fontSize:"x-large",fontWeight:"bold"}}>
                 <Link href={`/posts/${id}`} prefetch={false}>{title}</Link>
             </h2>

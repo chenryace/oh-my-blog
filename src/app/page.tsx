@@ -12,6 +12,11 @@ interface HomeProps {
 
 const PostsList = async ({page}: { page: number }) => {
     const {posts, pagination} = await getPaginatedPosts(page);
+    
+    // 预取下一页数据
+    if (pagination.currentPage < pagination.totalPages) {
+        void getPaginatedPosts(pagination.currentPage + 1);
+    }
 
     if (!posts.length) {
         return <div>没有找到文章</div>;

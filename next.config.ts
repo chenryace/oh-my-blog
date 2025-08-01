@@ -86,6 +86,20 @@ const nextConfig: NextConfig = {
                     },
                 ],
             },
+            {
+                // 页面级缓存 - 使用stale-while-revalidate
+                source: '/:path*',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, s-maxage=10, stale-while-revalidate=59',
+                    },
+                    {
+                        key: 'X-DNS-Prefetch-Control',
+                        value: 'on',
+                    },
+                ],
+            },
         ];
     },
     // TypeScript配置
