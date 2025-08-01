@@ -107,21 +107,6 @@ export default function RootLayout({children}: {
             <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
             <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
             
-            {/* PWA相关配置 - 异步加载不影响首屏 */}
-            <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
-            
-            {/* Apple Touch Icon */}
-            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-            
-            {/* iOS PWA配置 */}
-            <meta name="apple-mobile-web-app-capable" content="yes" />
-            <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-            <meta name="apple-mobile-web-app-title" content="qfdk's Blog" />
-            
-            {/* Android PWA配置 */}
-            <meta name="mobile-web-app-capable" content="yes" />
-            <meta name="application-name" content="qfdk's Blog" />
             
             {/* 资源优先级提示 */}
             <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,viewport-fit=cover" />
@@ -172,13 +157,6 @@ export default function RootLayout({children}: {
                             onLCP(vitals);
                             onTTFB(vitals);
                         }).catch(() => {});
-                    }
-                    
-                    // 注册Service Worker - 极速缓存
-                    if ('serviceWorker' in navigator) {
-                        window.addEventListener('load', () => {
-                            navigator.serviceWorker.register('/sw.js').catch(() => {});
-                        });
                     }
                 `
             }} />
