@@ -118,8 +118,8 @@ export default function RootLayout({children}: {
                     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
                     header{text-align:center;padding:16px 0;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-                    header h1{font-size:2.5rem;margin:0;padding:0;font-weight:700;color:var(--primary-color);line-height:1;height:2.5rem;}
-                    header p{color:var(--meta-color);line-height:1.4;margin:8px 0 0 0;padding:0;min-height:1.4rem;font-size:1rem;font-synthesis:none;text-rendering:optimizeLegibility;}
+                    header h1{font-size:2.5rem;margin:0;padding:0;font-weight:700;color:var(--primary-color);line-height:1.2;}
+                    header p{color:var(--meta-color);line-height:1.4;margin:8px 0 0 0;padding:0;font-size:1rem;}
                     .layout{margin:20px 0;}
                     .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
                     .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin-bottom:20px;}
@@ -302,7 +302,7 @@ export default function RootLayout({children}: {
             <div className="container">
                 <header>
                     <h1>{siteConfig.title}</h1>
-                    <p style={{minHeight: '1.4rem', display: 'block'}}>{siteConfig.description}</p>
+                    <p>{siteConfig.description}</p>
                     <div style={{position:'absolute',right:'1rem',top:'1rem'}}>
                         <ThemeToggle/>
                     </div>
