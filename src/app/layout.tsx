@@ -111,6 +111,10 @@ export default function RootLayout({children}: {
                 `
             }} />
             
+            {/* iOS Safari 收藏夹图标 */}
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+            <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png" />
+            
             {/* 内联所有关键CSS避免阻塞 */}
             <style dangerouslySetInnerHTML={{
                 __html: `
