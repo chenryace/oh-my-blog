@@ -10,14 +10,7 @@ import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
 
-import {Inter} from "next/font/google";
-
-// 最简字体配置
-const inter = Inter({
-    subsets: ["latin"],
-    display: "swap",
-    weight: ["400", "700"]
-});
+// 移除Google字体，直接使用系统字体栈
 
 export const metadata: Metadata = {
     title: {
@@ -95,7 +88,7 @@ export default function RootLayout({children}: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="zh-CN" suppressHydrationWarning className={inter.className}>
+        <html lang="zh-CN" suppressHydrationWarning>
         <head>
             <meta name="viewport" content="width=device-width,initial-scale=1" />
             
@@ -122,7 +115,7 @@ export default function RootLayout({children}: {
                     :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#ffffff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--article-bg:#1e293b;--nav-bg:#1e293b;--shadow:0 2px 5px rgba(0,0,0,0.2);}
                     *{margin:0;padding:0;box-sizing:border-box;}
                     html{scroll-behavior:smooth;}
-                    body{font-family:${inter.style.fontFamily},-apple-system,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;}
+                    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
                     header{text-align:center;padding:1rem 0;position:relative;}
                     header h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;color:var(--primary-color);}
