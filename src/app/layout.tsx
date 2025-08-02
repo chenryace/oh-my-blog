@@ -117,11 +117,9 @@ export default function RootLayout({children}: {
                     html{scroll-behavior:smooth;}
                     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
-                    header{text-align:center;padding:1rem 0;position:relative;min-height:120px;display:flex;flex-direction:column;justify-content:center;}
+                    header{text-align:center;padding:1rem 0;position:relative;}
                     header h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;color:var(--primary-color);line-height:1;}
                     header p{color:var(--meta-color);line-height:1.4;margin:0;}
-                    .theme-toggle{position:absolute;top:1rem;right:1rem;background:none;border:1px solid var(--primary-color);border-radius:8px;padding:8px 12px;cursor:pointer;color:var(--primary-color);transition:all 0.3s;font-size:14px;display:flex;align-items:center;gap:0.5rem;height:36px;}
-                    .theme-toggle:hover{background:var(--primary-color);color:var(--bg-color);}
                     .layout{margin:20px 0;}
                     .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
                     .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin-bottom:20px;}

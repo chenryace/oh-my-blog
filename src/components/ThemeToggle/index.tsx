@@ -2,30 +2,24 @@
 "use client";
 
 import {useTheme} from "next-themes";
-import {useHasMounted} from "@/hooks/useHasMounted";
+import {useEffect, useState} from "react";
 import {Moon, Sun} from "lucide-react";
 import styles from "./style.module.css";
 
 export function ThemeToggle() {
-    // 使用共享的useHasMounted钩子防止水合不匹配
-    const hasMounted = useHasMounted();
-    const {systemTheme, theme, setTheme} = useTheme();
+    const [mounted, setMounted] = useState(false);
+    const {systemTheme, theme, setTheme} = useTheme();  // 添加 systemTheme
 
-    // 初始渲染时显示骨架，不显示图标避免水合不匹配
-    if (!hasMounted) {
-        return (
-            <button
-                className={`${styles.switch}`}
-                aria-label="Toggle theme"
-                aria-hidden="true"
-            >
-                <span className={styles.slider}></span>
-            </button>
-        );
-    }
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-    // 仅在客户端渲染后确定当前主题
+    // 获取当前实际的主题
     const currentTheme = theme === "system" ? systemTheme : theme;
+
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <button
