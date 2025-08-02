@@ -99,6 +99,18 @@ export default function RootLayout({children}: {
         <head>
             <meta name="viewport" content="width=device-width,initial-scale=1" />
             
+            {/* 主题初始化脚本 - 必须在所有CSS之前执行以防止闪动 */}
+            <script dangerouslySetInnerHTML={{
+                __html: `
+                    (function() {
+                        var theme = localStorage.getItem('theme');
+                        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                            document.documentElement.classList.add('dark');
+                        }
+                    })();
+                `
+            }} />
+            
             {/* 内联所有关键CSS避免阻塞 */}
             <style dangerouslySetInnerHTML={{
                 __html: `
