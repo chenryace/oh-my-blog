@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     metadataBase: new URL('https://blog.qfdk.me'),
     // 添加其他元数据提高性能
     other: {
-        'apple-mobile-web-app-capable': 'yes',
+        'mobile-web-app-capable': 'yes',
         'apple-mobile-web-app-status-bar-style': 'default',
         'format-detection': 'telephone=no',
     }
@@ -114,12 +114,12 @@ export default function RootLayout({children}: {
                     :root{--primary-color:#333;--primary-hover:#000;--bg-color:#f5f5f5;--meta-color:#666;--article-bg:white;--nav-bg:white;--shadow:0 2px 5px rgba(0,0,0,0.1);}
                     :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#ffffff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--article-bg:#1e293b;--nav-bg:#1e293b;--shadow:0 2px 5px rgba(0,0,0,0.2);}
                     *{margin:0;padding:0;box-sizing:border-box;}
-                    html{scroll-behavior:smooth;}
-                    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;}
+                    html{scroll-behavior:smooth;overflow-y:scroll;}
+                    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;}
                     .container{max-width:960px;margin:0 auto;padding:20px;}
-                    header{text-align:center;padding:1rem 0;position:relative;}
-                    header h1{font-size:2.5rem;margin-bottom:0.5rem;font-weight:700;color:var(--primary-color);line-height:1;}
-                    header p{color:var(--meta-color);line-height:1.4;margin:0;}
+                    header{text-align:center;padding:16px 0;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+                    header h1{font-size:2.5rem;margin:0;padding:0;font-weight:700;color:var(--primary-color);line-height:1;height:2.5rem;}
+                    header p{color:var(--meta-color);line-height:1.4;margin:8px 0 0 0;padding:0;height:1.4rem;}
                     .layout{margin:20px 0;}
                     .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
                     .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin-bottom:20px;}
