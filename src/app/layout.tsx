@@ -284,17 +284,7 @@ export default function RootLayout({children}: {
                 `
             }} />
             
-            {/* 延迟加载非关键CSS */}
-            <script dangerouslySetInnerHTML={{
-                __html: `
-                    window.addEventListener('load', function() {
-                        const link = document.createElement('link');
-                        link.rel = 'stylesheet';
-                        link.href = '/globals.css';
-                        document.head.appendChild(link);
-                    });
-                `
-            }} />
+            {/* 已移除延迟加载，所有样式都内联以避免冲突 */}
             
         </head>
         <body suppressHydrationWarning>
