@@ -92,6 +92,18 @@ export default function RootLayout({children}: {
         <head>
             <meta name="viewport" content="width=device-width,initial-scale=1" />
             
+            {/* DNS预解析和预连接 - 加速外部资源加载 */}
+            <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+            <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+            <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+            {process.env.NODE_ENV === 'production' && (
+                <>
+                    <link rel="dns-prefetch" href="https://vitals.vercel-analytics.com" />
+                    <link rel="preconnect" href="https://vitals.vercel-analytics.com" crossOrigin="anonymous" />
+                </>
+            )}
+            
             {/* 主题初始化脚本 - 必须在所有CSS之前执行以防止闪动 */}
             <script dangerouslySetInnerHTML={{
                 __html: `

@@ -37,6 +37,23 @@ const nextConfig: NextConfig = {
                         test: /[\\/]node_modules[\\/]highlight\.js[\\/]/,
                         name: 'highlight',
                         priority: 30,
+                        chunks: 'async',
+                    },
+                    
+                    // 拆分markdown-it
+                    markdown: {
+                        test: /[\\/]node_modules[\\/]markdown-it[\\/]/,
+                        name: 'markdown',
+                        priority: 25,
+                        chunks: 'async',
+                    },
+                    
+                    // 拆分gray-matter
+                    matter: {
+                        test: /[\\/]node_modules[\\/]gray-matter[\\/]/,
+                        name: 'matter',
+                        priority: 20,
+                        chunks: 'async',
                     },
                 };
             }

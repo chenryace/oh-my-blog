@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "src/app/**/*.tsx": {
+      "maxDuration": 10
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",
