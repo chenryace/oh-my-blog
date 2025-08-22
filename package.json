@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "cross-env TURBOPACK=1 next dev --turbopack",
+    "dev:webpack": "next dev",
     "gen": "node test/generator.js",
     "build": "cross-env NODE_ENV=production BROWSERSLIST_ENV=production next build",
     "start": "next start",

@@ -12,10 +12,21 @@ const nextConfig: NextConfig = {
     experimental: {
         optimizePackageImports: ["@/components", "lucide-react"], // 优化组件导入
         scrollRestoration: true, // 启用滚动恢复
+        // Turbopack 配置
+        turbo: {
+            rules: {
+                '*.md': ['raw-loader'],
+            },
+        },
     },
     
-    // 添加webpack配置优化
+    // 添加webpack配置优化 (仅在非Turbopack模式下使用)
     webpack: (config, { dev, isServer }) => {
+        // 如果使用Turbopack，跳过webpack配置
+        if (process.env.TURBOPACK) {
+            return config;
+        }
+        
         // 仅在生产构建和客户端时应用优化
         if (!dev && !isServer) {
             // 增加摇树优化
@@ -105,7 +116,26 @@ const nextConfig: NextConfig = {
                 ],
             },
             {
-                // 页面级缓存 - 使用stale-while-revalidate
+                // 首页特殊缓存策略 - 更短的缓存时间但更快的响应
+                source: '/',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, s-maxage=5, stale-while-revalidate=30',
+                    },
+                    {
+                        key: 'X-DNS-Prefetch-Control',
+                        value: 'on',
+                    },
+                    // 减少DNS查询时间
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY',
+                    },
+                ],
+            },
+            {
+                // 其他页面级缓存 - 使用stale-while-revalidate
                 source: '/:path*',
                 headers: [
                     {
