@@ -20,7 +20,7 @@ export async function POST() {
             status: 'warmed',
             timestamp: new Date().toISOString()
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json(
             { status: 'error', error: 'Warmup failed' },
             { status: 500 }
