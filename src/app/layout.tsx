@@ -270,6 +270,18 @@ export default function RootLayout({children}: {
                     /* 分割线样式 */
                     .content hr{border:none;height:2px;background:linear-gradient(90deg,#0066cc,#60a5fa,#0066cc);margin:32px 0;border-radius:1px;}
                     
+                    /* 分页样式 */
+                    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px 0;flex-wrap:wrap;}
+                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:all 0.2s;font-weight:500;}
+                    .pagination-nav:hover{background:var(--primary-color);color:var(--bg-color);}
+                    :root[class~="dark"] .pagination-nav{border-color:#4a5568;}
+                    .pagination-numbers{display:flex;gap:4px;align-items:center;}
+                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:all 0.2s;font-weight:500;}
+                    .pagination-number:hover{background:var(--primary-color);color:var(--bg-color);}
+                    .pagination-number.active{background:var(--primary-color);color:var(--bg-color);border-color:var(--primary-color);}
+                    .pagination-dots{color:var(--meta-color);padding:0 4px;}
+                    :root[class~="dark"] .pagination-number{border-color:#4a5568;}
+                    
                     @media(max-width:768px){
                         .container{padding:10px;}
                         header{padding:20px 0;}
