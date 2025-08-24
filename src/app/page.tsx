@@ -3,7 +3,6 @@ import {Suspense} from "react";
 import {getPaginatedPosts} from "@/lib/posts.server";
 import ArticleCard from "@/components/ArticleCard";
 import Pagination from "@/components/Pagination";
-import Loading from "@/components/Loading";
 
 interface HomeProps {
     params: { page?: string };
@@ -24,7 +23,7 @@ const PostsList = async ({page}: { page: number }) => {
 
     return (
         <>
-            <div className="space-y-4">
+            <div>
                 {posts.map(post => (
                     <ArticleCard key={post.id} {...post} />
                 ))}
@@ -42,7 +41,7 @@ export default async function Home({searchParams}: HomeProps) {
 
     return (
         <>
-            <Suspense key={page} fallback={<Loading/>}>
+            <Suspense key={page} fallback={null}>
                 <PostsList page={page}/>
             </Suspense>
         </>

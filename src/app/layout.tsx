@@ -5,10 +5,10 @@ import {siteConfig} from "@/lib/constants";
 import Navigation from "@/components/Navigation";
 import {getCategoryStats} from "@/lib/posts.server";
 import {Metadata} from "next";
-import Loading from "@/components/Loading";
 import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
+import GlobalLoading from "@/components/GlobalLoading";
 
 // 移除Google字体，直接使用系统字体栈
 
@@ -46,41 +46,35 @@ const SidebarWrapper = async () => {
 
 const SidebarSkeleton = () => {
     return (
-        <aside className="w-64 p-6 space-y-8 border-r border-gray-200 dark:border-gray-800 min-h-screen">
-            {/* 分类标题骨架 */}
-            <div className="mb-4">
-                <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded w-16 animate-pulse"/>
+        <div className="widget">
+            <h3>加载中...</h3>
+            <div style={{padding: '10px 0'}}>
+                <div style={{
+                    height: '16px', 
+                    backgroundColor: 'var(--meta-color)', 
+                    marginBottom: '10px',
+                    borderRadius: '4px',
+                    opacity: 0.3,
+                    animation: 'pulse 1.5s ease-in-out infinite'
+                }}></div>
+                <div style={{
+                    height: '16px', 
+                    backgroundColor: 'var(--meta-color)', 
+                    marginBottom: '10px',
+                    borderRadius: '4px',
+                    opacity: 0.3,
+                    width: '80%'
+                }}></div>
+                <div style={{
+                    height: '16px', 
+                    backgroundColor: 'var(--meta-color)', 
+                    marginBottom: '10px',
+                    borderRadius: '4px',
+                    opacity: 0.3,
+                    width: '60%'
+                }}></div>
             </div>
-
-            {/* 分类列表骨架 */}
-            <div className="space-y-3">
-                {[1, 2, 3, 4, 5].map((item) => (
-                    <div key={item} className="flex items-center justify-between">
-                        <div
-                            className="h-4 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"
-                            style={{width: `${Math.random() * 30 + 60}%`}}
-                        />
-                        <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-6 animate-pulse"/>
-                    </div>
-                ))}
-            </div>
-
-            {/* 友情链接标题骨架 */}
-            <div className="mt-8 mb-4">
-                <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded w-20 animate-pulse"/>
-            </div>
-
-            {/* 友情链接列表骨架 */}
-            <div className="space-y-3">
-                {[1, 2, 3].map((item) => (
-                    <div
-                        key={item}
-                        className="h-4 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"
-                        style={{width: `${Math.random() * 20 + 70}%`}}
-                    />
-                ))}
-            </div>
-        </aside>
+        </div>
     );
 };
 
@@ -126,15 +120,21 @@ export default function RootLayout({children}: {
                     :root{--primary-color:#333;--primary-hover:#000;--bg-color:#f5f5f5;--meta-color:#666;--article-bg:white;--nav-bg:white;--shadow:0 2px 5px rgba(0,0,0,0.1);}
                     :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#ffffff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--article-bg:#1e293b;--nav-bg:#1e293b;--shadow:0 2px 5px rgba(0,0,0,0.2);}
                     *{margin:0;padding:0;box-sizing:border-box;}
-                    html{scroll-behavior:smooth;overflow-y:scroll;}
-                    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;}
-                    .container{max-width:960px;margin:0 auto;padding:20px;}
-                    header{text-align:center;padding:16px 0;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+                    html{scroll-behavior:smooth;overflow-y:scroll;overflow-x:hidden;width:100%;max-width:100vw;}
+                    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;overflow-x:hidden;width:100%;max-width:100vw;}
+                    .container{max-width:980px;margin:0 auto;padding:20px;overflow-x:hidden;box-sizing:border-box;}
+                    header{text-align:center;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
                     header h1{font-size:2.5rem;margin:0 0 8px 0;padding:0;font-weight:700;color:var(--primary-color);line-height:1.2;}
                     header p{color:var(--meta-color);line-height:1.4;margin:0;padding:0;font-size:1rem;}
                     .layout{margin:20px 0;}
-                    .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
-                    .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin-bottom:20px;}
+                    .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;align-items:start;}
+                    .layout > div{animation:fadeIn 0.4s ease-out;}
+                    .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin:0 auto 20px auto;max-width:800px;transition:transform 0.2s ease,box-shadow 0.2s ease;word-wrap:break-word;overflow-wrap:break-word;}
+                    .layout.with-sidebar .article{margin:0 0 20px 0;max-width:none;}  /* 在侧边栏布局中，文章不居中且无宽度限制 */
+                    .layout.with-sidebar .article:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.15);}  /* 只在有侧边栏的页面(主页)有跳动效果 */
+                    .article-single:hover{transform:none !important;box-shadow:var(--shadow) !important;}  /* 单独文章页面禁用跳动效果 */
+                    :root[class~="dark"] .layout.with-sidebar .article:hover{box-shadow:0 4px 15px rgba(0,0,0,0.3);}
+                    :root[class~="dark"] .article-single:hover{box-shadow:var(--shadow) !important;}
                     .article h2 a{color:var(--primary-color);text-decoration:none;}
                     .article .meta{color:var(--meta-color);font-size:0.9em;margin:10px 0 15px;}
                     .read-more{text-align:right;margin-top:15px;}
@@ -184,13 +184,17 @@ export default function RootLayout({children}: {
                     /* 文章页面样式 */
                     .title{font-size:1.75rem;font-weight:bold;color:var(--primary-color);margin-bottom:16px;line-height:1.4;}
                     .meta{font-size:14px;color:var(--meta-color);margin-bottom:16px;}
-                    .content{color:#444;line-height:1.8;font-size:16px;}
+                    .content{color:#444;line-height:1.8;font-size:16px;word-wrap:break-word;overflow-wrap:break-word;max-width:100%;hyphens:auto;}
+                    .content *{word-wrap:break-word;overflow-wrap:break-word;max-width:100%;}
+                    .content a{word-break:break-all;}
+                    .content p{word-break:break-word;}
+                    .content li{word-break:break-word;}
                     :root[class~="dark"] .content{color:#d1d5db;}
                     
                     /* 标题样式优化 */
                     .content h1{font-size:2rem;font-weight:600;color:var(--primary-color);margin:32px 0 20px;padding-bottom:12px;border-bottom:2px solid #eee;}
                     .content h2{font-size:1.5rem;font-weight:500;color:var(--primary-color);margin:28px 0 16px;padding-bottom:8px;border-bottom:1px solid #eee;}
-                    .content h3{font-size:1.25rem;font-weight:500;color:var(--primary-color);margin:24px 0 12px;}
+                    .content h3{font-size:1.25rem;font-weight:500;color:var(--primary-color);margin:0 0 10px;}
                     .content h4{font-size:1.1rem;font-weight:500;color:var(--primary-color);margin:20px 0 10px;}
                     :root[class~="dark"] .content h1{border-bottom-color:#374151;}
                     :root[class~="dark"] .content h2{border-bottom-color:#374151;}
@@ -209,12 +213,12 @@ export default function RootLayout({children}: {
                     :root[class~="dark"] .content ol li::marker{color:#60a5fa;}
                     
                     /* 图片样式优化 */
-                    .content img{max-width:100%;height:auto;margin:2rem 0;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.1);display:block;}
+                    .content img{max-width:100%;height:auto;margin:2rem 0;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.1);display:block;box-sizing:border-box;}
                     :root[class~="dark"] .content img{box-shadow:0 4px 20px rgba(0,0,0,0.3);}
                     
                     /* 代码块样式优化 */
-                    .content pre{background:#f8fafc;border-radius:8px;padding:16px;margin:20px 0;overflow-x:auto;border:1px solid #e2e8f0;position:relative;}
-                    .content pre code{background:transparent;padding:0;color:#2d3748;font-family:'Monaco','Menlo','Ubuntu Mono',monospace;font-size:14px;line-height:1.5;}
+                    .content pre{background:#f8fafc;border-radius:8px;padding:16px;margin:20px 0;border:1px solid #e2e8f0;position:relative;max-width:100%;box-sizing:border-box;overflow-wrap:break-word;overflow-x:hidden;width:100%;}
+                    .content pre code{background:transparent;padding:0;color:#2d3748;font-family:'Monaco','Menlo','Ubuntu Mono',monospace;font-size:14px;line-height:1.5;word-wrap:break-word;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-all;max-width:100%;}
                     :root[class~="dark"] .content pre{background:#1a202c;border-color:#2d3748;}
                     :root[class~="dark"] .content pre code{color:#e2e8f0;}
                     
@@ -271,22 +275,53 @@ export default function RootLayout({children}: {
                     .content hr{border:none;height:2px;background:linear-gradient(90deg,#0066cc,#60a5fa,#0066cc);margin:32px 0;border-radius:1px;}
                     
                     /* 分页样式 */
-                    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px 0;flex-wrap:wrap;}
-                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:all 0.2s;font-weight:500;}
-                    .pagination-nav:hover{background:var(--primary-color);color:var(--bg-color);}
+                    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px auto;max-width:800px;flex-wrap:wrap;}
+                    .layout.with-sidebar .pagination{margin:40px 0;max-width:none;}  /* 在侧边栏布局中，分页不居中且无宽度限制 */
+                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:all 0.3s ease;font-weight:500;transform:translateY(0);}
+                    .pagination-nav:hover{background:var(--primary-color);color:var(--bg-color);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
                     :root[class~="dark"] .pagination-nav{border-color:#4a5568;}
                     .pagination-numbers{display:flex;gap:4px;align-items:center;}
-                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:all 0.2s;font-weight:500;}
-                    .pagination-number:hover{background:var(--primary-color);color:var(--bg-color);}
+                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:all 0.3s ease;font-weight:500;transform:translateY(0);}
+                    .pagination-number:hover{background:var(--primary-color);color:var(--bg-color);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
                     .pagination-number.active{background:var(--primary-color);color:var(--bg-color);border-color:var(--primary-color);}
                     .pagination-dots{color:var(--meta-color);padding:0 4px;}
                     :root[class~="dark"] .pagination-number{border-color:#4a5568;}
                     
+                    /* 分页loading样式 */
+                    .pagination-loading{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;color:var(--primary-color);font-size:14px;}
+                    .pagination-spinner{width:16px;height:16px;border:2px solid #f3f3f3;border-top:2px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;}
+                    
+                    /* 动画定义 */
+                    @keyframes pulse{0%{opacity:0.3;}50%{opacity:0.6;}100%{opacity:0.3;}}
+                    @keyframes fadeIn{0%{opacity:0;transform:translateY(10px);}100%{opacity:1;transform:translateY(0);}}
+                    @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+                    
+                    /* 全局loading样式 */
+                    .global-loading-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
+                    :root[class~="dark"] .global-loading-overlay{background:rgba(26,26,26,0.8);}
+                    .global-loading-content{text-align:center;padding:20px;}
+                    .global-loading-spinner{width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
+                    .global-loading-content p{color:var(--primary-color);font-size:16px;margin:0;font-weight:500;}
+                    
+                    /* 普通loading样式 */
+                    .loading-container{text-align:center;padding:40px 20px;}
+                    .loading-spinner{width:24px;height:24px;border:2px solid #f3f3f3;border-top:2px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px;}
+                    .loading-container p{color:var(--meta-color);font-size:14px;}
+                    
+                    /* 桌面端确保侧边栏显示 */
+                    @media(min-width:769px){
+                        .layout.with-sidebar{display:grid !important;grid-template-columns:1fr 250px !important;}
+                        .layout.with-sidebar aside{display:block !important;}
+                    }
+                    
                     @media(max-width:768px){
                         .container{padding:10px;}
-                        header{padding:20px 0;}
+                        header{}
                         header h1{font-size:2em;}
                         .layout.with-sidebar{display:block;}
+                        .layout.with-sidebar aside{display:none;} /* 隐藏侧边栏 */
+                        .layout.with-sidebar .article{margin:0 0 20px 0;max-width:100%;} /* 移动端文章全宽 */
+                        .layout.with-sidebar .pagination{margin:40px 0;max-width:100%;} /* 移动端分页全宽 */
                         .grid{grid-template-columns:1fr;}
                         .timeline{padding-left:1.5rem;}
                         .year::before{left:-29px;}
@@ -298,7 +333,7 @@ export default function RootLayout({children}: {
                         .content pre{padding:12px;margin:16px 0;font-size:13px;border-radius:6px;}
                         .content h1{font-size:1.6rem;margin:24px 0 16px;}
                         .content h2{font-size:1.4rem;margin:20px 0 12px;}
-                        .content h3{font-size:1.2rem;margin:16px 0 10px;}
+                        .content h3{font-size:1.2rem;margin:0 0 8px;}
                         .content img{margin:1.5rem 0;border-radius:6px;}
                         .content blockquote{padding:12px 16px;margin:16px 0;}
                         .content table{font-size:14px;}
@@ -313,6 +348,7 @@ export default function RootLayout({children}: {
         </head>
         <body suppressHydrationWarning>
         <Providers>
+            <GlobalLoading />
             <div className="container">
                 <header>
                     <h1>{siteConfig.title}</h1>
@@ -324,12 +360,16 @@ export default function RootLayout({children}: {
                 <Navigation/>
 
                 <div className="layout with-sidebar">
-                    <Suspense fallback={<Loading/>}>
-                        {children}
-                    </Suspense>
-                    <Suspense fallback={<SidebarSkeleton/>}>
-                        <SidebarWrapper/>
-                    </Suspense>
+                    <div>
+                        <Suspense fallback={null}>
+                            {children}
+                        </Suspense>
+                    </div>
+                    <aside>
+                        <Suspense fallback={<SidebarSkeleton/>}>
+                            <SidebarWrapper/>
+                        </Suspense>
+                    </aside>
                 </div>
 
                 <footer>
