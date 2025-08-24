@@ -13,7 +13,7 @@ export default function NavigationLoading() {
         
         const timer = setTimeout(() => {
             setIsLoading(false);
-        }, 400); // 400毫秒的加载效果
+        }, 250); // 250毫秒的加载效果
         
         return () => clearTimeout(timer);
     }, [pathname, searchParams]);

@@ -12,7 +12,7 @@ export default function GlobalLoading() {
             // 短暂显示遮罩，让内容出现更平滑
             setTimeout(() => {
                 setLoading(false);
-            }, 150);
+            }, 250);
         };
 
         // 组件挂载时显示过渡效果
@@ -43,7 +43,7 @@ export default function GlobalLoading() {
             <style dangerouslySetInnerHTML={{
                 __html: `
                     .global-loading-overlay {
-                        animation: fadeOut 150ms ease-out forwards;
+                        animation: fadeOut 250ms ease-out forwards;
                     }
                     :root[class~="dark"] .global-loading-overlay {
                         background: rgba(26, 26, 26, 0.8) !important;
