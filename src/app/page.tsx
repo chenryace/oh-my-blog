@@ -1,5 +1,4 @@
 // src/app/page.tsx
-import {Suspense} from "react";
 import {getPaginatedPosts} from "@/lib/posts.server";
 import ArticleCard from "@/components/ArticleCard";
 import Pagination from "@/components/Pagination";
@@ -41,9 +40,7 @@ export default async function Home({searchParams}: HomeProps) {
 
     return (
         <>
-            <Suspense key={page} fallback={null}>
-                <PostsList page={page}/>
-            </Suspense>
+            <PostsList page={page}/>
         </>
     );
 }

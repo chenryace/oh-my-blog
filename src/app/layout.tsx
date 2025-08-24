@@ -8,7 +8,7 @@ import {Metadata} from "next";
 import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
-import GlobalLoading from "@/components/GlobalLoading";
+import NavigationLoading from "@/components/NavigationLoading";
 
 // 移除Google字体，直接使用系统字体栈
 
@@ -296,9 +296,7 @@ export default function RootLayout({children}: {
                     @keyframes fadeIn{0%{opacity:0;transform:translateY(10px);}100%{opacity:1;transform:translateY(0);}}
                     @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
                     
-                    /* 全局loading样式 */
-                    .global-loading-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
-                    :root[class~="dark"] .global-loading-overlay{background:rgba(26,26,26,0.8);}
+                    /* 全局loading样式已移到内联样式中 */
                     .global-loading-content{text-align:center;padding:20px;}
                     .global-loading-spinner{width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
                     .global-loading-content p{color:var(--primary-color);font-size:16px;margin:0;font-weight:500;}
@@ -348,7 +346,6 @@ export default function RootLayout({children}: {
         </head>
         <body suppressHydrationWarning>
         <Providers>
-            <GlobalLoading />
             <div className="container">
                 <header>
                     <h1>{siteConfig.title}</h1>
@@ -360,7 +357,7 @@ export default function RootLayout({children}: {
                 <Navigation/>
 
                 <div className="layout with-sidebar">
-                    <div>
+                    <div style={{ position: 'relative', minHeight: '400px' }}>
                         <Suspense fallback={null}>
                             {children}
                         </Suspense>
@@ -376,6 +373,9 @@ export default function RootLayout({children}: {
                     <p>{siteConfig.footer}</p>
                 </footer>
             </div>
+            <Suspense fallback={null}>
+                <NavigationLoading />
+            </Suspense>
         </Providers>
         </body>
         </html>

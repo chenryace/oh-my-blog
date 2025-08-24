@@ -80,6 +80,7 @@ export const getCategoryStats = unstable_cache(
 // 分页获取文章 - 优化缓存策略
 export const getPaginatedPosts = unstable_cache(
     async (page: number = 1) => {
+        
         const allPosts = await getAllPosts();
         const totalPosts = allPosts.length;
         const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
@@ -103,7 +104,7 @@ export const getPaginatedPosts = unstable_cache(
     // 使用页码作为缓存键的一部分
     (page) => [`paginated-posts-${page}`],
     {
-        revalidate: 3600, // 提高到1小时
+        revalidate: 3600, // 1小时缓存
         tags: ["posts"]
     }
 );

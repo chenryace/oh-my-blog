@@ -5,56 +5,55 @@ export default function GlobalLoading() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // 监听页面跳转
-        const handleClick = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            const link = target.closest('a');
+        // 页面切换后显示过渡遮罩
+        const showTransition = () => {
+            setLoading(true);
             
-            if (link && link.href) {
-                const currentHost = window.location.origin;
-                const linkHost = new URL(link.href).origin;
-                
-                // 只有内部链接才显示loading
-                if (linkHost === currentHost && !link.href.includes('#')) {
-                    setLoading(true);
-                    
-                    // 超时保护，防止loading卡住
-                    setTimeout(() => {
-                        setLoading(false);
-                    }, 200);
-                }
-            }
-        };
-
-        // 监听页面加载完成
-        const handleLoad = () => {
-            setLoading(false);
-        };
-
-        document.addEventListener('click', handleClick);
-        window.addEventListener('load', handleLoad);
-        
-        // 页面隐藏时也重置loading状态
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
+            // 短暂显示遮罩，让内容出现更平滑
+            setTimeout(() => {
                 setLoading(false);
-            }
-        });
+            }, 150);
+        };
+
+        // 组件挂载时显示过渡效果
+        showTransition();
 
         return () => {
-            document.removeEventListener('click', handleClick);
-            window.removeEventListener('load', handleLoad);
+            setLoading(false);
         };
     }, []);
 
     if (!loading) return null;
 
     return (
-        <div className="global-loading-overlay">
-            <div className="global-loading-content">
-                <div className="global-loading-spinner"></div>
-                <p>加载中...</p>
-            </div>
+        <div 
+            className="global-loading-overlay" 
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(255, 255, 255, 0.8)',
+                zIndex: 9999,
+                backdropFilter: 'blur(2px)',
+                pointerEvents: 'none'
+            }}
+        >
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                    .global-loading-overlay {
+                        animation: fadeOut 150ms ease-out forwards;
+                    }
+                    :root[class~="dark"] .global-loading-overlay {
+                        background: rgba(26, 26, 26, 0.8) !important;
+                    }
+                    @keyframes fadeOut {
+                        0% { opacity: 1; }
+                        100% { opacity: 0; }
+                    }
+                `
+            }} />
         </div>
     );
 }

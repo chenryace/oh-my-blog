@@ -120,29 +120,8 @@ export const optimizeConnections = () => {
     }
 };
 
-// 7. 使用Web Workers处理繁重计算
-export const offloadToWorker = <T, R>(fn: (data: T) => R, data: T): Promise<R> => {
-    return new Promise((resolve, reject) => {
-        const workerCode = `
-            self.onmessage = function(e) {
-                const fn = ${fn.toString()};
-                const result = fn(e.data);
-                self.postMessage(result);
-            };
-        `;
-        
-        const blob = new Blob([workerCode], { type: 'application/javascript' });
-        const worker = new Worker(URL.createObjectURL(blob));
-        
-        worker.onmessage = (e) => {
-            resolve(e.data);
-            worker.terminate();
-        };
-        
-        worker.onerror = reject;
-        worker.postMessage(data);
-    });
-};
+// 7. Web Workers处理繁重计算（已移除，避免Turbopack警告）
+// 如需要可以创建单独的worker文件
 
 // 8. 批量DOM更新优化
 export const batchDOMUpdates = (updates: (() => void)[]) => {
