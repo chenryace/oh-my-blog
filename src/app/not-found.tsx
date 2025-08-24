@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 
 export default function NotFound() {
@@ -8,6 +10,7 @@ export default function NotFound() {
             <p style={{ color: 'var(--meta-color)', marginBottom: '30px' }}>抱歉，您访问的页面不存在。</p>
             <Link 
                 href="/" 
+                className="read-more"
                 style={{ 
                     display: 'inline-block',
                     padding: '10px 20px',
@@ -15,10 +18,7 @@ export default function NotFound() {
                     color: 'var(--bg-color)',
                     textDecoration: 'none',
                     borderRadius: '4px',
-                    transition: 'opacity 0.2s'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
                 返回首页
             </Link>
