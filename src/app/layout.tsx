@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     },
     description: siteConfig.description,
     metadataBase: new URL('https://blog.qfdk.me'),
+    icons: {
+        icon: '/favicon.ico',
+    },
     // 添加其他元数据提高性能
     other: {
         'mobile-web-app-capable': 'yes',

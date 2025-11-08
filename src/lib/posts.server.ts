@@ -78,9 +78,7 @@ export const getCategoryStats = unstable_cache(
 );
 
 // 分页获取文章 - 优化缓存策略
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
+// @ts-expect-error - unstable_cache 类型定义问题
 export const getPaginatedPosts = unstable_cache(
     async (page: number = 1) => {
 
@@ -104,9 +102,7 @@ export const getPaginatedPosts = unstable_cache(
             }
         };
     },
-    (page) => {
-        return [`paginated-posts-${page}`];
-    },
+    (page: number) => [`paginated-posts-${page}`],
     {
         revalidate: 3600, // 1小时缓存
         tags: ["posts"]
@@ -114,6 +110,7 @@ export const getPaginatedPosts = unstable_cache(
 );
 
 // 获取单篇文章 - 全面优化版本
+// @ts-expect-error - unstable_cache 类型定义问题
 export const getPostById = unstable_cache(
     async (id: string) => {
         try {
@@ -138,7 +135,7 @@ export const getPostById = unstable_cache(
         }
     },
     // 使用文章ID作为缓存键的一部分
-    (id) => [`post-${id}`],
+    (id: string) => [`post-${id}`],
     { revalidate: 3600 } // 降低到一小时，和其他缓存时间保持一致
 );
 

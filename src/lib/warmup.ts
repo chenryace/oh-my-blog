@@ -17,11 +17,11 @@ export const warmupCriticalPaths = async () => {
 // 2. 轻量级依赖加载
 export const optimizeImports = () => {
     // 延迟导入非关键依赖
-    const lazyHighlight = () => import('highlight.js');
+    const lazyShiki = () => import('shiki');
     const lazyMarkdown = () => import('markdown-it');
-    
+
     return {
-        lazyHighlight,
+        lazyShiki,
         lazyMarkdown
     };
 };
