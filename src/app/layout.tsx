@@ -222,11 +222,14 @@ export default function RootLayout({children}: {
                     .content pre{border-radius:6px;margin:16px 0;position:relative;box-sizing:border-box;overflow-x:auto;min-width:0;width:100%;border:1px solid rgba(0,0,0,0.12);box-shadow:0 1px 3px rgba(0,0,0,0.08);}
                     :root[class~="dark"] .content pre{border-color:rgba(255,255,255,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.3);}
                     .content pre code{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.5;padding:12px;}
-                    /* Shiki 双主题自动切换 */
-                    .shiki{background-color:var(--shiki-light-bg) !important;}
-                    .shiki span{color:var(--shiki-light) !important;}
-                    :root[class~="dark"] .shiki{background-color:var(--shiki-dark-bg) !important;}
-                    :root[class~="dark"] .shiki span{color:var(--shiki-dark) !important;}
+                    /* Shiki 双主题自动切换 - 只覆盖暗色模式 */
+                    html[class~="dark"] .shiki {
+                        background-color: var(--shiki-dark-bg) !important;
+                        color: var(--shiki-dark) !important;
+                    }
+                    html[class~="dark"] .shiki span {
+                        color: var(--shiki-dark) !important;
+                    }
                     /* 复制按钮样式 */
                     .content pre .copy-button{position:absolute;top:8px;right:8px;padding:6px 8px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);border-radius:4px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s;display:flex;align-items:center;justify-content:center;color:#333;}
                     .content pre:hover .copy-button{opacity:1;}
