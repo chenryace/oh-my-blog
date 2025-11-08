@@ -125,7 +125,7 @@ export default function RootLayout({children}: {
                     *{margin:0;padding:0;box-sizing:border-box;}
                     html{scroll-behavior:smooth;overflow-y:scroll;overflow-x:hidden;width:100%;max-width:100vw;}
                     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;overflow-x:hidden;width:100%;max-width:100vw;}
-                    .container{max-width:1200px;margin:0 auto;padding:20px;overflow-x:hidden;box-sizing:border-box;}
+                    .container{max-width:960px;margin:0 auto;padding:20px;overflow-x:hidden;box-sizing:border-box;}
                     header{text-align:center;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
                     header h1{font-size:2.5rem;margin:0 0 8px 0;padding:0;font-weight:700;color:var(--primary-color);line-height:1.2;}
                     header p{color:var(--meta-color);line-height:1.4;margin:0;padding:0;font-size:1rem;}
