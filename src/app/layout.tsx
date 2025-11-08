@@ -159,7 +159,7 @@ export default function RootLayout({children}: {
                     :root[class~="dark"] .timeline::before{background-color:#374151;}
                     .yearGroup{position:relative;margin-bottom:2rem;}
                     .year{position:relative;font-size:24px;font-weight:500;color:var(--primary-color);margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;}
-                    .year::before{content:'';position:absolute;width:16px;height:16px;border:3px solid #666;border-radius:50%;background:var(--article-bg);left:-39px;top:50%;transform:translateY(-50%);}
+                    .year::before{content:'';position:absolute;width:6px;height:6px;border:1.5px solid #666;border-radius:50%;background:var(--article-bg);left:-34px;top:50%;transform:translateY(-50%);}
                     :root[class~="dark"] .year{border-bottom-color:#374151;}
                     :root[class~="dark"] .year::before{border-color:#9ca3af;}
                     .monthGroup{margin-bottom:1.5rem;}
