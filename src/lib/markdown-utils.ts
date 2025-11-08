@@ -78,16 +78,16 @@ export const createMarkdownParser = async (): Promise<MarkdownIt> => {
         }
     });
 
-    // 渲染内容时自动优化图片标签并高亮代码块
-    const originalRender = markdownParserInstance.render.bind(markdownParserInstance);
-    markdownParserInstance.render = async (src: string) => {
-        const renderedHtml = originalRender(src);
-        const withImages = optimizeImages(renderedHtml);
-        const withHighlight = await highlightCodeBlocks(withImages);
-        return withHighlight;
-    };
-
     return markdownParserInstance;
+};
+
+// 独立的渲染函数，处理markdown并应用语法高亮
+export const renderMarkdown = async (content: string): Promise<string> => {
+    const parser = await createMarkdownParser();
+    const renderedHtml = parser.render(content);
+    const withImages = optimizeImages(renderedHtml);
+    const withHighlight = await highlightCodeBlocks(withImages);
+    return withHighlight;
 };
 
 // 提取文章摘要的工具函数
