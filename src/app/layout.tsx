@@ -9,6 +9,7 @@ import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
 import NavigationLoading from "@/components/NavigationLoading";
+import CodeBlock from "@/components/CodeBlock";
 
 // 移除Google字体，直接使用系统字体栈
 
@@ -217,41 +218,22 @@ export default function RootLayout({children}: {
                     .content img{max-width:100%;height:auto;margin:2rem 0;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.1);display:block;box-sizing:border-box;}
                     :root[class~="dark"] .content img{box-shadow:0 4px 20px rgba(0,0,0,0.3);}
                     
-                    /* 代码块样式优化 */
-                    .content pre{background:#f8fafc;border-radius:8px;padding:16px;margin:20px 0;border:1px solid #e2e8f0;position:relative;box-sizing:border-box;overflow-x:auto;min-width:0;width:100%;}
-                    .content pre code{background:transparent;padding:0;color:#2d3748;font-family:'Monaco','Menlo','Ubuntu Mono',monospace;font-size:14px;line-height:1.5;display:block;white-space:pre;}
-                    :root[class~="dark"] .content pre{background:#1a202c;border-color:#2d3748;}
-                    :root[class~="dark"] .content pre code{color:#e2e8f0;}
-                    
-                    /* 语法高亮主题 - 浅色主题 */
-                    .content .hljs-keyword{color:#d73a49;font-weight:600;}
-                    .content .hljs-string{color:#032f62;}
-                    .content .hljs-comment{color:#6a737d;font-style:italic;}
-                    .content .hljs-number{color:#005cc5;}
-                    .content .hljs-function{color:#6f42c1;}
-                    .content .hljs-variable{color:#e36209;}
-                    .content .hljs-built_in{color:#005cc5;}
-                    .content .hljs-attr{color:#005cc5;}
-                    .content .hljs-tag{color:#22863a;}
-                    .content .hljs-name{color:#22863a;}
-                    .content .hljs-title{color:#6f42c1;font-weight:600;}
-                    .content .hljs-meta{color:#6a737d;}
-                    .content .hljs-literal{color:#005cc5;}
-                    
-                    /* 语法高亮主题 - 深色主题 */
-                    :root[class~="dark"] .content .hljs-keyword{color:#ff7b72;font-weight:600;}
-                    :root[class~="dark"] .content .hljs-string{color:#a5d6ff;}
-                    :root[class~="dark"] .content .hljs-comment{color:#8b949e;font-style:italic;}
-                    :root[class~="dark"] .content .hljs-number{color:#79c0ff;}
-                    :root[class~="dark"] .content .hljs-function{color:#d2a8ff;}
-                    :root[class~="dark"] .content .hljs-variable{color:#ffa657;}
-                    :root[class~="dark"] .content .hljs-built_in{color:#79c0ff;}
-                    :root[class~="dark"] .content .hljs-attr{color:#79c0ff;}
-                    :root[class~="dark"] .content .hljs-tag{color:#7ee787;}
-                    :root[class~="dark"] .content .hljs-name{color:#7ee787;}
-                    :root[class~="dark"] .content .hljs-title{color:#d2a8ff;font-weight:600;}
-                    :root[class~="dark"] .content .hljs-meta{color:#8b949e;}
-                    :root[class~="dark"] .content .hljs-literal{color:#79c0ff;}
+                    /* 代码块样式优化 - Shiki GitHub 主题 */
+                    .content pre{border-radius:6px;margin:16px 0;position:relative;box-sizing:border-box;overflow-x:auto;min-width:0;width:100%;border:1px solid rgba(0,0,0,0.12);box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+                    :root[class~="dark"] .content pre{border-color:rgba(255,255,255,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.3);}
+                    .content pre code{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.5;padding:12px;}
+                    /* Shiki 双主题自动切换 */
+                    .shiki{background-color:var(--shiki-light-bg) !important;}
+                    .shiki span{color:var(--shiki-light) !important;}
+                    :root[class~="dark"] .shiki{background-color:var(--shiki-dark-bg) !important;}
+                    :root[class~="dark"] .shiki span{color:var(--shiki-dark) !important;}
+                    /* 复制按钮样式 */
+                    .content pre .copy-button{position:absolute;top:8px;right:8px;padding:6px 8px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);border-radius:4px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s;display:flex;align-items:center;justify-content:center;color:#333;}
+                    .content pre:hover .copy-button{opacity:1;}
+                    .content pre .copy-button:hover{background:rgba(255,255,255,1);border-color:rgba(0,0,0,0.2);}
+                    .content pre .copy-button.copied{background:#22c55e;color:white;border-color:#22c55e;}
+                    :root[class~="dark"] .content pre .copy-button{background:rgba(30,41,59,0.9);border-color:rgba(255,255,255,0.15);color:#e5e7eb;}
+                    :root[class~="dark"] .content pre .copy-button:hover{background:rgba(30,41,59,1);border-color:rgba(255,255,255,0.25);}
                     
                     /* 行内代码样式 */
                     .content :not(pre)>code{background:#f1f5f9;color:#e53e3e;padding:0.2rem 0.4rem;border-radius:4px;font-size:0.875em;font-weight:500;}
@@ -377,6 +359,7 @@ export default function RootLayout({children}: {
             <Suspense fallback={null}>
                 <NavigationLoading />
             </Suspense>
+            <CodeBlock />
         </Providers>
         </body>
         </html>

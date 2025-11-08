@@ -1,43 +1,41 @@
 import type MarkdownIt from "markdown-it";
-
-// 单独导入需要的语言，减少bundle大小
-import hljs from "highlight.js/lib/core";
-import javascript from "highlight.js/lib/languages/javascript";
-import typescript from "highlight.js/lib/languages/typescript";
-import bash from "highlight.js/lib/languages/bash";
-import shell from "highlight.js/lib/languages/shell";
-import css from "highlight.js/lib/languages/css";
-import markdown from "highlight.js/lib/languages/markdown";
-import json from "highlight.js/lib/languages/json";
-import python from "highlight.js/lib/languages/python";
-import java from "highlight.js/lib/languages/java";
-import sql from "highlight.js/lib/languages/sql";
-import xml from "highlight.js/lib/languages/xml";
-import yaml from "highlight.js/lib/languages/yaml";
-
-// 注册语言
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('js', javascript);
-hljs.registerLanguage('typescript', typescript);
-hljs.registerLanguage('ts', typescript);
-hljs.registerLanguage('bash', bash);
-hljs.registerLanguage('shell', shell);
-hljs.registerLanguage('sh', shell);
-hljs.registerLanguage('css', css);
-hljs.registerLanguage('markdown', markdown);
-hljs.registerLanguage('md', markdown);
-hljs.registerLanguage('json', json);
-hljs.registerLanguage('python', python);
-hljs.registerLanguage('py', python);
-hljs.registerLanguage('java', java);
-hljs.registerLanguage('sql', sql);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('html', xml);
-hljs.registerLanguage('yaml', yaml);
-hljs.registerLanguage('yml', yaml);
+import {codeToHtml} from "shiki";
 
 // 单例模式，确保只创建一个parser实例
 let markdownParserInstance: MarkdownIt | null = null;
+
+// 使用正则匹配代码块并高亮
+async function highlightCodeBlocks(html: string): Promise<string> {
+    const codeBlockRegex = /<pre><code class="language-(\w+)">([\s\S]*?)<\/code><\/pre>/g;
+    const matches = [...html.matchAll(codeBlockRegex)];
+
+    let result = html;
+    for (const match of matches) {
+        const [fullMatch, lang, code] = match;
+        try {
+            // 解码 HTML 实体
+            const decodedCode = code
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&')
+                .replace(/&quot;/g, '"');
+
+            const highlighted = await codeToHtml(decodedCode, {
+                lang,
+                themes: {
+                    light: 'github-light',
+                    dark: 'github-dark',
+                }
+            });
+
+            result = result.replace(fullMatch, highlighted);
+        } catch (e) {
+            console.warn(`Failed to highlight ${lang}:`, e);
+        }
+    }
+
+    return result;
+}
 
 // 添加图片优化的正则表达式工具
 const IMG_REGEX = /<img\s+([^>]*?)src="([^"]+)"([^>]*?)>/gi;
@@ -72,25 +70,21 @@ export const createMarkdownParser = async (): Promise<MarkdownIt> => {
         breaks: true,
         linkify: true,
         highlight: (str, lang) => {
-            if (lang && hljs.getLanguage(lang)) {
-                try {
-                    return hljs.highlight(str, {
-                        language: lang,
-                        ignoreIllegals: true
-                    }).value;
-                } catch (e) {
-                    console.warn(`Highlight error: ${e}`);
-                }
+            // 先生成带语言class的代码块，稍后用 Shiki 高亮
+            if (lang) {
+                return `<pre><code class="language-${lang}">${str.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
             }
-            return ""; // 使用默认的转义
+            return `<pre><code>${str.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
         }
     });
 
-    // 渲染内容时自动优化图片标签
+    // 渲染内容时自动优化图片标签并高亮代码块
     const originalRender = markdownParserInstance.render.bind(markdownParserInstance);
-    markdownParserInstance.render = (src: string) => {
+    markdownParserInstance.render = async (src: string) => {
         const renderedHtml = originalRender(src);
-        return optimizeImages(renderedHtml);
+        const withImages = optimizeImages(renderedHtml);
+        const withHighlight = await highlightCodeBlocks(withImages);
+        return withHighlight;
     };
 
     return markdownParserInstance;

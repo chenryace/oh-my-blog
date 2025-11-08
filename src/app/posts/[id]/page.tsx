@@ -53,6 +53,7 @@ export default async function Post({params}: { params: { id: string } }) {
             <div
                 className="content"
                 dangerouslySetInnerHTML={{__html: post.content}}
+                suppressHydrationWarning
             />
         </article>
     );

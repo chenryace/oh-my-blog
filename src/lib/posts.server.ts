@@ -119,7 +119,7 @@ export const getPostById = unstable_cache(
 
             // 直接使用优化的 createMarkdownParser 函数
             const parser = await createMarkdownParser();
-            const renderedContent = parser.render(content);
+            const renderedContent = await parser.render(content);
 
             return {
                 id,
