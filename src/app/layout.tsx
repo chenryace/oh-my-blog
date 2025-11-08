@@ -9,7 +9,6 @@ import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
 import NavigationLoading from "@/components/NavigationLoading";
-import CodeBlock from "@/components/CodeBlock";
 
 // 移除Google字体，直接使用系统字体栈
 
@@ -365,7 +364,6 @@ export default function RootLayout({children}: {
             <Suspense fallback={null}>
                 <NavigationLoading />
             </Suspense>
-            <CodeBlock />
         </Providers>
         </body>
         </html>

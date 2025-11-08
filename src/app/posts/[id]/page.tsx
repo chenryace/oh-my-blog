@@ -3,6 +3,7 @@ import {getAllPosts, getPostById} from "@/lib/posts.server";
 import {notFound} from "next/navigation";
 import {categoryNames} from "@/lib/constants";
 import {Metadata} from "next";
+import ArticleContent from "@/components/ArticleContent";
 // 移除highlight.js CSS，使用layout.tsx中的自定义样式
 
 // 修复 generateMetadata
@@ -50,11 +51,7 @@ export default async function Post({params}: { params: { id: string } }) {
                 </div>
             </header>
 
-            <div
-                className="content"
-                dangerouslySetInnerHTML={{__html: post.content}}
-                suppressHydrationWarning
-            />
+            <ArticleContent content={post.content} />
         </article>
     );
 }
