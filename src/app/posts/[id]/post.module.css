@@ -135,13 +135,16 @@
     border-radius: 4px;
     padding: 8px;
     margin: 14px 0;
-
     overflow-x: auto;
     max-width: 100%;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-word;
+    box-sizing: border-box;
+}
+
+.content pre code {
+    display: block;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-wrap: normal;
 }
 
 :global(.dark) .content pre {

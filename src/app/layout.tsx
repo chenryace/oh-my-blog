@@ -122,15 +122,16 @@ export default function RootLayout({children}: {
                     *{margin:0;padding:0;box-sizing:border-box;}
                     html{scroll-behavior:smooth;overflow-y:scroll;overflow-x:hidden;width:100%;max-width:100vw;}
                     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;overflow-x:hidden;width:100%;max-width:100vw;}
-                    .container{max-width:980px;margin:0 auto;padding:20px;overflow-x:hidden;box-sizing:border-box;}
+                    .container{max-width:1200px;margin:0 auto;padding:20px;overflow-x:hidden;box-sizing:border-box;}
                     header{text-align:center;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
                     header h1{font-size:2.5rem;margin:0 0 8px 0;padding:0;font-weight:700;color:var(--primary-color);line-height:1.2;}
                     header p{color:var(--meta-color);line-height:1.4;margin:0;padding:0;font-size:1rem;}
                     .layout{margin:20px 0;}
-                    .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;align-items:start;}
+                    .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
+                    .layout.with-sidebar aside{position:sticky;top:20px;align-self:flex-start;}
                     .layout > div{animation:fadeIn 0.4s ease-out;}
                     .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin:0 auto 20px auto;max-width:800px;transition:transform 0.2s ease,box-shadow 0.2s ease;word-wrap:break-word;overflow-wrap:break-word;}
-                    .layout.with-sidebar .article{margin:0 0 20px 0;max-width:none;}  /* 在侧边栏布局中，文章不居中且无宽度限制 */
+                    .layout.with-sidebar .article{margin:0 0 20px 0;max-width:none;min-width:0;}  /* 在侧边栏布局中，文章不居中且无宽度限制 */
                     .layout.with-sidebar .article:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.15);}  /* 只在有侧边栏的页面(主页)有跳动效果 */
                     .article-single:hover{transform:none !important;box-shadow:var(--shadow) !important;}  /* 单独文章页面禁用跳动效果 */
                     :root[class~="dark"] .layout.with-sidebar .article:hover{box-shadow:0 4px 15px rgba(0,0,0,0.3);}
@@ -184,7 +185,7 @@ export default function RootLayout({children}: {
                     /* 文章页面样式 */
                     .title{font-size:1.75rem;font-weight:bold;color:var(--primary-color);margin-bottom:16px;line-height:1.4;}
                     .meta{font-size:14px;color:var(--meta-color);margin-bottom:16px;}
-                    .content{color:#444;line-height:1.8;font-size:16px;word-wrap:break-word;overflow-wrap:break-word;max-width:100%;hyphens:auto;}
+                    .content{color:#444;line-height:1.8;font-size:16px;word-wrap:break-word;overflow-wrap:break-word;min-width:0;hyphens:auto;}
                     .content *{word-wrap:break-word;overflow-wrap:break-word;max-width:100%;}
                     .content a{word-break:break-all;}
                     .content p{word-break:break-word;}
@@ -217,8 +218,8 @@ export default function RootLayout({children}: {
                     :root[class~="dark"] .content img{box-shadow:0 4px 20px rgba(0,0,0,0.3);}
                     
                     /* 代码块样式优化 */
-                    .content pre{background:#f8fafc;border-radius:8px;padding:16px;margin:20px 0;border:1px solid #e2e8f0;position:relative;max-width:100%;box-sizing:border-box;overflow-wrap:break-word;overflow-x:hidden;width:100%;}
-                    .content pre code{background:transparent;padding:0;color:#2d3748;font-family:'Monaco','Menlo','Ubuntu Mono',monospace;font-size:14px;line-height:1.5;word-wrap:break-word;white-space:pre-wrap;overflow-wrap:break-word;word-break:break-all;max-width:100%;}
+                    .content pre{background:#f8fafc;border-radius:8px;padding:16px;margin:20px 0;border:1px solid #e2e8f0;position:relative;box-sizing:border-box;overflow-x:auto;min-width:0;width:100%;}
+                    .content pre code{background:transparent;padding:0;color:#2d3748;font-family:'Monaco','Menlo','Ubuntu Mono',monospace;font-size:14px;line-height:1.5;display:block;white-space:pre;}
                     :root[class~="dark"] .content pre{background:#1a202c;border-color:#2d3748;}
                     :root[class~="dark"] .content pre code{color:#e2e8f0;}
                     
@@ -357,7 +358,7 @@ export default function RootLayout({children}: {
                 <Navigation/>
 
                 <div className="layout with-sidebar">
-                    <div style={{ position: 'relative', minHeight: '400px' }}>
+                    <div style={{minWidth: 0}}>
                         <Suspense fallback={null}>
                             {children}
                         </Suspense>
