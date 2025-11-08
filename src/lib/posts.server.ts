@@ -2,7 +2,7 @@ import { unstable_cache } from "next/cache";
 import fs from "fs/promises"; // 改用 promises API
 import path from "path";
 import matter from "gray-matter";
-import { renderMarkdown, extractExcerpt } from "@/lib/markdown-utils";
+import { extractExcerpt, renderMarkdown } from "@/lib/markdown-utils";
 
 // 优化的日期格式化函数
 const formatDate = (date: Date) => {
@@ -78,66 +78,51 @@ export const getCategoryStats = unstable_cache(
 );
 
 // 分页获取文章 - 优化缓存策略
-// @ts-expect-error - unstable_cache 类型定义问题
-export const getPaginatedPosts = unstable_cache(
-    async (page: number = 1) => {
+export async function getPaginatedPosts(page: number = 1) {
+    const allPosts = await getAllPosts();
+    const totalPosts = allPosts.length;
+    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
-        const allPosts = await getAllPosts();
-        const totalPosts = allPosts.length;
-        const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+    // 确保页码在有效范围内
+    const validPage = Math.max(1, Math.min(page, totalPages));
+    const startIndex = (validPage - 1) * POSTS_PER_PAGE;
+    const endIndex = startIndex + POSTS_PER_PAGE;
 
-        // 确保页码在有效范围内
-        const validPage = Math.max(1, Math.min(page, totalPages));
-        const startIndex = (validPage - 1) * POSTS_PER_PAGE;
-        const endIndex = startIndex + POSTS_PER_PAGE;
+    const paginatedPosts = allPosts.slice(startIndex, endIndex);
 
-        const paginatedPosts = allPosts.slice(startIndex, endIndex);
-
-        return {
-            posts: paginatedPosts,
-            pagination: {
-                currentPage: validPage,
-                totalPages,
-                totalPosts
-            }
-        };
-    },
-    (page: number) => [`paginated-posts-${page}`],
-    {
-        revalidate: 3600, // 1小时缓存
-        tags: ["posts"]
-    }
-);
+    return {
+        posts: paginatedPosts,
+        pagination: {
+            currentPage: validPage,
+            totalPages,
+            totalPosts
+        }
+    };
+}
 
 // 获取单篇文章 - 全面优化版本
-// @ts-expect-error - unstable_cache 类型定义问题
-export const getPostById = unstable_cache(
-    async (id: string) => {
-        try {
-            const fullPath = path.join(postsDirectory, `${id}.md`);
-            const fileContents = await fs.readFile(fullPath, "utf8");
-            const { data, content } = matter(fileContents);
+export async function getPostById(id: string) {
+    try {
+        const fullPath = path.join(postsDirectory, `${id}.md`);
+        const fileContents = await fs.readFile(fullPath, "utf8");
+        const { data, content } = matter(fileContents);
 
-            // 使用独立的 renderMarkdown 函数进行渲染和高亮
-            const renderedContent = await renderMarkdown(content);
+        // 使用独立的 renderMarkdown 函数进行渲染和高亮
+        const renderedContent = await renderMarkdown(content);
 
-            return {
-                id,
-                title: data.title,
-                date: formatDate(new Date(data.date)),
-                category: data.category,
-                content: renderedContent,
-                excerpt: extractExcerpt(content)
-            };
-        } catch (error) {
-            console.error("Error in getPostById:", error);
-            return null;
-        }
-    },
-    // 使用文章ID作为缓存键的一部分
-    (id: string) => [`post-${id}`],
-    { revalidate: 3600 } // 降低到一小时，和其他缓存时间保持一致
-);
+        return {
+            id,
+            title: data.title,
+            date: formatDate(new Date(data.date)),
+            category: data.category,
+            content: renderedContent,
+            excerpt: extractExcerpt(content)
+        };
+    } catch (error) {
+        console.error("Error in getPostById:", error);
+        return null;
+    }
+}
 
 // 添加预获取函数用于静态生成
 export async function generateStaticParams() {
