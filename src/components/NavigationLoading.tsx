@@ -1,20 +1,27 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function NavigationLoading() {
     const [isLoading, setIsLoading] = useState(false);
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const isInitialMount = useRef(true);
 
     useEffect(() => {
+        // 跳过首次挂载
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+
         // 监听页面切换和搜索参数变化（包括分页）
         setIsLoading(true);
-        
+
         const timer = setTimeout(() => {
             setIsLoading(false);
         }, 250); // 250毫秒的加载效果
-        
+
         return () => clearTimeout(timer);
     }, [pathname, searchParams]);
 
