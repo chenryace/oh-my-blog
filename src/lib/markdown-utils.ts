@@ -28,7 +28,8 @@ async function highlightCodeBlocks(html: string): Promise<string> {
                 }
             });
 
-            result = result.replace(fullMatch, highlighted);
+            const wrapped = `<div class="code-block-wrapper"><div class="code-scroll">${highlighted}</div></div>`;
+            result = result.replace(fullMatch, wrapped);
         } catch (e) {
             console.warn(`Failed to highlight ${lang}:`, e);
         }

@@ -221,9 +221,11 @@ export default function RootLayout({children}: {
                     :root[class~="dark"] .content img{box-shadow:0 4px 20px rgba(0,0,0,0.3);}
                     
                     /* 代码块样式优化 - Shiki GitHub 主题 */
-                    .content pre{border-radius:6px;margin:16px 0;position:relative;box-sizing:border-box;overflow-x:auto;min-width:0;width:100%;border:1px solid rgba(0,0,0,0.12);box-shadow:0 1px 3px rgba(0,0,0,0.08);}
-                    :root[class~="dark"] .content pre{border-color:rgba(255,255,255,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.3);}
-                    .content pre code{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.5;padding:12px;}
+                    .content .code-block-wrapper{position:relative;margin:16px 0;}
+                    .content .code-block-wrapper .code-scroll{border-radius:8px;border:1px solid rgba(0,0,0,0.12);box-shadow:0 1px 3px rgba(0,0,0,0.08);background:#f8fafc;overflow-x:auto;}
+                    .content .code-block-wrapper pre{margin:0;padding:16px;padding-right:56px;min-width:0;background:transparent;}
+                    .content pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.6;min-width:0;background:transparent;}
+                    :root[class~="dark"] .content .code-block-wrapper .code-scroll{border-color:rgba(255,255,255,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.3);background:#0f172a;}
                     /* Shiki 双主题自动切换 - 只覆盖暗色模式 */
                     html[class~="dark"] .shiki {
                         background-color: var(--shiki-dark-bg) !important;
@@ -232,13 +234,26 @@ export default function RootLayout({children}: {
                     html[class~="dark"] .shiki span {
                         color: var(--shiki-dark) !important;
                     }
+                    .content pre.shiki{background-color:transparent !important;}
                     /* 复制按钮样式 */
-                    .content pre .copy-button{position:absolute;top:8px;right:8px;float:right;margin:8px 8px 0 0;padding:6px 8px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);border-radius:4px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s;display:flex;align-items:center;justify-content:center;color:#333;z-index:10;}
-                    .content pre:hover .copy-button{opacity:1;}
-                    .content pre .copy-button:hover{background:rgba(255,255,255,1);border-color:rgba(0,0,0,0.2);}
-                    .content pre .copy-button.copied{background:#22c55e;color:white;border-color:#22c55e;}
-                    :root[class~="dark"] .content pre .copy-button{background:rgba(30,41,59,0.9);border-color:rgba(255,255,255,0.15);color:#e5e7eb;}
-                    :root[class~="dark"] .content pre .copy-button:hover{background:rgba(30,41,59,1);border-color:rgba(255,255,255,0.25);}
+                    .content .code-block-wrapper,
+                    .content .code-scroll{position:relative;}
+                    .content .code-block-wrapper .copy-button,
+                    .content .code-scroll .copy-button{position:absolute;top:12px;right:16px;margin:0;padding:5px 6px;background:rgba(255,255,255,0.95);border:1px solid rgba(15,23,42,0.12);border-radius:6px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s,border-color 0.2s,color 0.2s;display:flex;align-items:center;justify-content:center;color:#0f172a;box-shadow:0 4px 10px rgba(15,23,42,0.12);z-index:10;}
+                    .content .code-block-wrapper .copy-button svg,
+                    .content .code-scroll .copy-button svg{width:16px;height:16px;}
+                    .content .code-block-wrapper:hover .copy-button,
+                    .content .code-scroll:hover .copy-button,
+                    .content .code-block-wrapper .copy-button:focus-visible,
+                    .content .code-scroll .copy-button:focus-visible{opacity:1;}
+                    .content .code-block-wrapper .copy-button:hover,
+                    .content .code-scroll .copy-button:hover{background:#ffffff;border-color:rgba(15,23,42,0.25);}
+                    .content .code-block-wrapper .copy-button.copied,
+                    .content .code-scroll .copy-button.copied{background:#22c55e;color:#fff;border-color:#22c55e;}
+                    :root[class~="dark"] .content .code-block-wrapper .copy-button,
+                    :root[class~="dark"] .content .code-scroll .copy-button{background:rgba(15,23,42,0.9);border-color:rgba(255,255,255,0.2);color:#e2e8f0;}
+                    :root[class~="dark"] .content .code-block-wrapper .copy-button:hover,
+                    :root[class~="dark"] .content .code-scroll .copy-button:hover{background:rgba(30,41,59,0.95);border-color:rgba(255,255,255,0.35);}
                     
                     /* 行内代码样式 */
                     .content :not(pre)>code{background:#f1f5f9;color:#e53e3e;padding:0.2rem 0.4rem;border-radius:4px;font-size:0.875em;font-weight:500;}
