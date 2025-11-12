@@ -233,7 +233,7 @@ export default function RootLayout({children}: {
                         color: var(--shiki-dark) !important;
                     }
                     /* 复制按钮样式 */
-                    .content pre .copy-button{position:sticky;top:8px;right:8px;float:right;margin:8px 8px 0 0;padding:6px 8px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);border-radius:4px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s;display:flex;align-items:center;justify-content:center;color:#333;z-index:10;}
+                    .content pre .copy-button{position:absolute;top:8px;right:8px;float:right;margin:8px 8px 0 0;padding:6px 8px;background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.1);border-radius:4px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s;display:flex;align-items:center;justify-content:center;color:#333;z-index:10;}
                     .content pre:hover .copy-button{opacity:1;}
                     .content pre .copy-button:hover{background:rgba(255,255,255,1);border-color:rgba(0,0,0,0.2);}
                     .content pre .copy-button.copied{background:#22c55e;color:white;border-color:#22c55e;}
