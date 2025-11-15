@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 
 interface PaginationProps {
     currentPage: number;
@@ -8,6 +9,7 @@ interface PaginationProps {
 }
 
 export default function Pagination({ currentPage, totalPages }: PaginationProps) {
+    const router = useRouter();
     // 如果只有一页，不显示分页
     if (totalPages <= 1) {
         return null;
@@ -36,6 +38,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     href={getPageUrl(1)}
                     className={`pagination-number ${currentPage === 1 ? 'active' : ''}`}
                     prefetch={false}
+                    onClick={() => handlePageClick(1)}
                 >
                     1
                 </Link>
@@ -53,6 +56,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     href={getPageUrl(i)}
                     className={`pagination-number ${currentPage === i ? 'active' : ''}`}
                     prefetch={false}
+                    onClick={() => handlePageClick(i)}
                 >
                     {i}
                 </Link>
@@ -70,6 +74,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     href={getPageUrl(totalPages)}
                     className={`pagination-number ${currentPage === totalPages ? 'active' : ''}`}
                     prefetch={false}
+                    onClick={() => handlePageClick(totalPages)}
                 >
                     {totalPages}
                 </Link>
@@ -77,6 +82,10 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
         }
 
         return pages;
+    };
+
+    const handlePageClick = (page: number) => {
+        router.push(getPageUrl(page));
     };
 
     return (
