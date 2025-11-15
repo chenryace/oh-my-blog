@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface PaginationProps {
     currentPage: number;
@@ -6,6 +9,7 @@ interface PaginationProps {
 }
 
 export default function Pagination({ currentPage, totalPages }: PaginationProps) {
+    const router = useRouter();
     // 如果只有一页，不显示分页
     if (totalPages <= 1) {
         return null;
@@ -85,6 +89,10 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     href={getPageUrl(currentPage - 1)}
                     className="pagination-nav"
                     prefetch={false}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        router.push(getPageUrl(currentPage - 1));
+                    }}
                 >
                     ← 上一页
                 </Link>
@@ -101,6 +109,10 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     href={getPageUrl(currentPage + 1)}
                     className="pagination-nav"
                     prefetch={false}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        router.push(getPageUrl(currentPage + 1));
+                    }}
                 >
                     下一页 →
                 </Link>
