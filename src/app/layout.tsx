@@ -278,9 +278,9 @@ export default function RootLayout({children}: {
                     .content hr{border:none;height:2px;background:linear-gradient(90deg,#0066cc,#60a5fa,#0066cc);margin:32px 0;border-radius:1px;}
                     
                     /* 分页样式 */
-                    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px auto;max-width:800px;flex-wrap:wrap;}
+                    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px auto;max-width:800px;flex-wrap:wrap;position:relative;z-index:1;}
                     .layout.with-sidebar .pagination{margin:40px 0;max-width:none;}  /* 在侧边栏布局中，分页不居中且无宽度限制 */
-                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
+                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;position:relative;z-index:2;}
                     .pagination-nav:hover{background:var(--primary-color);color:var(--bg-color);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
                     .pagination-nav:active,.pagination-nav:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
                     :root[class~="dark"] .pagination-nav{border-color:#4a5568;}
@@ -325,6 +325,10 @@ export default function RootLayout({children}: {
                         .layout.with-sidebar aside{display:none;} /* 隐藏侧边栏 */
                         .layout.with-sidebar .article{margin:0 0 20px 0;max-width:100%;} /* 移动端文章全宽 */
                         .layout.with-sidebar .pagination{margin:40px 0;max-width:100%;} /* 移动端分页全宽 */
+
+                        /* 移动端分页按钮优化 - 确保可点击 */
+                        .pagination-nav{display:inline-flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
+
                         .grid{grid-template-columns:1fr;}
                         .timeline{padding-left:1.5rem;}
                         .year::before{left:-29px;}
