@@ -19,6 +19,13 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
         return page === 1 ? '/' : `/?page=${page}`;
     };
 
+    const handlePageClick = (page: number) => {
+        if (page === currentPage) {
+            return;
+        }
+        router.push(getPageUrl(page));
+    };
+
     const renderPageNumbers = () => {
         const pages = [];
         const maxPagesToShow = 5;
@@ -30,19 +37,22 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             startPage = Math.max(1, endPage - maxPagesToShow + 1);
         }
 
+        const createPageButton = (page: number) => (
+            <button
+                key={`page-${page}`}
+                type="button"
+                onClick={() => handlePageClick(page)}
+                className={`pagination-number ${currentPage === page ? 'active' : ''}`}
+                aria-current={currentPage === page ? 'page' : undefined}
+                disabled={currentPage === page}
+            >
+                {page}
+            </button>
+        );
+
         // 如果不是从第1页开始，显示第1页和省略号
         if (startPage > 1) {
-            pages.push(
-                <Link
-                    key={1}
-                    href={getPageUrl(1)}
-                    className={`pagination-number ${currentPage === 1 ? 'active' : ''}`}
-                    prefetch={false}
-                    onClick={() => handlePageClick(1)}
-                >
-                    1
-                </Link>
-            );
+            pages.push(createPageButton(1));
             if (startPage > 2) {
                 pages.push(<span key="dots1" className="pagination-dots">...</span>);
             }
@@ -50,17 +60,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
 
         // 显示页码范围
         for (let i = startPage; i <= endPage; i++) {
-            pages.push(
-                <Link
-                    key={i}
-                    href={getPageUrl(i)}
-                    className={`pagination-number ${currentPage === i ? 'active' : ''}`}
-                    prefetch={false}
-                    onClick={() => handlePageClick(i)}
-                >
-                    {i}
-                </Link>
-            );
+            pages.push(createPageButton(i));
         }
 
         // 如果不是到最后一页，显示省略号和最后一页
@@ -68,24 +68,10 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             if (endPage < totalPages - 1) {
                 pages.push(<span key="dots2" className="pagination-dots">...</span>);
             }
-            pages.push(
-                <Link
-                    key={totalPages}
-                    href={getPageUrl(totalPages)}
-                    className={`pagination-number ${currentPage === totalPages ? 'active' : ''}`}
-                    prefetch={false}
-                    onClick={() => handlePageClick(totalPages)}
-                >
-                    {totalPages}
-                </Link>
-            );
+            pages.push(createPageButton(totalPages));
         }
 
         return pages;
-    };
-
-    const handlePageClick = (page: number) => {
-        router.push(getPageUrl(page));
     };
 
     return (

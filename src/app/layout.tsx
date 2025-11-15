@@ -285,7 +285,7 @@ export default function RootLayout({children}: {
                     .pagination-nav:active,.pagination-nav:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
                     :root[class~="dark"] .pagination-nav{border-color:#4a5568;}
                     .pagination-numbers{display:flex;gap:4px;align-items:center;}
-                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
+                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;background:var(--article-bg);appearance:none;font:inherit;padding:0;}
                     .pagination-number:hover{background:var(--primary-color);color:var(--bg-color);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
                     .pagination-number:active,.pagination-number:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
                     .pagination-number.active{background:var(--primary-color);color:var(--bg-color);border-color:var(--primary-color);pointer-events:none;}
