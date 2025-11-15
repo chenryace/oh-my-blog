@@ -33,6 +33,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     key={1}
                     href={getPageUrl(1)}
                     className={`pagination-number ${currentPage === 1 ? 'active' : ''}`}
+                    prefetch={false}
                 >
                     1
                 </Link>
@@ -49,6 +50,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     key={i}
                     href={getPageUrl(i)}
                     className={`pagination-number ${currentPage === i ? 'active' : ''}`}
+                    prefetch={false}
                 >
                     {i}
                 </Link>
@@ -65,6 +67,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     key={totalPages}
                     href={getPageUrl(totalPages)}
                     className={`pagination-number ${currentPage === totalPages ? 'active' : ''}`}
+                    prefetch={false}
                 >
                     {totalPages}
                 </Link>
@@ -81,6 +84,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                 <Link
                     href={getPageUrl(currentPage - 1)}
                     className="pagination-nav"
+                    prefetch={false}
                 >
                     ← 上一页
                 </Link>
@@ -96,6 +100,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                 <Link
                     href={getPageUrl(currentPage + 1)}
                     className="pagination-nav"
+                    prefetch={false}
                 >
                     下一页 →
                 </Link>
