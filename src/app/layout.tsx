@@ -280,15 +280,19 @@ export default function RootLayout({children}: {
                     /* 分页样式 */
                     .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px auto;max-width:800px;flex-wrap:wrap;position:relative;z-index:1;}
                     .layout.with-sidebar .pagination{margin:40px 0;max-width:none;}  /* 在侧边栏布局中，分页不居中且无宽度限制 */
-                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;position:relative;z-index:2;}
+                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,opacity 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
                     .pagination-nav:hover{background:var(--primary-color);color:var(--bg-color);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
                     .pagination-nav:active,.pagination-nav:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
+                    .pagination-nav.loading{opacity:0.6;pointer-events:none;cursor:wait;}
+                    .pagination-nav[aria-disabled="true"]{pointer-events:none;}
                     :root[class~="dark"] .pagination-nav{border-color:#4a5568;}
                     .pagination-numbers{display:flex;gap:4px;align-items:center;}
-                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;background:var(--article-bg);appearance:none;font:inherit;padding:0;}
+                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,opacity 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;background:var(--article-bg);-webkit-user-select:none;user-select:none;}
                     .pagination-number:hover{background:var(--primary-color);color:var(--bg-color);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
                     .pagination-number:active,.pagination-number:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
-                    .pagination-number.active{background:var(--primary-color);color:var(--bg-color);border-color:var(--primary-color);pointer-events:none;}
+                    .pagination-number.active{background:var(--primary-color);color:var(--bg-color);border-color:var(--primary-color);pointer-events:none;cursor:default;}
+                    .pagination-number.loading{opacity:0.6;pointer-events:none;cursor:wait;animation:pulse 1.5s ease-in-out infinite;}
+                    .pagination-number[aria-disabled="true"]{pointer-events:none;}
                     .pagination-dots{color:var(--meta-color);padding:0 4px;}
                     :root[class~="dark"] .pagination-number{border-color:#4a5568;}
                     
