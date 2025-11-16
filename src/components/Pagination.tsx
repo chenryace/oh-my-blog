@@ -103,7 +103,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     className={`pagination-nav ${isNavigating && targetPage === currentPage - 1 ? 'loading' : ''}`}
                     onClick={() => handleNavigation(currentPage - 1)}
                     aria-disabled={isNavigating}
-                    prefetch={false}
+                    prefetch={true}
                 >
                     {isNavigating && targetPage === currentPage - 1 ? '...' : '← 上一页'}
                 </Link>
@@ -121,7 +121,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     className={`pagination-nav ${isNavigating && targetPage === currentPage + 1 ? 'loading' : ''}`}
                     onClick={() => handleNavigation(currentPage + 1)}
                     aria-disabled={isNavigating}
-                    prefetch={false}
+                    prefetch={true}
                 >
                     {isNavigating && targetPage === currentPage + 1 ? '...' : '下一页 →'}
                 </Link>
