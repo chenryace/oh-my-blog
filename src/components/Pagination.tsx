@@ -63,9 +63,8 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     className={`pagination-number ${isActive ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
                     aria-disabled={isActive || isNavigating}
-                    prefetch={false}
                 >
-                    {isLoading ? '...' : page}
+                    {page}
                 </Link>
             );
         };
@@ -103,9 +102,8 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     className={`pagination-nav ${isNavigating && targetPage === currentPage - 1 ? 'loading' : ''}`}
                     onClick={() => handleNavigation(currentPage - 1)}
                     aria-disabled={isNavigating}
-                    prefetch={true}
                 >
-                    {isNavigating && targetPage === currentPage - 1 ? '...' : '← 上一页'}
+                    ← 上一页
                 </Link>
             )}
 
@@ -121,9 +119,8 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
                     className={`pagination-nav ${isNavigating && targetPage === currentPage + 1 ? 'loading' : ''}`}
                     onClick={() => handleNavigation(currentPage + 1)}
                     aria-disabled={isNavigating}
-                    prefetch={true}
                 >
-                    {isNavigating && targetPage === currentPage + 1 ? '...' : '下一页 →'}
+                    下一页 →
                 </Link>
             )}
         </div>
