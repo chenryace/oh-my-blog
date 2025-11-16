@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
 interface PaginationProps {
     currentPage: number;
@@ -9,7 +9,9 @@ interface PaginationProps {
 }
 
 export default function Pagination({ currentPage, totalPages }: PaginationProps) {
-    const router = useRouter();
+    const [isNavigating, setIsNavigating] = useState(false);
+    const [targetPage, setTargetPage] = useState<number | null>(null);
+
     // 如果只有一页，不显示分页
     if (totalPages <= 1) {
         return null;
@@ -19,11 +21,17 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
         return page === 1 ? '/' : `/?page=${page}`;
     };
 
-    const handlePageClick = (page: number) => {
-        if (page === currentPage) {
+    const handleNavigation = (page: number) => {
+        if (page === currentPage || isNavigating) {
             return;
         }
-        router.push(getPageUrl(page));
+        setIsNavigating(true);
+        setTargetPage(page);
+        // 视觉反馈后自动重置（防止状态卡住）
+        setTimeout(() => {
+            setIsNavigating(false);
+            setTargetPage(null);
+        }, 2000);
     };
 
     const renderPageNumbers = () => {
@@ -37,18 +45,30 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             startPage = Math.max(1, endPage - maxPagesToShow + 1);
         }
 
-        const createPageButton = (page: number) => (
-            <button
-                key={`page-${page}`}
-                type="button"
-                onClick={() => handlePageClick(page)}
-                className={`pagination-number ${currentPage === page ? 'active' : ''}`}
-                aria-current={currentPage === page ? 'page' : undefined}
-                disabled={currentPage === page}
-            >
-                {page}
-            </button>
-        );
+        const createPageButton = (page: number) => {
+            const isActive = currentPage === page;
+            const isLoading = isNavigating && targetPage === page;
+
+            return (
+                <Link
+                    key={`page-${page}`}
+                    href={getPageUrl(page)}
+                    onClick={(e) => {
+                        if (isActive || isNavigating) {
+                            e.preventDefault();
+                            return;
+                        }
+                        handleNavigation(page);
+                    }}
+                    className={`pagination-number ${isActive ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
+                    aria-disabled={isActive || isNavigating}
+                    prefetch={false}
+                >
+                    {isLoading ? '...' : page}
+                </Link>
+            );
+        };
 
         // 如果不是从第1页开始，显示第1页和省略号
         if (startPage > 1) {
@@ -80,10 +100,12 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             {currentPage > 1 && (
                 <Link
                     href={getPageUrl(currentPage - 1)}
-                    className="pagination-nav"
+                    className={`pagination-nav ${isNavigating && targetPage === currentPage - 1 ? 'loading' : ''}`}
+                    onClick={() => handleNavigation(currentPage - 1)}
+                    aria-disabled={isNavigating}
                     prefetch={false}
                 >
-                    ← 上一页
+                    {isNavigating && targetPage === currentPage - 1 ? '...' : '← 上一页'}
                 </Link>
             )}
 
@@ -96,10 +118,12 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             {currentPage < totalPages && (
                 <Link
                     href={getPageUrl(currentPage + 1)}
-                    className="pagination-nav"
+                    className={`pagination-nav ${isNavigating && targetPage === currentPage + 1 ? 'loading' : ''}`}
+                    onClick={() => handleNavigation(currentPage + 1)}
+                    aria-disabled={isNavigating}
                     prefetch={false}
                 >
-                    下一页 →
+                    {isNavigating && targetPage === currentPage + 1 ? '...' : '下一页 →'}
                 </Link>
             )}
         </div>
