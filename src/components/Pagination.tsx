@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import {useState} from 'react';
 
 interface PaginationProps {
     currentPage: number;
@@ -9,9 +8,6 @@ interface PaginationProps {
 }
 
 export default function Pagination({ currentPage, totalPages }: PaginationProps) {
-    const [isNavigating, setIsNavigating] = useState(false);
-    const [targetPage, setTargetPage] = useState<number | null>(null);
-
     // 如果只有一页，不显示分页
     if (totalPages <= 1) {
         return null;
@@ -19,19 +15,6 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
 
     const getPageUrl = (page: number) => {
         return page === 1 ? '/' : `/?page=${page}`;
-    };
-
-    const handleNavigation = (page: number) => {
-        if (page === currentPage || isNavigating) {
-            return;
-        }
-        setIsNavigating(true);
-        setTargetPage(page);
-        // 视觉反馈后自动重置（防止状态卡住）
-        setTimeout(() => {
-            setIsNavigating(false);
-            setTargetPage(null);
-        }, 2000);
     };
 
     const renderPageNumbers = () => {
@@ -47,25 +30,21 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
 
         const createPageButton = (page: number) => {
             const isActive = currentPage === page;
-            const isLoading = isNavigating && targetPage === page;
 
             return (
                 <Link
                     key={`page-${page}`}
                     href={getPageUrl(page)}
                     onClick={(e) => {
-                        if (isActive || isNavigating) {
+                        if (isActive) {
                             e.preventDefault();
-                            return;
                         }
-                        handleNavigation(page);
                     }}
-                    className={`pagination-number ${isActive ? 'active' : ''} ${isLoading ? 'loading' : ''}`}
+                    className={`pagination-number ${isActive ? 'active' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
-                    aria-disabled={isActive || isNavigating}
-                    prefetch={false}
+                    aria-disabled={isActive}
                 >
-                    {isLoading ? '...' : page}
+                    {page}
                 </Link>
             );
         };
@@ -100,12 +79,9 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             {currentPage > 1 && (
                 <Link
                     href={getPageUrl(currentPage - 1)}
-                    className={`pagination-nav ${isNavigating && targetPage === currentPage - 1 ? 'loading' : ''}`}
-                    onClick={() => handleNavigation(currentPage - 1)}
-                    aria-disabled={isNavigating}
-                    prefetch={true}
+                    className="pagination-nav"
                 >
-                    {isNavigating && targetPage === currentPage - 1 ? '...' : '← 上一页'}
+                    ← 上一页
                 </Link>
             )}
 
@@ -118,12 +94,9 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
             {currentPage < totalPages && (
                 <Link
                     href={getPageUrl(currentPage + 1)}
-                    className={`pagination-nav ${isNavigating && targetPage === currentPage + 1 ? 'loading' : ''}`}
-                    onClick={() => handleNavigation(currentPage + 1)}
-                    aria-disabled={isNavigating}
-                    prefetch={true}
+                    className="pagination-nav"
                 >
-                    {isNavigating && targetPage === currentPage + 1 ? '...' : '下一页 →'}
+                    下一页 →
                 </Link>
             )}
         </div>
