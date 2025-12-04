@@ -8,6 +8,8 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 // 基础配置
 const nextConfig: NextConfig = {
+    // Turbopack 配置 (Next.js 16+)
+    turbopack: {},
     // 优化生产构建
     experimental: {
         optimizePackageImports: ["@/components", "lucide-react"], // 优化组件导入
