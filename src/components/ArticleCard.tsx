@@ -14,7 +14,7 @@ interface ArticleProps {
 // 使用备忘录模式优化组件，避免不必要的重渲染
 function ArticleCard({id, title, date, category, excerpt}: ArticleProps) {
     return (
-        <article className="article">
+        <article className="article article-card">
             <h2 className={styles.title}>
                 <Link href={`/posts/${id}`} prefetch={false}>{title}</Link>
             </h2>

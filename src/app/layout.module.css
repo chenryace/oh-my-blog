@@ -22,6 +22,29 @@
     width: 60%;
 }
 
+.sidebarSkeletonList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebarSkeletonItem {
+    height: 16px;
+}
+
+.sidebarSkeletonItemWide {
+    width: 90%;
+}
+
+.sidebarSkeletonItemMedium {
+    width: 75%;
+}
+
+.sidebarSkeletonItemShort {
+    width: 60%;
+}
+
 .headerActions {
     position: absolute;
     right: 1rem;

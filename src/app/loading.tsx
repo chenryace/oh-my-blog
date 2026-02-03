@@ -1,5 +1,14 @@
-import ContentLoading from "@/components/ContentLoading";
+"use client";
+
+import {usePathname} from "next/navigation";
+import PostsListLoading from "@/components/PostsListLoading";
 
 export default function Loading() {
-    return <ContentLoading />;
+    const pathname = usePathname();
+
+    if (pathname === "/") {
+        return <PostsListLoading count={4} />;
+    }
+
+    return null;
 }

@@ -1,7 +1,9 @@
 // src/app/page.tsx
+import {Suspense} from "react";
 import {getPaginatedPosts} from "@/lib/posts.server";
 import ArticleCard from "@/components/ArticleCard";
 import Pagination from "@/components/Pagination";
+import PostsListLoading from "@/components/PostsListLoading";
 
 interface HomeProps {
     params: { page?: string };
@@ -40,7 +42,9 @@ export default async function Home({searchParams}: HomeProps) {
 
     return (
         <>
-            <PostsList page={page}/>
+            <Suspense fallback={<PostsListLoading />}>
+                <PostsList page={page}/>
+            </Suspense>
         </>
     );
 }

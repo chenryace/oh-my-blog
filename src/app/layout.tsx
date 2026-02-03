@@ -9,7 +9,6 @@ import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
 import NavigationLoading from "@/components/NavigationLoading";
-import ContentLoading from "@/components/ContentLoading";
 import styles from "./layout.module.css";
 
 // 移除Google字体，直接使用系统字体栈
@@ -50,15 +49,46 @@ const SidebarWrapper = async () => {
 };
 
 const SidebarSkeleton = () => {
+    const categoryItems = [1, 2, 3, 4, 5];
+    const friendItems = [1, 2, 3];
+    const widths = [
+        styles.sidebarSkeletonItemWide,
+        styles.sidebarSkeletonItemMedium,
+        styles.sidebarSkeletonItemShort,
+        styles.sidebarSkeletonItemMedium,
+        styles.sidebarSkeletonItemWide
+    ];
     return (
-        <div className="widget">
-            <h3>加载中...</h3>
-            <div className={styles.sidebarSkeleton}>
-                <div className={`${styles.skeletonLine} ${styles.skeletonLineAnimated}`}></div>
-                <div className={`${styles.skeletonLine} ${styles.skeletonLineMedium}`}></div>
-                <div className={`${styles.skeletonLine} ${styles.skeletonLineShort}`}></div>
+        <>
+            <div className="widget">
+                <h3>分类</h3>
+                <div className={styles.sidebarSkeleton}>
+                    <ul className={styles.sidebarSkeletonList}>
+                        {categoryItems.map((item, index) => (
+                            <li
+                                key={item}
+                                className={`${styles.skeletonLine} ${styles.sidebarSkeletonItem} ${widths[index]} ${styles.skeletonLineAnimated}`}
+                                aria-hidden="true"
+                            ></li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-        </div>
+            <div className="widget">
+                <h3>友情链接</h3>
+                <div className={styles.sidebarSkeleton}>
+                    <ul className={styles.sidebarSkeletonList}>
+                        {friendItems.map((item, index) => (
+                            <li
+                                key={item}
+                                className={`${styles.skeletonLine} ${styles.sidebarSkeletonItem} ${widths[index]} ${styles.skeletonLineAnimated}`}
+                                aria-hidden="true"
+                            ></li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </>
     );
 };
 
@@ -114,7 +144,7 @@ export default function RootLayout({children}: {
 
                 <div className="layout with-sidebar">
                     <div className={styles.contentWrapper}>
-                        <Suspense fallback={<ContentLoading />}>
+                        <Suspense fallback={null}>
                             {children}
                         </Suspense>
                     </div>
