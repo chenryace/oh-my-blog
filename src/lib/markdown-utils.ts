@@ -54,7 +54,7 @@ const optimizeImages = (html: string): string => {
         const alt = altMatch ? altMatch[1] : '';
 
         // 构建优化的图片标签，保留原始的响应式样式
-        return `<img src="${src}" alt="${alt}" width="${width}" height="${height}" style="max-width:100%;height:auto;" loading="lazy" decoding="async" />`;
+        return `<img src="${src}" alt="${alt}" width="${width}" height="${height}" loading="lazy" decoding="async" />`;
     });
 };
 

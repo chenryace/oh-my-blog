@@ -1,0 +1,33 @@
+.sidebarSkeleton {
+    padding: 10px 0;
+}
+
+.skeletonLine {
+    height: 16px;
+    background-color: var(--meta-color);
+    margin-bottom: 10px;
+    border-radius: 4px;
+    opacity: 0.3;
+}
+
+.skeletonLineAnimated {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonLineMedium {
+    width: 80%;
+}
+
+.skeletonLineShort {
+    width: 60%;
+}
+
+.headerActions {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.contentWrapper {
+    min-width: 0;
+}

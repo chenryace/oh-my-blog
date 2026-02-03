@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import {Suspense} from "react";
-// 移除globals.css，完全使用内联CSS避免阻塞渲染
+import "@/styles/globals.css";
 import {siteConfig} from "@/lib/constants";
 import Navigation from "@/components/Navigation";
 import {getCategoryStats} from "@/lib/posts.server";
@@ -9,6 +9,8 @@ import {Providers} from "@/components/Providers";
 import {ThemeToggle} from "@/components/ThemeToggle";
 import CategorySidebar from "@/components/CategorySidebar";
 import NavigationLoading from "@/components/NavigationLoading";
+import ContentLoading from "@/components/ContentLoading";
+import styles from "./layout.module.css";
 
 // 移除Google字体，直接使用系统字体栈
 
@@ -51,31 +53,10 @@ const SidebarSkeleton = () => {
     return (
         <div className="widget">
             <h3>加载中...</h3>
-            <div style={{padding: '10px 0'}}>
-                <div style={{
-                    height: '16px', 
-                    backgroundColor: 'var(--meta-color)', 
-                    marginBottom: '10px',
-                    borderRadius: '4px',
-                    opacity: 0.3,
-                    animation: 'pulse 1.5s ease-in-out infinite'
-                }}></div>
-                <div style={{
-                    height: '16px', 
-                    backgroundColor: 'var(--meta-color)', 
-                    marginBottom: '10px',
-                    borderRadius: '4px',
-                    opacity: 0.3,
-                    width: '80%'
-                }}></div>
-                <div style={{
-                    height: '16px', 
-                    backgroundColor: 'var(--meta-color)', 
-                    marginBottom: '10px',
-                    borderRadius: '4px',
-                    opacity: 0.3,
-                    width: '60%'
-                }}></div>
+            <div className={styles.sidebarSkeleton}>
+                <div className={`${styles.skeletonLine} ${styles.skeletonLineAnimated}`}></div>
+                <div className={`${styles.skeletonLine} ${styles.skeletonLineMedium}`}></div>
+                <div className={`${styles.skeletonLine} ${styles.skeletonLineShort}`}></div>
             </div>
         </div>
     );
@@ -116,245 +97,7 @@ export default function RootLayout({children}: {
             {/* iOS Safari 收藏夹图标 */}
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png" />
-            
-            {/* 内联所有关键CSS避免阻塞 */}
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                    :root{--primary-color:#333;--primary-hover:#000;--bg-color:#f5f5f5;--meta-color:#666;--article-bg:white;--nav-bg:white;--shadow:0 2px 5px rgba(0,0,0,0.1);}
-                    :root[class~="dark"]{--primary-color:#e1e1e1;--primary-hover:#ffffff;--bg-color:#1a1a1a;--meta-color:#9ca3af;--article-bg:#1e293b;--nav-bg:#1e293b;--shadow:0 2px 5px rgba(0,0,0,0.2);}
-                    *{margin:0;padding:0;box-sizing:border-box;}
-                    html{scroll-behavior:smooth;overflow-y:scroll;overflow-x:hidden;width:100%;max-width:100vw;}
-                    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:var(--bg-color);color:var(--primary-color);transition:background-color 0.3s,color 0.3s;margin:0;padding:0;overflow-x:hidden;width:100%;max-width:100vw;}
-                    .container{max-width:960px;margin:0 auto;padding:20px;overflow-x:hidden;box-sizing:border-box;}
-                    header{text-align:center;position:relative;min-height:100px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-                    header h1{font-size:2.5rem;margin:0 0 8px 0;padding:0;font-weight:700;color:var(--primary-color);line-height:1.2;}
-                    header p{color:var(--meta-color);line-height:1.4;margin:0;padding:0;font-size:1rem;}
-                    .layout{margin:20px 0;}
-                    .layout.with-sidebar{display:grid;grid-template-columns:1fr 250px;gap:20px;}
-                    .layout.with-sidebar aside{position:sticky;top:20px;align-self:flex-start;}
-                    .layout > div{animation:fadeIn 0.4s ease-out;}
-                    .article{background:var(--article-bg);padding:25px;border-radius:4px;box-shadow:var(--shadow);margin:0 auto 20px auto;max-width:800px;transition:transform 0.2s ease,box-shadow 0.2s ease;word-wrap:break-word;overflow-wrap:break-word;}
-                    .layout.with-sidebar .article{margin:0 0 20px 0;max-width:none;min-width:0;}  /* 在侧边栏布局中，文章不居中且无宽度限制 */
-                    .layout.with-sidebar .article:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.15);}  /* 只在有侧边栏的页面(主页)有跳动效果 */
-                    .article-single:hover{transform:none !important;box-shadow:var(--shadow) !important;}  /* 单独文章页面禁用跳动效果 */
-                    :root[class~="dark"] .layout.with-sidebar .article:hover{box-shadow:0 4px 15px rgba(0,0,0,0.3);}
-                    :root[class~="dark"] .article-single:hover{box-shadow:var(--shadow) !important;}
-                    .article h2 a{color:var(--primary-color);text-decoration:none;}
-                    .article .meta{color:var(--meta-color);font-size:0.9em;margin:10px 0 15px;}
-                    .read-more{text-align:right;margin-top:15px;}
-                    .read-more a{color:var(--primary-color);text-decoration:none;font-weight:500;display:inline-flex;align-items:center;}
-                    .read-more a::after{content:' →';transition:transform 0.2s;}
-                    .read-more a:hover::after{transform:translateX(3px);}
-                    .widget{background:var(--article-bg);padding:20px;border-radius:4px;box-shadow:var(--shadow);margin-bottom:20px;}
-                    .widget h3{color:var(--primary-color);font-size:1em;margin-bottom:15px;}
-                    .widget ul{list-style:none;}
-                    .widget li{margin-bottom:10px;}
-                    .widget a{color:var(--meta-color);text-decoration:none;transition:color 0.2s;}
-                    .widget a:hover{color:var(--primary-hover);}
-                    footer{text-align:center;padding:20px 0;color:var(--meta-color);font-size:0.9em;}
-                    
-                    /* 归档页面样式 */
-                    .timeline{position:relative;padding-left:2.5rem;}
-                    .timeline::before{content:'';position:absolute;left:11px;top:0;height:100%;width:2px;background-color:#eee;}
-                    :root[class~="dark"] .timeline::before{background-color:#374151;}
-                    .yearGroup{position:relative;margin-bottom:2rem;}
-                    .year{position:relative;font-size:24px;font-weight:500;color:var(--primary-color);margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;}
-                    .year::before{content:'';position:absolute;width:6px;height:6px;border:1.5px solid #666;border-radius:50%;background:var(--article-bg);left:-34px;top:50%;transform:translateY(-50%);}
-                    :root[class~="dark"] .year{border-bottom-color:#374151;}
-                    :root[class~="dark"] .year::before{border-color:#9ca3af;}
-                    .monthGroup{margin-bottom:1.5rem;}
-                    .month{position:relative;font-size:18px;font-weight:500;color:var(--primary-color);margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
-                    .month::before{content:'';position:absolute;width:10px;height:10px;background:#666;border-radius:50%;left:-33px;top:50%;transform:translateY(-50%);}
-                    :root[class~="dark"] .month::before{background:#9ca3af;}
-                    .count{font-size:14px;color:var(--meta-color);font-weight:normal;}
-                    .posts{list-style:none;padding:0;margin:0;}
-                    .post{position:relative;padding:0.5rem 0 0.5rem 1rem;display:flex;align-items:center;}
-                    .post::before{content:'';position:absolute;width:6px;height:6px;background:#ccc;border-radius:50%;left:-31px;top:50%;transform:translateY(-50%);}
-                    :root[class~="dark"] .post::before{background:#4b5563;}
-                    .postTitle{display:flex;align-items:center;gap:1rem;color:var(--primary-color);text-decoration:none;transition:color 0.2s;line-height:1.5;}
-                    .postTitle:hover{color:var(--primary-hover);}
-                    .date{color:var(--meta-color);font-size:14px;min-width:48px;}
-                    
-                    /* 友情链接页面样式 */
-                    .intro{margin-bottom:2rem;text-align:center;}
-                    .intro p{margin-bottom:0.5rem;color:var(--meta-color);}
-                    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
-                    .card{display:block;background:var(--article-bg);border-radius:8px;box-shadow:var(--shadow);padding:1.5rem;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;}
-                    .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
-                    :root[class~="dark"] .card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-                    .name{font-size:1.2rem;font-weight:600;color:var(--primary-color);margin-bottom:0.5rem;}
-                    .description{color:var(--meta-color);font-size:0.9rem;line-height:1.4;}
-                    
-                    /* 文章页面样式 */
-                    .title{font-size:1.75rem;font-weight:bold;color:var(--primary-color);margin-bottom:16px;line-height:1.4;}
-                    .meta{font-size:14px;color:var(--meta-color);margin-bottom:16px;}
-                    .content{color:#444;line-height:1.8;font-size:16px;word-wrap:break-word;overflow-wrap:break-word;min-width:0;hyphens:auto;}
-                    .content *{word-wrap:break-word;overflow-wrap:break-word;max-width:100%;}
-                    .content a{word-break:break-all;}
-                    .content p{word-break:break-word;}
-                    .content li{word-break:break-word;}
-                    :root[class~="dark"] .content{color:#d1d5db;}
-                    
-                    /* 标题样式优化 */
-                    .content h1{font-size:2rem;font-weight:600;color:var(--primary-color);margin:32px 0 20px;padding-bottom:12px;border-bottom:2px solid #eee;}
-                    .content h2{font-size:1.5rem;font-weight:500;color:var(--primary-color);margin:28px 0 16px;padding-bottom:8px;border-bottom:1px solid #eee;}
-                    .content h3{font-size:1.25rem;font-weight:500;color:var(--primary-color);margin:0 0 10px;}
-                    .content h4{font-size:1.1rem;font-weight:500;color:var(--primary-color);margin:20px 0 10px;}
-                    :root[class~="dark"] .content h1{border-bottom-color:#374151;}
-                    :root[class~="dark"] .content h2{border-bottom-color:#374151;}
-                    
-                    .content a{color:#0066cc;text-decoration:none;word-wrap:break-word;border-bottom:1px solid transparent;transition:all 0.2s;}
-                    .content a:hover{border-bottom-color:#0066cc;}
-                    :root[class~="dark"] .content a{color:#60a5fa;}
-                    :root[class~="dark"] .content a:hover{border-bottom-color:#60a5fa;}
-                    
-                    /* 列表样式优化 */
-                    .content ul,.content ol{padding-left:24px;margin:16px 0;line-height:1.7;}
-                    .content li{margin-bottom:8px;}
-                    .content ul li::marker{color:#0066cc;}
-                    .content ol li::marker{color:#0066cc;font-weight:500;}
-                    :root[class~="dark"] .content ul li::marker{color:#60a5fa;}
-                    :root[class~="dark"] .content ol li::marker{color:#60a5fa;}
-                    
-                    /* 图片样式优化 */
-                    .content img{max-width:100%;height:auto;margin:2rem 0;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.1);display:block;box-sizing:border-box;}
-                    :root[class~="dark"] .content img{box-shadow:0 4px 20px rgba(0,0,0,0.3);}
-                    
-                    /* 代码块样式优化 - Shiki GitHub 主题 */
-                    .content .code-block-wrapper{position:relative;margin:16px 0;}
-                    .content .code-block-wrapper .code-scroll{border-radius:8px;border:1px solid rgba(0,0,0,0.12);box-shadow:0 1px 3px rgba(0,0,0,0.08);background:#f8fafc;overflow-x:auto;}
-                    .content .code-block-wrapper pre{margin:0;padding:16px;padding-right:56px;min-width:0;background:transparent;}
-                    .content pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.6;min-width:0;background:transparent;}
-                    :root[class~="dark"] .content .code-block-wrapper .code-scroll{border-color:rgba(255,255,255,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.3);background:#0f172a;}
-                    /* Shiki 双主题自动切换 - 只覆盖暗色模式 */
-                    html[class~="dark"] .shiki {
-                        background-color: var(--shiki-dark-bg) !important;
-                        color: var(--shiki-dark) !important;
-                    }
-                    html[class~="dark"] .shiki span {
-                        color: var(--shiki-dark) !important;
-                    }
-                    .content pre.shiki{background-color:transparent !important;}
-                    /* 复制按钮样式 */
-                    .content .code-block-wrapper,
-                    .content .code-scroll{position:relative;}
-                    .content .code-block-wrapper .copy-button,
-                    .content .code-scroll .copy-button{position:absolute;top:12px;right:16px;margin:0;padding:5px 6px;background:rgba(255,255,255,0.95);border:1px solid rgba(15,23,42,0.12);border-radius:6px;cursor:pointer;opacity:0;transition:opacity 0.2s,background 0.2s,border-color 0.2s,color 0.2s;display:flex;align-items:center;justify-content:center;color:#0f172a;box-shadow:0 4px 10px rgba(15,23,42,0.12);z-index:10;}
-                    .content .code-block-wrapper .copy-button svg,
-                    .content .code-scroll .copy-button svg{width:16px;height:16px;}
-                    .content .code-block-wrapper:hover .copy-button,
-                    .content .code-scroll:hover .copy-button,
-                    .content .code-block-wrapper .copy-button:focus-visible,
-                    .content .code-scroll .copy-button:focus-visible{opacity:1;}
-                    .content .code-block-wrapper .copy-button:hover,
-                    .content .code-scroll .copy-button:hover{background:#ffffff;border-color:rgba(15,23,42,0.25);}
-                    .content .code-block-wrapper .copy-button.copied,
-                    .content .code-scroll .copy-button.copied{background:#22c55e;color:#fff;border-color:#22c55e;}
-                    :root[class~="dark"] .content .code-block-wrapper .copy-button,
-                    :root[class~="dark"] .content .code-scroll .copy-button{background:rgba(15,23,42,0.9);border-color:rgba(255,255,255,0.2);color:#e2e8f0;}
-                    :root[class~="dark"] .content .code-block-wrapper .copy-button:hover,
-                    :root[class~="dark"] .content .code-scroll .copy-button:hover{background:rgba(30,41,59,0.95);border-color:rgba(255,255,255,0.35);}
-                    
-                    /* 行内代码样式 */
-                    .content :not(pre)>code{background:#f1f5f9;color:#e53e3e;padding:0.2rem 0.4rem;border-radius:4px;font-size:0.875em;font-weight:500;}
-                    :root[class~="dark"] .content :not(pre)>code{background:#2d3748;color:#fc8181;}
-                    
-                    /* 引用块样式优化 */
-                    .content blockquote{border-left:4px solid #0066cc;margin:24px 0;padding:16px 20px;background:#f8fafc;border-radius:0 8px 8px 0;color:var(--meta-color);font-style:italic;position:relative;}
-                    .content blockquote::before{content:'"';font-size:3rem;color:#0066cc;position:absolute;top:-10px;left:10px;opacity:0.3;}
-                    :root[class~="dark"] .content blockquote{border-left-color:#60a5fa;background:#1a202c;}
-                    :root[class~="dark"] .content blockquote::before{color:#60a5fa;}
-                    
-                    /* 表格样式优化 */
-                    .content table{width:100%;margin:24px 0;border-collapse:collapse;background:var(--article-bg);border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
-                    .content table th{background:#f8fafc;color:#2d3748;font-weight:600;padding:12px 16px;text-align:left;border-bottom:2px solid #e2e8f0;}
-                    .content table td{padding:12px 16px;border-bottom:1px solid #e2e8f0;}
-                    .content table tr:hover{background:#f8fafc;}
-                    :root[class~="dark"] .content table th{background:#2d3748;color:#e2e8f0;border-bottom-color:#4a5568;}
-                    :root[class~="dark"] .content table td{border-bottom-color:#4a5568;}
-                    :root[class~="dark"] .content table tr:hover{background:#2d3748;}
-                    
-                    /* 分割线样式 */
-                    .content hr{border:none;height:2px;background:linear-gradient(90deg,#0066cc,#60a5fa,#0066cc);margin:32px 0;border-radius:1px;}
-                    
-                    /* 分页样式 */
-                    .pagination{display:flex;justify-content:center;align-items:center;gap:8px;margin:40px auto;max-width:800px;flex-wrap:wrap;position:relative;z-index:1;}
-                    .layout.with-sidebar .pagination{margin:40px 0;max-width:none;}  /* 在侧边栏布局中，分页不居中且无宽度限制 */
-                    .pagination-nav{padding:8px 16px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,opacity 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
-                    .pagination-nav:hover{background:var(--primary-color);color:var(--bg-color);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
-                    .pagination-nav:active,.pagination-nav:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
-                    .pagination-nav.loading{opacity:0.6;pointer-events:none;cursor:wait;}
-                    .pagination-nav[aria-disabled="true"]{pointer-events:none;}
-                    :root[class~="dark"] .pagination-nav{border-color:#4a5568;}
-                    .pagination-numbers{display:flex;gap:4px;align-items:center;}
-                    .pagination-number{display:flex;align-items:center;justify-content:center;width:36px;height:36px;color:var(--primary-color);text-decoration:none;border:1px solid #ddd;border-radius:4px;transition:background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease,opacity 0.2s ease;font-weight:500;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;background:var(--article-bg);-webkit-user-select:none;user-select:none;}
-                    .pagination-number:hover{background:var(--primary-color);color:var(--bg-color);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
-                    .pagination-number:active,.pagination-number:focus{outline:2px solid var(--primary-color);outline-offset:2px;}
-                    .pagination-number.active{background:var(--primary-color);color:var(--bg-color);border-color:var(--primary-color);pointer-events:none;cursor:default;}
-                    .pagination-number.loading{opacity:0.6;pointer-events:none;cursor:wait;animation:pulse 1.5s ease-in-out infinite;}
-                    .pagination-number[aria-disabled="true"]{pointer-events:none;}
-                    .pagination-dots{color:var(--meta-color);padding:0 4px;}
-                    :root[class~="dark"] .pagination-number{border-color:#4a5568;}
-                    
-                    /* 分页loading样式 */
-                    .pagination-loading{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;color:var(--primary-color);font-size:14px;}
-                    .pagination-spinner{width:16px;height:16px;border:2px solid #f3f3f3;border-top:2px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;}
-                    
-                    /* 动画定义 */
-                    @keyframes pulse{0%{opacity:0.3;}50%{opacity:0.6;}100%{opacity:0.3;}}
-                    @keyframes fadeIn{0%{opacity:0;transform:translateY(10px);}100%{opacity:1;transform:translateY(0);}}
-                    @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-                    
-                    /* 全局loading样式已移到内联样式中 */
-                    .global-loading-content{text-align:center;padding:20px;}
-                    .global-loading-spinner{width:40px;height:40px;border:3px solid #f3f3f3;border-top:3px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;}
-                    .global-loading-content p{color:var(--primary-color);font-size:16px;margin:0;font-weight:500;}
-                    
-                    /* 普通loading样式 */
-                    .loading-container{text-align:center;padding:40px 20px;}
-                    .loading-spinner{width:24px;height:24px;border:2px solid #f3f3f3;border-top:2px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px;}
-                    .loading-container p{color:var(--meta-color);font-size:14px;}
-                    
-                    /* 桌面端确保侧边栏显示 */
-                    @media(min-width:769px){
-                        .layout.with-sidebar{display:grid !important;grid-template-columns:1fr 250px !important;}
-                        .layout.with-sidebar aside{display:block !important;}
-                    }
-                    
-                    @media(max-width:768px){
-                        .container{padding:10px;}
-                        header{}
-                        header h1{font-size:2em;}
-                        .layout.with-sidebar{display:block;}
-                        .layout.with-sidebar aside{display:none;} /* 隐藏侧边栏 */
-                        .layout.with-sidebar .article{margin:0 0 20px 0;max-width:100%;} /* 移动端文章全宽 */
-                        .layout.with-sidebar .pagination{margin:40px 0;max-width:100%;} /* 移动端分页全宽 */
-
-                        /* 移动端分页按钮优化 - 确保可点击 */
-                        .pagination-nav{display:inline-flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none;}
-
-                        .grid{grid-template-columns:1fr;}
-                        .timeline{padding-left:1.5rem;}
-                        .year::before{left:-29px;}
-                        .month::before{left:-23px;}
-                        .post::before{left:-21px;}
-                        
-                        /* 移动端markdown样式优化 */
-                        .content{font-size:15px;line-height:1.7;}
-                        .content pre{padding:12px;margin:16px 0;font-size:13px;border-radius:6px;}
-                        .content h1{font-size:1.6rem;margin:24px 0 16px;}
-                        .content h2{font-size:1.4rem;margin:20px 0 12px;}
-                        .content h3{font-size:1.2rem;margin:0 0 8px;}
-                        .content img{margin:1.5rem 0;border-radius:6px;}
-                        .content blockquote{padding:12px 16px;margin:16px 0;}
-                        .content table{font-size:14px;}
-                        .content table th,.content table td{padding:8px 10px;}
-                        .content ul,.content ol{padding-left:20px;}
-                    }
-                `
-            }} />
-            
-            {/* 已移除延迟加载，所有样式都内联以避免冲突 */}
+            {/* 已移除延迟加载，样式移至全局样式文件 */}
             
         </head>
         <body suppressHydrationWarning>
@@ -363,15 +106,15 @@ export default function RootLayout({children}: {
                 <header>
                     <h1>{siteConfig.title}</h1>
                     <p>{siteConfig.description}</p>
-                    <div style={{position:'absolute',right:'1rem',top:'1rem'}}>
+                    <div className={styles.headerActions}>
                         <ThemeToggle/>
                     </div>
                 </header>
                 <Navigation/>
 
                 <div className="layout with-sidebar">
-                    <div style={{minWidth: 0}}>
-                        <Suspense fallback={null}>
+                    <div className={styles.contentWrapper}>
+                        <Suspense fallback={<ContentLoading />}>
                             {children}
                         </Suspense>
                     </div>

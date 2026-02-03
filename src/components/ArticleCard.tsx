@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {categoryNames} from "@/lib/constants";
 import {memo} from "react";
+import styles from "./ArticleCard.module.css";
 
 interface ArticleProps {
     id: string;
@@ -14,7 +15,7 @@ interface ArticleProps {
 function ArticleCard({id, title, date, category, excerpt}: ArticleProps) {
     return (
         <article className="article">
-            <h2 style={{fontSize:"x-large",fontWeight:"bold"}}>
+            <h2 className={styles.title}>
                 <Link href={`/posts/${id}`} prefetch={false}>{title}</Link>
             </h2>
             <div className="meta">发布于 {date} | 分类：{categoryNames[category]}</div>

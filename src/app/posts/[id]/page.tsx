@@ -4,6 +4,7 @@ import {notFound} from "next/navigation";
 import {categoryNames} from "@/lib/constants";
 import {Metadata} from "next";
 import ArticleContent from "@/components/ArticleContent";
+import styles from "./post.module.css";
 // 移除highlight.js CSS，使用layout.tsx中的自定义样式
 
 // 修复 generateMetadata
@@ -44,7 +45,7 @@ export default async function Post({params}: { params: { id: string } }) {
                     <time dateTime={post.date}>发布于 {post.date}</time>
                     {post.category && (
                         <>
-                            <span style={{margin: '0 8px'}}>|</span>
+                            <span className={styles.metaSeparator}>|</span>
                             <span>分类：{categoryNames[post.category]}</span>
                         </>
                     )}
